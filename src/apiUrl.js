@@ -1,3 +1,4 @@
-const apiDomain = 'http://www.mocky.io';
+const apiDomain = 'http://seong0428.iptime.org:8000';
 
-export const axiosTest = () => `${apiDomain}/v2/5b949a3732000062007a669c`;
+export const items = () => `${apiDomain}/items`;
+export const itemsWithId = (itemId) => `${apiDomain}/items/${itemId}`;

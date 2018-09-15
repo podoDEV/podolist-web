@@ -2,10 +2,27 @@ import axios from './axios';
 import * as url from '../apiUrl';
 
 /**
- * 결제수단 변경 팝업 URL 가져오기
- * @param {string} contractId - 계약 id
+ * todo 가져오기
  * @returns {Axios.Promise}
  */
-export function test() {
-  return axios.get(url.axiosTest());
+export function getItem() {
+  return axios.get(url.items());
+}
+
+/**
+ * todo 추가하기
+ * @param {object} todo - todo item
+ * @returns {Axios.Promise}
+ */
+export function postItem(todo) {
+  return axios.post(url.items(), todo);
+}
+
+/**
+ * todo 삭제하기
+ * @param {object} itemId - 지우고자 하는 itemId
+ * @returns {Axios.Promise}
+ */
+export function deleteItem(itemId) {
+  return axios.delete(url.itemsWithId(itemId));
 }

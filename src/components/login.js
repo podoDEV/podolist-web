@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 import '../static/css/App.css';
-import {axiosTest} from '../actions/todo';
 
 class Login extends Component {
-  componentDidMount() {
-    axiosTest();
-  }
-
   render() {
     return (
       <div className="container">

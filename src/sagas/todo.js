@@ -1,16 +1,35 @@
-import {call, takeLatest} from 'redux-saga/effects';
-import {AXIOS_TEST} from '../actions/todo';
-import {test} from '../service/todo';
+import {call, takeLatest, put} from 'redux-saga/effects';
+import {FETCH_TODO, POST_TODO, REMOVE_TODO, setTodos} from '../actions/todo';
+import {deleteItem, getItem, postItem} from '../service/todo';
 
 export default function*() {
-  yield takeLatest(AXIOS_TEST, axiosTestSaga);
+  yield takeLatest(FETCH_TODO, fetchTodoSaga);
+  yield takeLatest(POST_TODO, addTodoSaga);
+  yield takeLatest(REMOVE_TODO, removeTodoSaga);
 }
 
-function* axiosTestSaga() {
+function* fetchTodoSaga() {
   try {
-    yield console.log('hello!');
-    const {data} = yield call(test);
-    console.log(data);
+    const {data} = yield call(getItem);
+    yield put(setTodos(data));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function* addTodoSaga(action) {
+  try {
+    yield call(postItem, action.todo);
+    yield fetchTodoSaga();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function* removeTodoSaga(action) {
+  try {
+    yield call(deleteItem, action.itemId);
+    yield fetchTodoSaga();
   } catch (err) {
     console.error(err);
   }

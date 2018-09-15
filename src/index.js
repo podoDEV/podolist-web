@@ -5,13 +5,12 @@ import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 
 import browserHistory from './browserHistory';
-// import store from './store';
 import store, {sagaMiddleware} from './store';
 import sagas from './sagas';
 
 import './static/css/index.css';
 import Login from './components/login';
-import List from './components/list';
+import List from './components/todo/list';
 
 sagaMiddleware.run(sagas);
 

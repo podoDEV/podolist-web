@@ -1,20 +1,18 @@
-export const ADD_TODO = 'ADD_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const UPDATE_TODO = 'UPDATE_TODO';
-export const AXIOS_TEST = 'AXIOS_TEST';
+export const FETCH_TODO = 'FETCH_TODO';
+export const SET_TODOS = 'SET_TODOS';
+export const POST_TODO = 'POST_TODO';
 
-export const addTodo = (content) => {
-  return {
-    type: ADD_TODO,
-    content
-  };
-};
+export const postTodo = (todo) => ({
+  type: POST_TODO,
+  todo
+});
 
-export const removeTodo = () => {
-  return {
-    type: REMOVE_TODO
-  };
-};
+export const removeTodo = (itemId) => ({
+  type: REMOVE_TODO,
+  itemId
+});
 
 export const updateTodo = () => {
   return {
@@ -22,8 +20,11 @@ export const updateTodo = () => {
   };
 };
 
-export const axiosTest = () => {
-  return {
-    type: AXIOS_TEST
-  };
-};
+export const fetchTodo = () => ({
+  type: FETCH_TODO
+});
+
+export const setTodos = (todos) => ({
+  type: SET_TODOS,
+  todos
+});
