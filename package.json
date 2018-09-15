@@ -1,5 +1,6 @@
 {
   "name": "podolist-web",
+  "homepage": "http://podoDEV.github.io/podolist-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "npm run build&&gh-pages -d build"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -34,6 +37,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
+    "gh-pages": "^1.2.0",
     "prettier": "1.14.2"
   }
 }
