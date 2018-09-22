@@ -1,43 +1,84 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {removeTodo} from '../../actions/todo';
+import {changeTodoTitle, removeTodo, toggleTodoComplete} from '../../actions/todo';
 import {connect} from 'react-redux';
 
 class Item extends Component {
-  static propTypes = {
-    todo: PropTypes.object,
-    description: PropTypes.string,
-    itemId: PropTypes.number,
-    removeTodo: PropTypes.func
+  state = {
+    isEdit: false,
+    todo: ''
   };
 
-  // state = {”
-  // };
+  static propTypes = {
+    todo: PropTypes.object,
+    removeTodo: PropTypes.func,
+    changeTodoTitle: PropTypes.func,
+    toggleTodoComplete: PropTypes.func
+  };
 
-  // componentDidMount() {
-  // }
+  handleChangeCheckbox = (itemId, isCompleted) => {
+    this.props.toggleTodoComplete(itemId, isCompleted);
+  };
 
   handleClickRemoveButton = (itemId) => {
     this.props.removeTodo(itemId);
   };
 
+  handleClickEditButton = (itemId) => {
+    if (this.state.isEdit) {
+      this.props.changeTodoTitle(itemId, this.state.todo);
+      this.setState({
+        isEdit: !this.state.isEdit,
+        todo: ''
+      });
+    } else {
+      this.setState({
+        isEdit: !this.state.isEdit,
+        todo: this.props.todo.title
+      });
+    }
+  };
+
+  onChangeTodo = (ev) => {
+    this.setState({
+      todo: ev.target.value
+    });
+  };
+
   render() {
-    const {description, itemId} = this.props.todo;
+    const {isEdit} = this.state;
+    const {title, id, isCompleted} = this.props.todo;
 
     return (
-      <div className="container">
-        <input type="checkbox" />
-        <span>
-          {itemId}: {description}
-        </span>
-        <button onClick={() => this.handleClickRemoveButton(itemId)}>삭제</button>
-      </div>
+      <li className="todo-item">
+        <input
+          type="checkbox"
+          className="todo-checkbox"
+          checked={isCompleted}
+          onChange={() => this.handleChangeCheckbox(id, isCompleted)}
+        />
+        {isEdit ? (
+          <div className="todo-edit-input-div">
+            <input className="todo-edit-input" type="text" value={this.state.todo} onChange={this.onChangeTodo} />
+          </div>
+        ) : (
+          <span className="todo-title">{title}</span>
+        )}
+        <button className="todo-edit-btn" onClick={() => this.handleClickEditButton(id)}>
+          수정
+        </button>
+        <button className="todo-remove-btn" onClick={() => this.handleClickRemoveButton(id)}>
+          X
+        </button>
+      </li>
     );
   }
 }
 
 const mapDispatchToProps = {
-  removeTodo
+  removeTodo,
+  toggleTodoComplete,
+  changeTodoTitle
 };
 
 export default connect(

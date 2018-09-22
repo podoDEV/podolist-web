@@ -26,3 +26,23 @@ export function postItem(todo) {
 export function deleteItem(itemId) {
   return axios.delete(url.itemsWithId(itemId));
 }
+
+/**
+ * todo 완료상태 toggle 하기
+ * @param {object} itemId - 지우고자 하는 itemId
+ * @returns {Axios.Promise}
+ */
+
+export function toggleCompleteItem(itemId, isCompleted) {
+  return axios.put(url.itemsWithId(itemId), {isCompleted: !isCompleted});
+}
+
+/**
+ * todo 제목 변경하기
+ * @param {object} itemId - 지우고자 하는 itemId
+ * @returns {Axios.Promise}
+ */
+
+export function changeItemTitle(itemId, title) {
+  return axios.put(url.itemsWithId(itemId), {title: title});
+}

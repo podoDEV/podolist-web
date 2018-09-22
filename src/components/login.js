@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../static/css/App.css';
 
 class Login extends Component {
   render() {

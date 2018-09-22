@@ -7,7 +7,10 @@ export const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [sagaMiddleware];
 const initialState = {
-  todos: []
+  todos: {
+    unfinishedTodoList: [],
+    finishedTodoList: []
+  }
 };
 
 let enhancer;

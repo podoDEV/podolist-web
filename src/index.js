@@ -8,9 +8,11 @@ import browserHistory from './browserHistory';
 import store, {sagaMiddleware} from './store';
 import sagas from './sagas';
 
+import './static/css/reset.css';
 import './static/css/index.css';
+
 import Login from './components/login';
-import List from './components/todo/list';
+import TodoIndex from './components/todo/index';
 
 sagaMiddleware.run(sagas);
 
@@ -18,7 +20,7 @@ render(
   <Provider store={store}>
     <ConnectedRouter history={browserHistory}>
       <Switch>
-        <Route exact path="/" component={List} />
+        <Route exact path="/" component={TodoIndex} />
         <Route path="/login" component={Login} />
       </Switch>
     </ConnectedRouter>

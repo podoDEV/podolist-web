@@ -1,5 +1,90 @@
-body {
+.container {
+  width: 60%;
+  margin: auto;
+  text-align: left;
+  padding: 10px;
+}
+
+.todo-list {
+}
+
+.todo-item {
+  display: flex;
+  margin-top: 10px;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.todo-checkbox {
+  height: 40px;
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  margin-left: 10px;
+  line-height: 40px;
+  width: 10%;
+}
+
+.todo-title {
+  width: 60%;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.todo-remove-btn,
+.todo-edit-btn {
+  border: none;
+  height: 20px;
+  margin: 10px 10px 0 0;
+  cursor: pointer;
+}
+
+.todo-edit-btn {
+  width: 15%;
+}
+
+.todo-remove-btn {
+  width: 10%;
+}
+
+.todo-edit-input-div {
+  width: 60%;
+}
+
+.todo-edit-input {
+  width: 80%;
+  margin: auto;
+  height: 20px;
+  font-size: 12px;
+}
+
+.show {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.forms-area {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.filter-area {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.filter-area .active {
+  background-color: rgba(228, 241, 254, 1);
+}
+
+.filter-btn {
+  border: 1px solid #ccc;
+  margin: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
