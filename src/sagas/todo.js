@@ -1,13 +1,22 @@
 import {call, takeLatest, put} from 'redux-saga/effects';
-import {CHANGE_TODO_TITLE, FETCH_TODO, POST_TODO, REMOVE_TODO, setTodos, TOGGLE_TODO_COMPLETE} from '../actions/todo';
-import {deleteItem, getItem, postItem, toggleCompleteItem, changeItemTitle} from '../service/todo';
+import {
+  FETCH_TODO,
+  CREATE_TODO,
+  REMOVE_TODO,
+  setTodos,
+  UPDATE_TODO,
+  applyRemovedTodo,
+  TOGGLE_ISCOMPLETED_TODO,
+  applyToggleIsCompletedTodo
+} from '../actions/todo';
+import {deleteItem, getItemList, createItem, updateItem, toggleIsCompletedItem} from '../service/todo';
 
 export default function*() {
   yield takeLatest(FETCH_TODO, fetchTodoSaga);
-  yield takeLatest(POST_TODO, addTodoSaga);
+  yield takeLatest(CREATE_TODO, createTodoSaga);
   yield takeLatest(REMOVE_TODO, removeTodoSaga);
-  yield takeLatest(TOGGLE_TODO_COMPLETE, toggleTodoCompleteSaga);
-  yield takeLatest(CHANGE_TODO_TITLE, changeTodoTitleSaga);
+  yield takeLatest(UPDATE_TODO, updateTodoSaga);
+  yield takeLatest(TOGGLE_ISCOMPLETED_TODO, toggleIsCompletedTodoSaga);
 }
 
 function separateTodos(todos) {
@@ -27,9 +36,20 @@ function separateTodos(todos) {
   return separatedTodoList;
 }
 
+function* toggleIsCompletedTodoSaga(action) {
+  try {
+    const {itemId, isCompleted} = action;
+    // 작업중
+    yield call(toggleIsCompletedItem, itemId, isCompleted);
+    yield put(applyToggleIsCompletedTodo(itemId, isCompleted));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 function* fetchTodoSaga() {
   try {
-    const {data} = yield call(getItem);
+    const {data} = yield call(getItemList);
     const todoList = separateTodos(data);
     yield put(setTodos(todoList));
   } catch (err) {
@@ -37,9 +57,9 @@ function* fetchTodoSaga() {
   }
 }
 
-function* addTodoSaga(action) {
+function* createTodoSaga(action) {
   try {
-    yield call(postItem, action.todo);
+    yield call(createItem, action.todo);
     yield fetchTodoSaga();
   } catch (err) {
     console.error(err);
@@ -48,26 +68,18 @@ function* addTodoSaga(action) {
 
 function* removeTodoSaga(action) {
   try {
-    yield call(deleteItem, action.itemId);
-    yield fetchTodoSaga();
+    const {itemId, isCompleted} = action;
+    yield call(deleteItem, itemId);
+    yield put(applyRemovedTodo(itemId, isCompleted));
   } catch (err) {
     console.error(err);
   }
 }
 
-function* toggleTodoCompleteSaga(action) {
+function* updateTodoSaga(action) {
   try {
-    yield call(toggleCompleteItem, action.itemId, action.isCompleted);
-    yield fetchTodoSaga();
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-function* changeTodoTitleSaga(action) {
-  try {
-    yield call(changeItemTitle, action.itemId, action.title);
-    yield fetchTodoSaga();
+    yield call(updateItem, action.itemId, action.todo);
+    // reorder list
   } catch (err) {
     console.error(err);
   }

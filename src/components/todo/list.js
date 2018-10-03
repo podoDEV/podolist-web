@@ -20,7 +20,7 @@ class List extends Component {
 
   render() {
     const {showOption} = this.props;
-    const {UNFINISHED, FINISHED, ALL} = showOptions;
+    const {UNFINISHED, FINISHED} = showOptions;
 
     return (
       <div className="todo-list-container">
@@ -29,7 +29,6 @@ class List extends Component {
             <Item todo={todo} key={idx} />
           ))}
         </ul>
-        <hr className={showOption === ALL ? 'show' : 'hidden'} />
         <ul className={`todo-list finished ${showOption !== UNFINISHED ? 'show' : 'hidden'}`}>
           {this.props.todos.finishedTodoList.map((todo, idx) => (
             <Item todo={todo} key={idx} />

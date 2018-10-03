@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import {postTodo} from '../../actions/todo';
+import {createTodo} from '../../actions/todo';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {showOptions} from '../../constant';
-
-const {ALL, FINISHED, UNFINISHED} = showOptions;
 
 class Forms extends Component {
   static propTypes = {
-    postTodo: PropTypes.func,
+    createTodo: PropTypes.func,
     onChangeFilter: PropTypes.func,
     showOption: PropTypes.string
   };
@@ -27,7 +24,7 @@ class Forms extends Component {
     const title = this.state.todo;
 
     if (title) {
-      this.props.postTodo({
+      this.props.createTodo({
         title: title
       });
 
@@ -38,38 +35,27 @@ class Forms extends Component {
   };
 
   render() {
-    const {onChangeFilter, showOption} = this.props;
-
     return (
-      <header>
+      <section>
         <div className="forms-area">
-          <input type="text" name="todo" value={this.state.todo} onChange={this.onChangeTodo} />
-          <button onClick={this.onClickAddBtn}>추가하기</button>
-        </div>
-        <div className="filter-area">
-          <button className={`filter-btn ${showOption === ALL ? 'active' : ''}`} onClick={() => onChangeFilter(ALL)}>
-            전체
-          </button>
-          <button
-            className={`filter-btn ${showOption === UNFINISHED ? 'active' : ''}`}
-            onClick={() => onChangeFilter(UNFINISHED)}
-          >
-            미완료
-          </button>
-          <button
-            className={`filter-btn ${showOption === FINISHED ? 'active' : ''}`}
-            onClick={() => onChangeFilter(FINISHED)}
-          >
-            완료
+          <input
+            type="text"
+            name="todo"
+            value={this.state.todo}
+            onChange={this.onChangeTodo}
+            className="forms-area-input"
+          />
+          <button onClick={this.onClickAddBtn} className="forms-area-btn">
+            +
           </button>
         </div>
-      </header>
+      </section>
     );
   }
 }
 
 const mapDispatchToProps = {
-  postTodo
+  createTodo
 };
 
 export default connect(

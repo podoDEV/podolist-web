@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import List from './list';
 import Forms from './forms';
+import FormsDetail from './formsDetail';
+import Header from './header';
 import {showOptions} from '../../constant';
 
 export default class Index extends Component {
@@ -17,10 +19,16 @@ export default class Index extends Component {
 
   render() {
     return (
-      <section className="container">
-        <Forms onChangeFilter={this.onChangeFilter} showOption={this.state.showOption} />
-        <List showOption={this.state.showOption} />
-      </section>
+      <div className="wrap">
+        <section className="container">
+          <Header onChangeFilter={this.onChangeFilter} showOption={this.state.showOption} />
+          <List showOption={this.state.showOption} />
+          <Forms />
+        </section>
+        <section className="container">
+          <FormsDetail />
+        </section>
+      </div>
     );
   }
 }
