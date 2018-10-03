@@ -1,0 +1,48 @@
+.calendar-area {
+  margin: auto;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  padding: 10px 5px;
+  background: #f8f8f8;
+  color: #9e30fe;
+  width: 350px;
+}
+
+.calendar-day-area,
+.calendar-date-area {
+  font-weight: bold;
+}
+
+.calendar-day-area th,
+tr {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.calendar-date-area td.not-this-month {
+  color: #f1f1f1;
+}
+
+.calendar-date-area .selected {
+  border-radius: 100%;
+  background: #d6abfc;
+}
+
+.calendar-header{
+  text-align: center;
+}
+
+.calendar-info {
+  font-weight: bold;
+}
+
+.calendar-header button {
+  border: none;
+  background: none;
+  color: #9e30fe;
+  font-weight: bold;
+}

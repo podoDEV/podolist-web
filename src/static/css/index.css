@@ -165,6 +165,10 @@ button {
   padding-left: 20px;
 }
 
+.forms-detail-area {
+  background: #e8e8e8;
+}
+
 .forms-area-input {
   border: none;
   padding: 10px;

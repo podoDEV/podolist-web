@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
+import Calendar from '../calendar/index';
 
 // import PropTypes from 'prop-types';
 
@@ -20,7 +21,7 @@ export default class FormsDetail extends Component {
     return (
       <div>
         <p>라벨</p>
-        <p>달력</p>
+        <Calendar />
       </div>
     );
   }

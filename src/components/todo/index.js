@@ -25,7 +25,7 @@ export default class Index extends Component {
           <List showOption={this.state.showOption} />
           <Forms />
         </section>
-        <section className="container">
+        <section className="container forms-detail-area">
           <FormsDetail />
         </section>
       </div>
