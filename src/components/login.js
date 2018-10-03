@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
-import '../static/css/App.css';
+import KakaoLogin from 'react-kakao-login';
+
+const APP_KEY = '0888a2c569cd376400ea3dc50d925724';
+
+const success = (response) => {
+  console.log(response);
+};
+
+const failure = (error) => {
+  console.log(error);
+};
 
 class Login extends Component {
+  componentDidMount() {}
+
   render() {
-    return (
-      <div className="container">
-        <button>카카오톡으로 로그인 하기</button>
-      </div>
-    );
+    return <KakaoLogin jsKey={APP_KEY} onSuccess={success} onFailure={failure} useDefaultStyle />;
   }
 }
 

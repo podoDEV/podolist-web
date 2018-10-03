@@ -1,5 +1,200 @@
+@font-face {
+  font-family: 'NotoSans';
+  src: url('../fonts/NotoSansKR-Regular.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('ttf');
+}
+
+* {
+  font-family: 'NotoSans', 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+html,
 body {
+  height: 100vh;
+  width: 100vw;
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  font-size: 13px;
+}
+
+button:focus,
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: row;
+  width: 900px;
+  margin: auto;
+}
+
+.container {
+  width: 450px;
+  margin: 20px auto;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.todo-header {
+  display: flex;
+  flex-direction: column;
+  height: 13vh;
+  color: white;
+}
+
+.todo-header .date {
+  display: flex;
+  height: 35px;
+  line-height: 35px;
+}
+
+.todo-header .date li {
+  width: 15%;
+  height: 100%;
+  text-align: center;
+  background: #9e30fe;
+}
+
+.todo-header .date .selected {
+  background: white;
+  color: #9e30fe;
+}
+
+.todo-list-container {
+  padding: 10px;
+  height: 70vh;
+  overflow: scroll;
+}
+
+.todo-list {
+}
+
+.finished .todo-item-title {
+  background: #dfc6fb;
+}
+
+.todo-item {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin-top: 10px;
+}
+
+.todo-item-title {
+  width: 40px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #9e30fe;
+  -webkit-transition: width 4s; /* For Safari 3.1 to 6.0 */
+  transition: width 4s;
+  white-space: nowrap;
+  padding: 0 10px;
+  color: white;
+}
+
+.todo-item-title.ready {
+  width: max-content; /* Safari/WebKit uses a non-standard name */
+}
+
+.todo-checkbox {
+  height: 40px;
+  margin: 0;
+  margin-left: 10px;
+  line-height: 40px;
+  width: 30px;
+}
+
+.todo-title {
+  font-size: 12px;
+}
+
+.todo-remove-btn,
+.todo-edit-btn {
+  border: none;
+  height: 20px;
+  margin: 10px 10px 0 0;
+}
+
+.todo-edit-btn {
+  /*width: 15%;*/
+}
+
+.todo-remove-btn {
+  /*width: 10%;*/
+}
+
+.todo-edit-input-div {
+  /*width: 60%;*/
+}
+
+.todo-edit-input {
+  /*width: 80%;*/
+  margin: auto;
+  height: 20px;
+  font-size: 12px;
+}
+
+.show {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.forms-area {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+  border: 9px solid #eee;
+  border-radius: 35px;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 20px;
+}
+
+.forms-area-input {
+  border: none;
+  padding: 10px;
+  width: 90%;
+  color: #9e30fe;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.forms-area-btn {
+  width: 10%;
+  border-radius: 50%;
+  background: #9e30fe;
+  color: white;
+  font-size: 15px;
+}
+
+.filter-area {
+  width: 100%;
+  text-align: right;
+  height: 75%;
+  background: #9e30fe;
+}
+
+.filter-area .active {
+  background-color: rgba(228, 241, 254, 1);
+}
+
+.filter-btn {
+  border: 1px solid #ccc;
+  margin: 5px;
+  padding: 5px 10px;
 }

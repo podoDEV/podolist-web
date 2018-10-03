@@ -1,43 +1,55 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {removeTodo} from '../../actions/todo';
+import {removeTodo, toggleIsCompletedTodo} from '../../actions/todo';
 import {connect} from 'react-redux';
 
 class Item extends Component {
   static propTypes = {
     todo: PropTypes.object,
-    description: PropTypes.string,
-    itemId: PropTypes.number,
-    removeTodo: PropTypes.func
+    removeTodo: PropTypes.func,
+    toggleIsCompletedTodo: PropTypes.func
   };
 
-  // state = {”
-  // };
-
-  // componentDidMount() {
-  // }
-
-  handleClickRemoveButton = (itemId) => {
-    this.props.removeTodo(itemId);
+  state = {
+    isReadyComponent: false
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState(() => {
+        return {
+          isReadyComponent: true
+        };
+      });
+    }, 300);
+  }
 
   render() {
-    const {description, itemId} = this.props.todo;
+    const {isReadyComponent} = this.state;
+    const {id, title, isCompleted} = this.props.todo;
 
     return (
-      <div className="container">
-        <input type="checkbox" />
-        <span>
-          {itemId}: {description}
-        </span>
-        <button onClick={() => this.handleClickRemoveButton(itemId)}>삭제</button>
-      </div>
+      <li className="todo-item">
+        <input
+          type="checkbox"
+          className="todo-checkbox"
+          checked={isCompleted}
+          onChange={() => this.props.toggleIsCompletedTodo(id, isCompleted)}
+        />
+        <div className={`todo-item-title ${isReadyComponent ? 'ready' : ''}`}>
+          <span className="todo-title">{title}</span>
+        </div>
+        <button className="todo-remove-btn" onClick={() => this.props.removeTodo(id, isCompleted)}>
+          X
+        </button>
+      </li>
     );
   }
 }
 
 const mapDispatchToProps = {
-  removeTodo
+  removeTodo,
+  toggleIsCompletedTodo
 };
 
 export default connect(
