@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {removeTodo, toggleIsCompletedTodo} from '../../actions/todo';
 import {connect} from 'react-redux';
+import {removeTodo, toggleIsCompletedTodo} from '../../actions/todo';
+import finishedImg from '../../static/img/finished.png';
 
 class Item extends Component {
   static propTypes = {
@@ -26,16 +27,13 @@ class Item extends Component {
 
   render() {
     const {isReadyComponent} = this.state;
-    const {id, title, isCompleted} = this.props.todo;
+    const {id, title, isCompleted, priority} = this.props.todo;
 
     return (
-      <li className="todo-item">
-        <input
-          type="checkbox"
-          className="todo-checkbox"
-          checked={isCompleted}
-          onChange={() => this.props.toggleIsCompletedTodo(id, isCompleted)}
-        />
+      <li className={`todo-item ${isCompleted ? 'completed' : ''}`}>
+        <div className={`todo-checkbox  ${priority}`} onClick={() => this.props.toggleIsCompletedTodo(id, isCompleted)}>
+          <img src={finishedImg} className={isCompleted ? 'completed-img' : 'none'} />
+        </div>
         <div className={`todo-item-title ${isReadyComponent ? 'ready' : ''}`}>
           <span className="todo-title">{title}</span>
         </div>

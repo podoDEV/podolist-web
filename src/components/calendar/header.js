@@ -10,17 +10,21 @@ export default class Header extends Component {
 
   render() {
     const {base, moveToMonth} = this.props;
-    const date = moment()
+    const year = moment()
       .add(base, 'M')
-      .format('YYYY년 MM월');
+      .format('YYYY');
+    const month = moment()
+      .add(base, 'M')
+      .format('MMMM');
 
     return (
       <div className="calendar-header">
-        <button onClick={() => moveToMonth(-12)}>{'<<'}</button>
-        <button onClick={() => moveToMonth(-1)}>{'<'}</button>
-        <span className="calendar-info">{date}</span>
-        <button onClick={() => moveToMonth(1)}>{'>'}</button>
-        <button onClick={() => moveToMonth(12)}>{'>>'}</button>
+        <h2 className="year">{year}</h2>
+        <div className="month">
+          <button onClick={() => moveToMonth(-1)}>{'<'}</button>
+          <span>{month}</span>
+          <button onClick={() => moveToMonth(1)}>{'>'}</button>
+        </div>
       </div>
     );
   }

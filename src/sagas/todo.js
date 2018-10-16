@@ -19,29 +19,12 @@ export default function*() {
   yield takeLatest(TOGGLE_ISCOMPLETED_TODO, toggleIsCompletedTodoSaga);
 }
 
-function separateTodos(todos) {
-  const separatedTodoList = {
-    unfinishedTodoList: [],
-    finishedTodoList: []
-  };
-
-  for (const todo of todos) {
-    if (todo.isCompleted) {
-      separatedTodoList.finishedTodoList.push(todo);
-    } else {
-      separatedTodoList.unfinishedTodoList.push(todo);
-    }
-  }
-
-  return separatedTodoList;
-}
-
 function* toggleIsCompletedTodoSaga(action) {
   try {
     const {itemId, isCompleted} = action;
     // 작업중
     yield call(toggleIsCompletedItem, itemId, isCompleted);
-    yield put(applyToggleIsCompletedTodo(itemId, isCompleted));
+    yield put(applyToggleIsCompletedTodo(itemId));
   } catch (err) {
     console.error(err);
   }
@@ -50,8 +33,7 @@ function* toggleIsCompletedTodoSaga(action) {
 function* fetchTodoSaga() {
   try {
     const {data} = yield call(getItemList);
-    const todoList = separateTodos(data);
-    yield put(setTodos(todoList));
+    yield put(setTodos(data));
   } catch (err) {
     console.error(err);
   }
@@ -68,9 +50,9 @@ function* createTodoSaga(action) {
 
 function* removeTodoSaga(action) {
   try {
-    const {itemId, isCompleted} = action;
+    const {itemId} = action;
     yield call(deleteItem, itemId);
-    yield put(applyRemovedTodo(itemId, isCompleted));
+    yield put(applyRemovedTodo(itemId));
   } catch (err) {
     console.error(err);
   }

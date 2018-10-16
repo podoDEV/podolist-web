@@ -45,10 +45,9 @@ export const setTodos = (todos) => ({
   todos
 });
 
-export const applyRemovedTodo = (itemId, isCompleted) => ({
+export const applyRemovedTodo = (itemId) => ({
   type: APPLY_REMOVED_TODO,
-  itemId,
-  isCompleted
+  itemId
 });
 
 export const toggleIsCompletedTodo = (itemId, isCompleted) => ({
@@ -57,8 +56,7 @@ export const toggleIsCompletedTodo = (itemId, isCompleted) => ({
   isCompleted
 });
 
-export const applyToggleIsCompletedTodo = (itemId, isCompleted) => ({
+export const applyToggleIsCompletedTodo = (itemId) => ({
   type: APPLY_TOGGLE_ISCOMPLETED_TODO,
-  itemId,
-  isCompleted
+  itemId
 });

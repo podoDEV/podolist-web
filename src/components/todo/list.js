@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 import Item from './item';
 
 import {fetchTodo} from '../../actions/todo';
-import {showOptions} from '../../constant';
 
 class List extends Component {
   static propTypes = {
     fetchTodo: PropTypes.func,
-    todos: PropTypes.object,
-    showOption: PropTypes.string
+    todos: PropTypes.array
   };
 
   componentDidMount() {
@@ -19,21 +17,17 @@ class List extends Component {
   }
 
   render() {
-    const {showOption} = this.props;
-    const {UNFINISHED, FINISHED} = showOptions;
-
     return (
       <div className="todo-list-container">
-        <ul className={`todo-list unfinished ${showOption !== FINISHED ? 'show' : 'hidden'}`}>
-          {this.props.todos.unfinishedTodoList.map((todo, idx) => (
-            <Item todo={todo} key={idx} />
-          ))}
-        </ul>
-        <ul className={`todo-list finished ${showOption !== UNFINISHED ? 'show' : 'hidden'}`}>
-          {this.props.todos.finishedTodoList.map((todo, idx) => (
-            <Item todo={todo} key={idx} />
-          ))}
-        </ul>
+        <div className="today-list">
+          <h2 className="title">오늘</h2>
+          <ul className="todo-list">
+            {this.props.todos.map((todo, idx) => (
+              <Item todo={todo} key={idx} />
+            ))}
+          </ul>
+          <h2 className="title">미완료된 일</h2>
+        </div>
       </div>
     );
   }

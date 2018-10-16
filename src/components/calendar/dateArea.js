@@ -5,54 +5,28 @@ import PropTypes from 'prop-types';
 
 export default class DateArea extends Component {
   static propTypes = {
-    base: PropTypes.number
+    base: PropTypes.number,
+    updateSelectedDate: PropTypes.func,
+    selectedDate: PropTypes.number
   };
-
-  state = {
-    isSelectedId: 1
-  };
-
-  setIsSelectedId = (base) => {
-    let today = 1;
-    if (base === 0) {
-      today = Number(moment().format('D'));
-    }
-
-    this.setState({
-      isSelectedId: today
-    });
-  };
-
-  componentDidMount() {
-    this.setIsSelectedId(this.props.base);
-  }
-
-  /* eslint camelcase: 0 */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.base !== this.props.base) {
-      this.setIsSelectedId(nextProps.base);
-    }
-  }
 
   handleChangeDate = (isThisMonth, date) => {
     if (isThisMonth) {
-      this.setState({
-        isSelectedId: date
-      });
+      this.props.updateSelectedDate(date);
     }
   };
 
   renderCalenderDateItem = (dateObj) => {
+    const {selectedDate} = this.props;
     const {date, isThisMonth} = dateObj;
-    const {isSelectedId} = this.state;
 
     return (
       <td
-        className={`${isThisMonth && isSelectedId === date ? 'selected' : ''} ${isThisMonth ? '' : 'not-this-month'}`}
+        className={`${isThisMonth ? '' : 'not-this-month'}`}
         onClick={() => this.handleChangeDate(isThisMonth, date)}
         key={date}
       >
-        {date}
+        <div className={`each-date ${isThisMonth && selectedDate === date ? 'selected' : ''}`}>{date}</div>
       </td>
     );
   };

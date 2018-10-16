@@ -1,64 +1,53 @@
 import React, {Component} from 'react';
-import {createTodo} from '../../actions/todo';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-class Forms extends Component {
+import {priority} from '../../constant';
+
+export default class Forms extends Component {
   static propTypes = {
-    createTodo: PropTypes.func,
-    onChangeFilter: PropTypes.func,
-    showOption: PropTypes.string
-  };
-
-  state = {
-    todo: ''
-  };
-
-  onChangeTodo = (ev) => {
-    this.setState({
-      todo: ev.target.value
-    });
-  };
-
-  onClickAddBtn = () => {
-    const title = this.state.todo;
-
-    if (title) {
-      this.props.createTodo({
-        title: title
-      });
-
-      this.setState({
-        todo: ''
-      });
-    }
+    selectedPriority: PropTypes.string.isRequired,
+    todoTitle: PropTypes.string.isRequired,
+    onClickPriorityBtn: PropTypes.func.isRequired,
+    onClickAddBtn: PropTypes.func.isRequired,
+    onChangeTodoTitle: PropTypes.func.isRequired
   };
 
   render() {
+    const {selectedPriority, todoTitle, onClickPriorityBtn, onClickAddBtn, onChangeTodoTitle} = this.props;
+
     return (
-      <section>
-        <div className="forms-area">
-          <input
-            type="text"
-            name="todo"
-            value={this.state.todo}
-            onChange={this.onChangeTodo}
-            className="forms-area-input"
-          />
-          <button onClick={this.onClickAddBtn} className="forms-area-btn">
-            +
+      <section className="forms-section">
+        <div className="priority-label">
+          <button
+            className={selectedPriority === priority.URGENT ? priority.URGENT : 'not-selected'}
+            onClick={() => onClickPriorityBtn(priority.URGENT)}
+          >
+            매우 중요
           </button>
+          <button
+            className={selectedPriority === priority.HIGH ? priority.HIGH : 'not-selected'}
+            onClick={() => onClickPriorityBtn(priority.HIGH)}
+          >
+            중요
+          </button>
+          <button
+            className={selectedPriority === priority.MEDIUM ? priority.MEDIUM : 'not-selected'}
+            onClick={() => onClickPriorityBtn(priority.MEDIUM)}
+          >
+            보통
+          </button>
+          <button
+            className={selectedPriority === priority.LOW ? priority.LOW : 'not-selected'}
+            onClick={() => onClickPriorityBtn(priority.LOW)}
+          >
+            여유
+          </button>
+        </div>
+        <div className="forms-area">
+          <input type="text" name="todo" value={todoTitle} onChange={onChangeTodoTitle} className="forms-area-input" />
+          <button onClick={onClickAddBtn} className="forms-area-btn" />
         </div>
       </section>
     );
   }
 }
-
-const mapDispatchToProps = {
-  createTodo
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Forms);

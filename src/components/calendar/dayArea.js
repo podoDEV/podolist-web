@@ -5,13 +5,13 @@ export default class DayArea extends Component {
     return (
       <thead className="calendar-day-area">
         <tr>
-          <th>일</th>
-          <th>월</th>
-          <th>화</th>
-          <th>수</th>
-          <th>목</th>
-          <th>금</th>
-          <th>토</th>
+          <th className="sun">sun</th>
+          <th>mon</th>
+          <th>tue</th>
+          <th>wed</th>
+          <th>thu</th>
+          <th>fri</th>
+          <th>sat</th>
         </tr>
       </thead>
     );
