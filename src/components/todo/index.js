@@ -5,18 +5,8 @@ import {connect} from 'react-redux';
 
 import List from './list';
 import Forms from './forms';
-import Calendar from '../calendar/index';
 import Header from './header';
 import {createTodo} from '../../actions/todo';
-
-// getUnixTimeStamp = () => {
-//   const {base, selectedDate} = this.state;
-//   let v = moment()
-//     .set('date', selectedDate)
-//     .add(base, 'M')
-//     .format('YYYY-MM-DD');
-//   // console.log(moment().unix(v));
-// };
 
 class Index extends Component {
   static propTypes = {
@@ -94,17 +84,13 @@ class Index extends Component {
         <Header />
         <div className="body-area">
           <section className="main-container">
+            <List />
             <Forms
               selectedPriority={selectedPriority}
               todoTitle={todoTitle}
               onClickPriorityBtn={this.onClickPriorityBtn}
               onClickAddBtn={this.onClickAddBtn}
               onChangeTodoTitle={this.onChangeTodoTitle}
-            />
-            <List />
-          </section>
-          <section className="side-container">
-            <Calendar
               base={base}
               selectedDate={selectedDate}
               updateSelectedDate={this.updateSelectedDate}

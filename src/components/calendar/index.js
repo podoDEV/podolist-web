@@ -11,14 +11,15 @@ export default class Index extends Component {
     base: PropTypes.number.isRequired,
     selectedDate: PropTypes.number.isRequired,
     moveToMonth: PropTypes.func.isRequired,
-    updateSelectedDate: PropTypes.func.isRequired
+    updateSelectedDate: PropTypes.func.isRequired,
+    isShowCalendar: PropTypes.bool.isRequired
   };
 
   render() {
-    const {base, selectedDate, updateSelectedDate, moveToMonth} = this.props;
+    const {base, selectedDate, updateSelectedDate, moveToMonth, isShowCalendar} = this.props;
 
     return (
-      <section className="calendar-area">
+      <section className={`calendar-area ${isShowCalendar ? 'show' : 'not-show'}`}>
         <Header base={base} moveToMonth={moveToMonth} />
         <table className="calendar-table">
           <DayArea />

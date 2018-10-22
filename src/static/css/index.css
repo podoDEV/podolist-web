@@ -87,6 +87,7 @@ button {
 }
 
 .todo-list-container {
+  height: 75vh;
   padding: 10px;
   overflow: scroll;
   color: rgb(83, 83, 83);
@@ -286,4 +287,15 @@ button {
 
 .forms-section {
   width: 562px;
+}
+
+.forms-option-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar-show-btn {
+  border: 1px solid #ccc;
+  height: 100%;
+  width: 30px;
 }

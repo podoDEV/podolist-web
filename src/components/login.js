@@ -12,6 +12,7 @@ class Login extends Component {
   };
 
   success = (res) => {
+    console.log(res.response.access_token);
     this.props.userLogin(res.response.access_token);
   };
 
