@@ -6,7 +6,8 @@ import {priority} from '../../constant';
 
 export default class Forms extends Component {
   state = {
-    isShowCalendar: false
+    isShowCalendar: false,
+    isOpenAdditionalForms: false
   };
 
   static propTypes = {
@@ -19,6 +20,12 @@ export default class Forms extends Component {
     selectedDate: PropTypes.number.isRequired,
     moveToMonth: PropTypes.func.isRequired,
     updateSelectedDate: PropTypes.func.isRequired
+  };
+
+  toggleIsOpenAdditionalForms = () => {
+    this.setState((prevState) => ({
+      isOpenAdditionalForms: !prevState.isOpenAdditionalForms
+    }));
   };
 
   toggleCalendar = () => {
@@ -61,12 +68,17 @@ export default class Forms extends Component {
   };
 
   renderInputArea = () => {
+    const {isOpenAdditionalForms} = this.state;
     const {todoTitle, onClickAddBtn, onChangeTodoTitle} = this.props;
 
     return (
       <div className="forms-area">
+        <button
+          onClick={this.toggleIsOpenAdditionalForms}
+          className={`forms-area-btn additional-forms ${isOpenAdditionalForms ? 'opened' : ''}`}
+        />
         <input type="text" name="todo" value={todoTitle} onChange={onChangeTodoTitle} className="forms-area-input" />
-        <button onClick={onClickAddBtn} className="forms-area-btn" />
+        <button onClick={onClickAddBtn} className="forms-area-btn submit" />
       </div>
     );
   };
@@ -76,7 +88,7 @@ export default class Forms extends Component {
 
     return (
       <div className="forms-calendar-area">
-        <button onClick={this.toggleCalendar} className="calendar-show-btn">달력</button>
+        {/*<button onClick={this.toggleCalendar} className="calendar-show-btn">달력</button>*/}
         <Calendar
           isShowCalendar={this.state.isShowCalendar}
           base={base}
@@ -89,13 +101,15 @@ export default class Forms extends Component {
   };
 
   render() {
+    const {isOpenAdditionalForms} = this.state;
+
     return (
-      <section className="forms-section">
+      <section className={`forms-container ${isOpenAdditionalForms ? 'opened' : 'closed'}`}>
+        {this.renderInputArea()}
         <div className="forms-option-area">
           {this.getLabelArea()}
           {this.getCalendarArea()}
         </div>
-        {this.renderInputArea()}
       </section>
     );
   }

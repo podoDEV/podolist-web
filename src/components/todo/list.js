@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Item from './item';
-
 import {fetchTodo} from '../../actions/todo';
 
 class List extends Component {
@@ -27,6 +26,11 @@ class List extends Component {
             ))}
           </ul>
           <h2 className="title">미완료된 일</h2>
+          <ul className="todo-list">
+            {this.props.todos.map((todo, idx) => (
+              <Item todo={todo} key={idx} />
+            ))}
+          </ul>
         </div>
       </div>
     );

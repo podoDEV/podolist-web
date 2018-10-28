@@ -9,16 +9,14 @@ export default function*() {
 
 function* userLoginSaga(action) {
   try {
-    const {
-      data: {name}
-    } = yield call(login, {accessToken: action.accessToken});
-
-    if (name) {
-      yield put(applyUserInfo(name));
-      yield history.replace('/');
-    } else {
-      alert('로그인 실패!');
-    }
+    const {data} = yield call(login, {accessToken: action.accessToken});
+    console.log(yield call(login, {accessToken: action.accessToken}));
+    // if (name) {
+    //   yield put(applyUserInfo(name));
+    //   yield history.replace('/');
+    // } else {
+    //   alert('로그인 실패!');
+    // }
   } catch (err) {
     console.error(err);
   }

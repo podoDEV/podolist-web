@@ -29,36 +29,48 @@ button {
 .wrap {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   margin: auto;
 }
 
+.week-container {
+  display: none;
+}
 
 .main-container {
-  width: 562px;
-  margin-left: 358px;
+  width: 100%;
   text-align: left;
 }
 
-.side-container {
-  width: 520px;
-  text-align: right;
-  padding-top: 43px;
-  padding-left: 90px;
+.forms-container {
+  padding: 10px 10px 20px;
+  margin-left: calc(100px + 15%);
+  background: #ebebeb;
+  position: fixed;
+  bottom: 0;
+  border: 1px solid #ebebeb;
+  border-radius: 15px 15px 0 0;
+  transition: height 0.5s;
+  -webkit-transition: height 0.5s; /* Safari */
+}
+
+.header-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-image: linear-gradient(rgb(169, 30, 254), rgb(147, 20, 254), rgb(147, 20, 254), rgb(169, 30, 254));
 }
 
 .todo-header {
   display: flex;
   color: white;
-  background-image: linear-gradient(rgb(169, 30, 254), rgb(147, 20, 254), rgb(147, 20, 254), rgb(169, 30, 254));
   min-height: 66px;
   line-height: 66px;
 }
 
 .todo-header .logo-area {
-  width: 25%;
-  text-align: left;
-  padding: 0 2%;
+  width: 100px;
+  text-align: center;
 }
 
 .todo-header .logo-area a {
@@ -68,6 +80,7 @@ button {
 
 .todo-header .search-area {
   width: 562px;
+  margin-left: 15%;
 }
 
 .search-area .search-bar {
@@ -78,19 +91,11 @@ button {
   padding: 20px;
 }
 
-@media (max-width: 768px) {
-  /* 768px 이내 css */
-  .todo-header {
-    /*flex-direction: row;*/
-    /*height: 400px;*/
-  }
-}
-
 .todo-list-container {
-  height: 75vh;
-  padding: 10px;
-  overflow: scroll;
+  width: 562px;
+  margin: 0 0 70px calc(100px + 15%);
   color: rgb(83, 83, 83);
+  padding: 60px 0 30px;
 }
 
 .todo-list-container .title {
@@ -100,7 +105,10 @@ button {
 }
 
 .today-list .title {
-  margin: 47px 0 57px;
+  background: white;
+  z-index: 1;
+  padding: 10px;
+  border-bottom: 0.5px solid #ccc;
 }
 
 .todo-list {
@@ -114,6 +122,7 @@ button {
   display: flex;
   margin-top: 19px;
   width: 100%;
+  align-items: center;
 }
 
 .todo-item-title {
@@ -130,9 +139,11 @@ button {
   width: 14px;
   border-radius: 7px;
   cursor: pointer;
+  z-index: -1;
 }
 
-.completed .todo-checkbox{
+.completed .todo-checkbox {
+  border: none;
   background: rgb(215, 215, 215);
 }
 
@@ -192,31 +203,47 @@ button {
 
 .forms-area {
   display: flex;
-  max-width: 562px;
   text-align: center;
   border: 1px solid rgb(197, 197, 197);
   border-radius: 38px;
   height: 38px;
   line-height: 38px;
+  width: 562px;
+  background: white;
 }
 
 .forms-area-input {
   border: none;
   padding: 10px;
-  width: 100%;
+  width: calc(100% - 76px);
   color: #9e30fe;
   font-weight: bold;
   font-size: 15px;
-  margin: 1px 0 1px 15px;
 }
 
 .forms-area-btn {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #9e30fe url('../img/enter.png') no-repeat center;
-  background-size: 24px;
+}
+
+.forms-area-btn.submit {
   border: 1px solid #9e30fe;
+  background: #9e30fe url('../img/enter.png') no-repeat center;
+  background-size: 16px;
+}
+
+.forms-area-btn.additional-forms {
+  border: none;
+  background: rgba(0, 0, 0, 0) url('../img/add-btn.png') no-repeat center;
+  background-size: 16px;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.forms-area-btn.additional-forms.opened {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .login-div {
@@ -252,7 +279,7 @@ button {
 }
 
 .priority-label {
-  margin: 37px 0 31px;
+  margin: 10px 0;
 }
 
 .priority-label button {
@@ -266,27 +293,23 @@ button {
 }
 
 .urgent {
-  background: #d0021b;
+  border: 2px solid #d0021b;
 }
 
 .high {
-  background: #f5a623;
+  border: 2px solid #f5a623;
 }
 
 .medium {
-  background: #7ed321;
+  border: 2px solid #7ed321;
 }
 
 .low {
-  background: #50e3c2;
+  border: 2px solid #50e3c2;
 }
 
 .priority-label .not-selected {
   background: #d1d1d1;
-}
-
-.forms-section {
-  width: 562px;
 }
 
 .forms-option-area {
@@ -294,8 +317,136 @@ button {
   flex-direction: row;
 }
 
+.forms-container.opened {
+  height: 200px;
+}
+
+.forms-container.closed {
+  height: 70px;
+}
+
+.forms-container.opened .forms-option-area {
+  display: block;
+}
+
+.forms-container.closed .forms-option-area {
+  display: none;
+}
+
 .calendar-show-btn {
   border: 1px solid #ccc;
-  height: 100%;
   width: 30px;
+}
+
+@media (max-width: 768px) {
+  /* 768px 이내 css */
+  .main-container {
+  }
+
+  .todo-list-container {
+    width: 100%;
+    padding: 188px 25px 18px;
+    margin: 0 10px 70px;
+  }
+
+  .forms-container {
+    width: 100%;
+    padding: 13px 25px 18px;
+    border: 0.5px solid rgb(197, 197, 197);
+  }
+
+  .forms-container .forms-area {
+    width: 100%;
+  }
+
+  .todo-header {
+    padding: 24px 10px 14px;
+    /*flex-direction: row;*/
+    /*height: 400px;*/
+    /*min-width: 360px;*/
+  }
+  .todo-header .search-area {
+    width: 100%;
+  }
+  .todo-header .profile-area {
+    /*프로필 최소 영역 픽셀로*/
+    /*width: 100px;*/
+  }
+
+  .header-container .week-container {
+    height: 84px;
+    display: flex;
+    align-items: center;
+  }
+
+  .week-container .week-move-btn {
+    text-indent: -9999px;
+    border: none;
+    width: 32px;
+    height: 32px;
+  }
+
+  .week-move-btn.left {
+    background: rgba(0, 0, 0, 0) url('../img/left-go.png') no-repeat center;
+    background-size: 6px;
+  }
+
+  .week-move-btn.right {
+    background: rgba(0, 0, 0, 0) url('../img/right-go.png') no-repeat center;
+    background-size: 6px;
+  }
+
+  .week-date-area {
+    display: flex;
+    width: calc(100% - 64px);
+  }
+
+  .week-date-item {
+    justify-content: space-evenly;
+    width: 100%;
+    text-align: center;
+    color: white;
+  }
+
+  .week-date-item .day {
+    font-size: 13px;
+    height: 21px;
+    line-height: 21px;
+  }
+
+  .week-date-item .date {
+    font-size: 14px;
+    height: 26px;
+    line-height: 18px;
+    width: 26px;
+    margin: 7px auto 0;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .week-date-item .date.selected {
+    border: 1px solid rgb(250, 250, 235);
+    background: rgb(250, 250, 235);
+    color: #9e30fe;
+    border-radius: 50%;
+  }
+
+  .week-date-item .date .red-pin {
+    height: 4px;
+    width: 4px;
+    visibility: hidden;
+    position: relative;
+    top: 0;
+    background: rgb(208, 2, 27);
+    border-radius: 50%;
+    margin: auto;
+  }
+
+  .week-date-item .date.has .red-pin {
+    visibility: visible;
+  }
+
+  .todo-header .logo-area {
+    display: none;
+  }
 }
