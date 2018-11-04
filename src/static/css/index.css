@@ -10,7 +10,7 @@
 html,
 body {
   font-family: 'NotoSans', sans-serif;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   margin: 0;
   font-size: 13px;
@@ -33,6 +33,15 @@ button {
   margin: auto;
 }
 
+.dimmed-area.opened {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.18);
+}
+
 .week-container {
   display: none;
 }
@@ -43,12 +52,12 @@ button {
 }
 
 .forms-container {
-  padding: 10px 10px 20px;
+  padding: 5px;
   margin-left: calc(100px + 15%);
-  background: #ebebeb;
+  background: rgb(244, 244, 244);
   position: fixed;
   bottom: 0;
-  border: 1px solid #ebebeb;
+  border: 1px solid rgb(244, 244, 244);
   border-radius: 15px 15px 0 0;
   transition: height 0.5s;
   -webkit-transition: height 0.5s; /* Safari */
@@ -81,14 +90,33 @@ button {
 .todo-header .search-area {
   width: 562px;
   margin-left: 15%;
+  display: flex;
+  align-items: center;
 }
 
 .search-area .search-bar {
+  display: flex;
   width: 100%;
   border-radius: 50px;
-  height: 38px;
   border: 1px solid rgb(197, 197, 197);
-  padding: 20px;
+  padding: 0 5px 0 20px;
+  background: white;
+}
+
+.search-area .search-input {
+  width: calc(100% - 33px);
+  height: 33px;
+  border: none;
+  padding: 0 5px;
+}
+
+.search-area .search-icon-btn {
+  height: 33px;
+  width: 33px;
+  border: none;
+  background: white url('../img/search.png') no-repeat center;
+  background-size: 16px;
+  border-radius: 0 100% 100% 0;
 }
 
 .todo-list-container {
@@ -99,30 +127,33 @@ button {
 }
 
 .todo-list-container .title {
-  font-size: 24px;
+  font-size: 25px;
   letter-spacing: -0.3px;
-  font-weight: normal;
+  font-weight: bold;
+  margin: 18px 0;
+}
+
+.todo-list-container .title.unfinished {
+  color: rgb(208, 2, 27);
 }
 
 .today-list .title {
   background: white;
   z-index: 1;
-  padding: 10px;
-  border-bottom: 0.5px solid #ccc;
 }
 
 .todo-list {
 }
 
-.finished .todo-item-title {
+.completed .todo-item-title {
   text-decoration: line-through;
 }
 
 .todo-item {
   display: flex;
+  flex-direction: column;
   margin-top: 19px;
   width: 100%;
-  align-items: center;
 }
 
 .todo-item-title {
@@ -130,14 +161,30 @@ button {
   letter-spacing: -0.2px;
   word-break: break-all;
   max-width: 540px;
-  margin-left: 8px;
+  margin-left: 24px;
+}
+
+.todo-item-date {
+  font-size: 14px;
+  color: rgba(223, 223, 223, 0.68);
+  letter-spacing: -0.2px;
+  font-weight: 600;
+  margin-left: 43px;
+  margin-top: 5px;
+}
+
+.basic-todo-info-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
 }
 
 .todo-checkbox {
-  height: 14px;
-  line-height: 14px;
-  width: 14px;
-  border-radius: 7px;
+  height: 18px;
+  line-height: 18px;
+  width: 18px;
+  border-radius: 100%;
   cursor: pointer;
   z-index: -1;
 }
@@ -158,13 +205,12 @@ button {
 .todo-checkbox .completed-img {
   display: block;
   position: relative;
-  height: 9.5px;
-  left: 3.5px;
+  height: 13.5px;
+  left: 4.5px;
   top: 0.5px;
 }
 
-.todo-remove-btn,
-.todo-edit-btn {
+.todo-remove-btn {
   border: none;
   color: #dbdbdb;
   height: 16px;
@@ -175,7 +221,80 @@ button {
 }
 
 .todo-remove-btn {
-  /*width: 10%;*/
+  display: none;
+  width: 10px;
+  height: 10px;
+  background: url('../img/blur-delete.png') no-repeat center;
+  background-size: 10px;
+  margin-left: auto;
+}
+
+.todo-item:hover .todo-remove-btn{
+  display: block;
+}
+
+.todo-item:hover .todo-action-div {
+  display: flex;
+}
+
+.todo-action-div {
+  display: none;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  justify-content: space-evenly;
+
+  margin-left: auto;
+  width: 27px;
+  /* transition 열릴 때 만 */
+  transition: none;
+  -webkit-transition: none; /* Safari */
+}
+
+.todo-action-div.opened {
+  display: flex;
+  background-color: rgb(239, 239, 239);
+  padding: 5px;
+  width: 80px;
+  border-radius: 20px;
+  transition: width 0.5s;
+  -webkit-transition: width 0.5s; /* Safari */
+}
+
+.todo-action-div button {
+  border: none;
+}
+
+.todo-action-div .todo-more-btn {
+  width: 20px;
+  height: 20px;
+  background: url('../img/more.png') no-repeat center;
+  background-size: 4px;
+  margin-right: 35px;
+}
+
+.todo-action-div .todo-edit-btn.none, .todo-remove-btn.none  {
+  visibility: hidden;
+}
+
+.todo-action-div.opened .todo-more-btn {
+  margin-right: 0;
+}
+
+.todo-action-div .todo-remove-btn {
+  display: block;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  background: url('../img/delete.png') no-repeat center;
+  background-size: 13px;
+}
+
+.todo-action-div .todo-edit-btn {
+  width: 20px;
+  height: 20px;
+  background: url('../img/edit.png') no-repeat center;
+  background-size: 13px;
 }
 
 .todo-edit-input-div {
@@ -204,20 +323,18 @@ button {
 .forms-area {
   display: flex;
   text-align: center;
-  border: 1px solid rgb(197, 197, 197);
   border-radius: 38px;
   height: 38px;
   line-height: 38px;
   width: 562px;
   background: white;
+  align-items: center;
 }
 
 .forms-area-input {
   border: none;
   padding: 10px;
   width: calc(100% - 76px);
-  color: #9e30fe;
-  font-weight: bold;
   font-size: 15px;
 }
 
@@ -279,33 +396,62 @@ button {
 }
 
 .priority-label {
-  margin: 10px 0;
+}
+
+.showing-label-div {
+  height: 19px;
+  width: 19px;
+  border-radius: 100%;
 }
 
 .priority-label button {
   border: none;
   text-align: center;
-  height: 48px;
-  width: 90px;
+  height: 38px;
+  width: 85px;
   color: white;
   border-radius: 24px;
   margin-right: 6px;
 }
 
-.urgent {
+.urgent-border {
   border: 2px solid #d0021b;
 }
 
-.high {
+.high-border {
   border: 2px solid #f5a623;
 }
 
-.medium {
+.medium-border {
   border: 2px solid #7ed321;
 }
 
-.low {
+.low-border {
   border: 2px solid #50e3c2;
+}
+
+.none-border {
+  border: 2px solid rgb(74, 144, 226);
+}
+
+.urgent-bg {
+  background-color: #d0021b;
+}
+
+.high-bg {
+  background-color: #f5a623;
+}
+
+.medium-bg {
+  background-color: #7ed321;
+}
+
+.low-bg {
+  background-color: #50e3c2;
+}
+
+.none-bg {
+  background-color: rgb(74, 144, 226);
 }
 
 .priority-label .not-selected {
@@ -315,10 +461,17 @@ button {
 .forms-option-area {
   display: flex;
   flex-direction: row;
+  padding: 0 15px;
+}
+
+.forms-option-area .option-title {
+  padding: 18px 0 8px;
+  color: #9e30fe;
+  font-weight: bold;
 }
 
 .forms-container.opened {
-  height: 200px;
+  height: 515px;
 }
 
 .forms-container.closed {
@@ -338,9 +491,15 @@ button {
   width: 30px;
 }
 
+/*요기부터 모바일*/
+
 @media (max-width: 768px) {
   /* 768px 이내 css */
   .main-container {
+  }
+
+  .dimmed-area.opened {
+    top: 188px;
   }
 
   .todo-list-container {
@@ -353,6 +512,7 @@ button {
     width: 100%;
     padding: 13px 25px 18px;
     border: 0.5px solid rgb(197, 197, 197);
+    margin: 0;
   }
 
   .forms-container .forms-area {

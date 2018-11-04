@@ -15,7 +15,7 @@ class Index extends Component {
 
   state = {
     todoTitle: '',
-    selectedPriority: 'medium',
+    selectedPriority: 'none',
     selectedDate: Number(moment().format('D')),
     base: 0
   };
@@ -83,7 +83,7 @@ class Index extends Component {
       <div className="wrap">
         <Header />
         <div className="body-area">
-          <section className="main-container">
+          <section className="main-container" onClick={this.handleClickMainContainer}>
             <List />
             <Forms
               selectedPriority={selectedPriority}

@@ -17,13 +17,24 @@ export default class Header extends Component {
       .add(base, 'M')
       .format('MMMM');
 
+    const prevMonth = moment()
+      .add(base - 1, 'M')
+      .format('MMM');
+    const nextMonth = moment()
+      .add(base + 1, 'M')
+      .format('MMM');
+
     return (
       <div className="calendar-header">
         <h2 className="year">{year}</h2>
         <div className="month">
-          <button onClick={() => moveToMonth(-1)}>{'<'}</button>
+          <button className="prev-move-btn" onClick={() => moveToMonth(-1)}>
+            {prevMonth}
+          </button>
           <span>{month}</span>
-          <button onClick={() => moveToMonth(1)}>{'>'}</button>
+          <button className="next-move-btn" onClick={() => moveToMonth(1)}>
+            {nextMonth}
+          </button>
         </div>
       </div>
     );

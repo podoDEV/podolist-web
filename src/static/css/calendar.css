@@ -4,8 +4,7 @@
   border-radius: 15px;
   padding: 10px 5px;
   background: #fdfdfd;
-  color: #9e30fe;
-  width: 397px;
+  width: 100%;
   box-shadow: 0px 1px 1px 1px #e3e3e3;
 }
 
@@ -21,6 +20,7 @@
 }
 
 .calendar-table {
+  width: 100%;
   font-size: 12px;
 }
 
@@ -33,7 +33,7 @@
 .calendar-day-area th,
 tr {
   font-size: 12px;
-  width: calc(397px / 7);
+  width: calc(100% / 7);
   height: 39px;
   line-height: 39px;
   text-align: center;
@@ -44,7 +44,11 @@ tr {
   color: rgb(209, 209, 209);
 }
 
-.calendar-day-area th.sun {
+/*.calendar-day-area th.sun {*/
+/*color: rgb(207, 94, 94);*/
+/*}*/
+
+.calendar-date-area tr td:first-child {
   color: rgb(207, 94, 94);
 }
 
@@ -52,13 +56,16 @@ tr {
   padding: 7px 14.5px;
 }
 
-.calendar-date-area td.not-this-month {
+.calendar-date-area td.not-this-month,
+tr td.not-this-month:first-child {
   color: #f1f1f1;
 }
 
 .calendar-date-area .each-date.selected {
   border-radius: 100%;
-  border: 2px solid #d6abfc;
+  background: rgb(158, 48, 254);
+  color: white;
+  font-weight: bold;
 }
 
 .calendar-date-area .each-date {
@@ -76,16 +83,27 @@ tr {
 .calendar-header .month {
   font-weight: bold;
   font-size: 18px;
-  padding: 12px 0 30px;
+  padding: 5px 15px;
 }
 
 .calendar-header .year {
-  padding-top: 18px;
+  padding-top: 10px;
 }
 
 .calendar-header button {
   border: none;
   background: none;
-  color: #9e30fe;
-  font-size: 18px;
+  font-size: 15px;
+}
+
+.calendar-header button:hover {
+  text-decoration: underline;
+}
+
+.calendar-header .prev-move-btn {
+  float: left;
+}
+
+.calendar-header .next-move-btn {
+  float: right;
 }

@@ -19,13 +19,13 @@ class List extends Component {
     return (
       <div className="todo-list-container">
         <div className="today-list">
-          <h2 className="title">오늘</h2>
+          <h2 className="title unfinished">Delayed</h2>
           <ul className="todo-list">
             {this.props.todos.map((todo, idx) => (
               <Item todo={todo} key={idx} />
             ))}
           </ul>
-          <h2 className="title">미완료된 일</h2>
+          <h2 className="title">Today</h2>
           <ul className="todo-list">
             {this.props.todos.map((todo, idx) => (
               <Item todo={todo} key={idx} />

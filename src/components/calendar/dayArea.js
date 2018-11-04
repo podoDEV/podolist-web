@@ -5,7 +5,7 @@ export default class DayArea extends Component {
     return (
       <thead className="calendar-day-area">
         <tr>
-          <th className="sun">sun</th>
+          <th>sun</th>
           <th>mon</th>
           <th>tue</th>
           <th>wed</th>

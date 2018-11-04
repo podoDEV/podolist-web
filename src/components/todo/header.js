@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import Week from '../week/index';
 
 export default class Header extends Component {
@@ -11,7 +11,10 @@ export default class Header extends Component {
             <Link to="/">Podolist</Link>
           </div>
           <div className="search-area">
-            <input type="text" className="search-bar" />
+            <div className="search-bar">
+              <input type="text" className="search-input" />
+              <button className="search-icon-btn" />
+            </div>
           </div>
         </header>
         <Week />
