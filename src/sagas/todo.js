@@ -7,7 +7,8 @@ import {
   UPDATE_TODO,
   applyRemovedTodo,
   TOGGLE_ISCOMPLETED_TODO,
-  applyToggleIsCompletedTodo
+  applyToggleIsCompletedTodo,
+  applyUpdatedTodo
 } from '../actions/todo';
 import {deleteItem, getItemList, createItem, updateItem, toggleIsCompletedItem} from '../service/todo';
 
@@ -60,7 +61,9 @@ function* removeTodoSaga(action) {
 
 function* updateTodoSaga(action) {
   try {
-    yield call(updateItem, action.itemId, action.todo);
+    const {itemId, todo} = action;
+    yield call(updateItem, itemId, todo);
+    yield put(applyUpdatedTodo(itemId, todo));
     // reorder list
   } catch (err) {
     console.error(err);

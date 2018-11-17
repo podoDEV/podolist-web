@@ -1,24 +1,36 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import Calendar from '../calendar/index';
 import {keyCodeMap, priority} from '../../constant';
+import {
+  changeTodoTitle,
+  changeTodoPriority,
+  changeSelectedDate,
+  changeDateBase,
+  clearForms,
+  setIsOpenAdditionalForms
+} from '../../actions/forms';
+import {createTodo, updateTodo} from '../../actions/todo';
+import moment from 'moment/moment';
 
-export default class Forms extends Component {
-  state = {
-    isOpenAdditionalForms: false
-  };
-
+class Forms extends Component {
   static propTypes = {
-    selectedPriority: PropTypes.string.isRequired,
-    todoTitle: PropTypes.string.isRequired,
-    onClickPriorityBtn: PropTypes.func.isRequired,
-    onClickAddBtn: PropTypes.func.isRequired,
-    onChangeTodoTitle: PropTypes.func.isRequired,
+    changeTodoPriority: PropTypes.func.isRequired,
+    changeTodoTitle: PropTypes.func.isRequired,
+    changeSelectedDate: PropTypes.func.isRequired,
+    setIsOpenAdditionalForms: PropTypes.func.isRequired,
     base: PropTypes.number.isRequired,
-    selectedDate: PropTypes.number.isRequired,
-    moveToMonth: PropTypes.func.isRequired,
-    updateSelectedDate: PropTypes.func.isRequired
+    title: PropTypes.string,
+    isOpenAdditionalForms: PropTypes.bool,
+    selectedDate: PropTypes.number,
+    changeDateBase: PropTypes.func.isRequired,
+    createTodo: PropTypes.func,
+    updateTodo: PropTypes.func,
+    priority: PropTypes.string,
+    editId: PropTypes.number,
+    clearForms: PropTypes.func
   };
 
   componentDidMount() {
@@ -30,12 +42,11 @@ export default class Forms extends Component {
   }
 
   handleKeyDownEvent = (ev) => {
-    const {isOpenAdditionalForms} = this.state;
-    const {todoTitle} = this.props;
+    const {title, isOpenAdditionalForms} = this.props;
 
     if (ev.keyCode === keyCodeMap.ESC) {
       this.closeAdditionalForms();
-    } else if (ev.keyCode === keyCodeMap.ENTER && isOpenAdditionalForms && todoTitle) {
+    } else if (ev.keyCode === keyCodeMap.ENTER && isOpenAdditionalForms && title) {
       this.handleClickAddButton();
     }
   };
@@ -49,50 +60,76 @@ export default class Forms extends Component {
   };
 
   closeAdditionalForms = () => {
-    this.setState({isOpenAdditionalForms: false});
+    this.props.clearForms();
+    this.props.setIsOpenAdditionalForms(false);
   };
 
   openAdditionalForms = () => {
-    this.setState({isOpenAdditionalForms: true});
+    this.props.setIsOpenAdditionalForms(true);
   };
 
   handleClickAddButton = () => {
-    this.closeAdditionalForms();
-    this.props.onClickAddBtn();
+    const {title, priority, selectedDate, base, clearForms, createTodo, editId, updateTodo} = this.props;
+
+    let time = moment()
+      .set('date', selectedDate)
+      .add(base, 'M')
+      .format('YYYY-MM-DD');
+
+    if (title) {
+      if (editId === -1) {
+        createTodo({
+          title,
+          priority,
+          endedAt: moment(time).unix(),
+          startedAt: moment(time).unix()
+        });
+      } else {
+        updateTodo(editId, {
+          title,
+          priority,
+          endedAt: moment(time).unix(),
+          startedAt: moment(time).unix()
+        });
+      }
+
+      this.closeAdditionalForms();
+      clearForms();
+    }
   };
 
   getLabelArea = () => {
-    const {selectedPriority, onClickPriorityBtn} = this.props;
+    const {priority: selectedPriority, changeTodoPriority} = this.props;
 
     return (
       <div className="priority-label">
         <button
           className={selectedPriority === priority.URGENT ? this.getPriorityBg(priority.URGENT) : 'not-selected'}
-          onClick={() => onClickPriorityBtn(priority.URGENT)}
+          onClick={() => changeTodoPriority(priority.URGENT)}
         >
           매우 중요
         </button>
         <button
           className={selectedPriority === priority.HIGH ? this.getPriorityBg(priority.HIGH) : 'not-selected'}
-          onClick={() => onClickPriorityBtn(priority.HIGH)}
+          onClick={() => changeTodoPriority(priority.HIGH)}
         >
           중요
         </button>
         <button
           className={selectedPriority === priority.MEDIUM ? this.getPriorityBg(priority.MEDIUM) : 'not-selected'}
-          onClick={() => onClickPriorityBtn(priority.MEDIUM)}
+          onClick={() => changeTodoPriority(priority.MEDIUM)}
         >
           보통
         </button>
         <button
           className={selectedPriority === priority.LOW ? this.getPriorityBg(priority.LOW) : 'not-selected'}
-          onClick={() => onClickPriorityBtn(priority.LOW)}
+          onClick={() => changeTodoPriority(priority.LOW)}
         >
           여유
         </button>
         <button
           className={selectedPriority === priority.NONE ? this.getPriorityBg(priority.NONE) : 'not-selected'}
-          onClick={() => onClickPriorityBtn(priority.NONE)}
+          onClick={() => changeTodoPriority(priority.NONE)}
         >
           그냥
         </button>
@@ -101,8 +138,8 @@ export default class Forms extends Component {
   };
 
   renderInputArea = () => {
-    const {isOpenAdditionalForms} = this.state;
-    const {todoTitle, onChangeTodoTitle, selectedPriority} = this.props;
+    const {title, changeTodoTitle, priority, isOpenAdditionalForms, editId} = this.props;
+    const isEdit = editId !== -1;
 
     return (
       <div className="forms-area">
@@ -110,37 +147,37 @@ export default class Forms extends Component {
           className={`forms-area-btn additional-forms ${isOpenAdditionalForms ? 'opened' : ''}`}
           onClick={isOpenAdditionalForms ? this.closeAdditionalForms : this.openAdditionalForms}
         />
-        {isOpenAdditionalForms && <div className={`showing-label-div ${this.getPriorityBorder(selectedPriority)}`} />}
+        {isOpenAdditionalForms && <div className={`showing-label-div ${this.getPriorityBorder(priority)}`} />}
         <input
           type="text"
           name="todo"
-          value={todoTitle}
-          onChange={onChangeTodoTitle}
+          value={title}
+          onChange={(ev) => changeTodoTitle(ev.target.value)}
           className="forms-area-input"
           onFocus={this.openAdditionalForms}
         />
-        <button onClick={this.handleClickAddButton} className="forms-area-btn submit" />
+        <button onClick={this.handleClickAddButton} className={`forms-area-btn ${isEdit ? 'edit' : 'submit'}`} />
       </div>
     );
   };
 
   getCalendarArea = () => {
-    const {base, selectedDate, updateSelectedDate, moveToMonth} = this.props;
+    const {base, changeDateBase, changeSelectedDate, selectedDate} = this.props;
 
     return (
       <div className="forms-calendar-area">
         <Calendar
           base={base}
           selectedDate={selectedDate}
-          updateSelectedDate={updateSelectedDate}
-          moveToMonth={moveToMonth}
+          changeDateBase={changeDateBase}
+          changeSelectedDate={changeSelectedDate}
         />
       </div>
     );
   };
 
   render() {
-    const {isOpenAdditionalForms} = this.state;
+    const {isOpenAdditionalForms} = this.props;
 
     return (
       <React.Fragment>
@@ -158,3 +195,43 @@ export default class Forms extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const {
+    forms: {
+      selectedPriority,
+      base,
+      selectedDate,
+      todoTitle: title,
+      selectedPriority: priority,
+      isOpenAdditionalForms,
+      editId
+    }
+  } = state;
+
+  return {
+    title,
+    selectedPriority,
+    selectedDate,
+    base,
+    priority,
+    isOpenAdditionalForms,
+    editId
+  };
+};
+
+const mapDispatchToProps = {
+  changeTodoTitle,
+  changeTodoPriority,
+  changeSelectedDate,
+  changeDateBase,
+  clearForms,
+  createTodo,
+  updateTodo,
+  setIsOpenAdditionalForms
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Forms);

@@ -16,3 +16,5 @@ export const keyCodeMap = {
   ESC: 27,
   ENTER: 13
 };
+
+export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];

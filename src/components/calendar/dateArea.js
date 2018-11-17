@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 export default class DateArea extends Component {
   static propTypes = {
     base: PropTypes.number,
-    updateSelectedDate: PropTypes.func,
+    changeSelectedDate: PropTypes.func,
     selectedDate: PropTypes.number
   };
 
-  handleChangeDate = (isThisMonth, date) => {
+  handleChangeDate = (ev, isThisMonth, date) => {
+    ev.preventDefault();
+    ev.stopPropagation();
     if (isThisMonth) {
-      this.props.updateSelectedDate(date);
+      this.props.changeSelectedDate(date);
     }
   };
 
@@ -23,7 +25,7 @@ export default class DateArea extends Component {
     return (
       <td
         className={`${isThisMonth ? '' : 'not-this-month'}`}
-        onClick={() => this.handleChangeDate(isThisMonth, date)}
+        onClick={(ev) => this.handleChangeDate(ev, isThisMonth, date)}
         key={date}
       >
         <div className={`each-date ${isThisMonth && selectedDate === date ? 'selected' : ''}`}>{date}</div>

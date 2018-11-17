@@ -1,100 +1,57 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import {connect} from 'react-redux';
 
 import List from './list';
 import Forms from './forms';
+import Calendar from '../calendar';
 import Header from './header';
-import {createTodo} from '../../actions/todo';
+import TodayCalendarModal from './todayCalendarModal';
+import {changeTodayDate, changeTodayBase} from '../../actions/today';
 
 class Index extends Component {
   static propTypes = {
-    createTodo: PropTypes.func
+    base: PropTypes.number.isRequired,
+    selectedDate: PropTypes.number,
+    changeTodayBase: PropTypes.func.isRequired,
+    changeTodayDate: PropTypes.func.isRequired
   };
 
   state = {
-    todoTitle: '',
-    selectedPriority: 'none',
-    selectedDate: Number(moment().format('D')),
-    base: 0
+    openTodayCalendarModal: false
   };
 
-  updateSelectedDate = (date) => {
+  setOpenTodayCalendarModal = (val) => {
     this.setState({
-      selectedDate: date
-    });
-  };
-
-  moveToMonth = (months) => {
-    const {base} = this.state;
-
-    if (base + months === 0) {
-      this.setState({
-        base: 0,
-        selectedDate: Number(moment().format('D'))
-      });
-    } else {
-      this.setState({
-        base: base + months,
-        selectedDate: 1
-      });
-    }
-  };
-
-  onChangeTodoTitle = (ev) => {
-    this.setState({
-      todoTitle: ev.target.value
-    });
-  };
-
-  onClickAddBtn = () => {
-    const {todoTitle: title, selectedPriority: priority, selectedDate, base} = this.state;
-
-    let time = moment()
-      .set('date', selectedDate)
-      .add(base, 'M')
-      .format('YYYY-MM-DD');
-
-    if (title) {
-      this.props.createTodo({
-        title,
-        priority,
-        endedAt: moment(time).unix(),
-        startedAt: moment(time).unix()
-      });
-
-      this.setState({
-        todoTitle: ''
-      });
-    }
-  };
-
-  onClickPriorityBtn = (priority) => {
-    this.setState({
-      selectedPriority: priority
+      openTodayCalendarModal: val
     });
   };
 
   render() {
-    const {selectedPriority, todoTitle, base, selectedDate} = this.state;
+    const {base, changeTodayBase, changeTodayDate, selectedDate} = this.props;
+    const {openTodayCalendarModal} = this.state;
 
     return (
       <div className="wrap">
-        <Header />
-        <div className="body-area">
-          <section className="main-container" onClick={this.handleClickMainContainer}>
+        <TodayCalendarModal
+          openTodayCalendarModal={openTodayCalendarModal}
+          setOpenTodayCalendarModal={this.setOpenTodayCalendarModal}
+        />
+        <Header
+          setOpenTodayCalendarModal={this.setOpenTodayCalendarModal}
+          openTodayCalendarModal={openTodayCalendarModal}
+        />
+        <div className={`body-area ${openTodayCalendarModal ? 'blurred' : ''}`}>
+          <section className="main-container">
             <List />
-            <Forms
-              selectedPriority={selectedPriority}
-              todoTitle={todoTitle}
-              onClickPriorityBtn={this.onClickPriorityBtn}
-              onClickAddBtn={this.onClickAddBtn}
-              onChangeTodoTitle={this.onChangeTodoTitle}
+            <Forms />
+          </section>
+          <section className="today-calendar-container">
+            <Calendar
               base={base}
               selectedDate={selectedDate}
-              updateSelectedDate={this.updateSelectedDate}
-              moveToMonth={this.moveToMonth}
+              changeDateBase={changeTodayBase}
+              changeSelectedDate={changeTodayDate}
             />
           </section>
         </div>
@@ -103,11 +60,17 @@ class Index extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  base: state.today.base,
+  selectedDate: state.today.selectedDate
+});
+
 const mapDispatchToProps = {
-  createTodo
+  changeTodayDate,
+  changeTodayBase
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Index);

@@ -3,6 +3,11 @@
   src: url('../fonts/NotoSansKR-Light.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'Dinmed';
+  src: url('../fonts/dinmed.TTF') format('opentype');
+}
+
 * {
   box-sizing: border-box;
 }
@@ -33,6 +38,15 @@ button {
   margin: auto;
 }
 
+.blurred {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+}
+
+.dimmed-calendar-modal-area {
+  display: none;
+}
+
 .dimmed-area.opened {
   position: fixed;
   top: 65px;
@@ -47,20 +61,21 @@ button {
 }
 
 .main-container {
-  width: 100%;
+  width: 562px;
   text-align: left;
+  padding-bottom: 90px;
 }
 
 .forms-container {
+  width: 562px;
   padding: 5px;
-  margin-left: calc(100px + 15%);
   background: rgb(244, 244, 244);
   position: fixed;
   bottom: 0;
   border: 1px solid rgb(244, 244, 244);
   border-radius: 15px 15px 0 0;
-  transition: height 0.5s;
-  -webkit-transition: height 0.5s; /* Safari */
+  transition: height 0.3s;
+  -webkit-transition: height 0.3s; /* Safari */
 }
 
 .header-container {
@@ -68,13 +83,27 @@ button {
   position: fixed;
   top: 0;
   background-image: linear-gradient(rgb(169, 30, 254), rgb(147, 20, 254), rgb(147, 20, 254), rgb(169, 30, 254));
+  z-index: 2;
 }
 
 .todo-header {
   display: flex;
   color: white;
-  min-height: 66px;
-  line-height: 66px;
+  height: 66px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.todo-header .profile-btn {
+  margin-left: 20px;
+  height: 33px;
+  width: 33px;
+  border: none;
+  /*background: white url('../img/search.png') no-repeat center;*/
+  background: white;
+  background-size: 16px;
+  border-radius: 100%;
 }
 
 .todo-header .logo-area {
@@ -87,9 +116,16 @@ button {
   text-decoration: none;
 }
 
+.search-btn-sm-show .search-icon-btn {
+  display: none;
+}
+
+.todo-date-title-sm-show {
+  display: none;
+}
+
 .todo-header .search-area {
   width: 562px;
-  margin-left: 15%;
   display: flex;
   align-items: center;
 }
@@ -119,27 +155,69 @@ button {
   border-radius: 0 100% 100% 0;
 }
 
+.today-calendar-container {
+  width: 368px;
+  padding: 24px 15px;
+}
+
 .todo-list-container {
-  width: 562px;
-  margin: 0 0 70px calc(100px + 15%);
+  min-width: 400px;
   color: rgb(83, 83, 83);
-  padding: 60px 0 30px;
 }
 
 .todo-list-container .title {
-  font-size: 25px;
+  font-size: 1.5em;
   letter-spacing: -0.3px;
   font-weight: bold;
-  margin: 18px 0;
 }
 
-.todo-list-container .title.unfinished {
+.unfinished-title-div {
+  margin: 25px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.today-title-div {
+  margin: 25px 0 18px;
+  display: flex;
+  align-items: center;
+  height: 1.5em;
+}
+
+.today-title-div .date {
+  font-size: 1.1em;
+  margin-left: 10px;
+  height: 1.5em;
+  line-height: 2.1em;
+}
+
+.unfinished-title-div .title {
   color: rgb(208, 2, 27);
+  margin: 0;
+}
+
+.unfinished-title-div .fold-btn {
+  width: 30px;
+  height: 20px;
+  background: url('../img/up-btn.png') no-repeat center;
+  background-size: 20px;
+  border: none;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.unfinished-title-div .fold-btn.fold {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.dividing-line {
+  border: 0.5px solid rgb(236, 236, 236);
 }
 
 .today-list .title {
   background: white;
-  z-index: 1;
 }
 
 .todo-list {
@@ -152,7 +230,7 @@ button {
 .todo-item {
   display: flex;
   flex-direction: column;
-  margin-top: 19px;
+  margin-top: 8px;
   width: 100%;
 }
 
@@ -186,7 +264,6 @@ button {
   width: 18px;
   border-radius: 100%;
   cursor: pointer;
-  z-index: -1;
 }
 
 .completed .todo-checkbox {
@@ -220,16 +297,25 @@ button {
   /*width: 15%;*/
 }
 
+.pure-remove-btn-div {
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  justify-content: space-evenly;
+
+  margin-left: auto;
+  width: 27px;
+}
+
 .todo-remove-btn {
   display: none;
   width: 10px;
   height: 10px;
   background: url('../img/blur-delete.png') no-repeat center;
   background-size: 10px;
-  margin-left: auto;
 }
 
-.todo-item:hover .todo-remove-btn{
+.todo-item:hover .todo-remove-btn {
   display: block;
 }
 
@@ -251,14 +337,18 @@ button {
   -webkit-transition: none; /* Safari */
 }
 
+.todo-action-div {
+
+}
+
 .todo-action-div.opened {
   display: flex;
   background-color: rgb(239, 239, 239);
   padding: 5px;
   width: 80px;
   border-radius: 20px;
-  transition: width 0.5s;
-  -webkit-transition: width 0.5s; /* Safari */
+  transition: width 0.3s;
+  -webkit-transition: width 0.3s; /* Safari */
 }
 
 .todo-action-div button {
@@ -273,7 +363,8 @@ button {
   margin-right: 35px;
 }
 
-.todo-action-div .todo-edit-btn.none, .todo-remove-btn.none  {
+.todo-action-div .todo-edit-btn.none,
+.todo-remove-btn.none {
   visibility: hidden;
 }
 
@@ -318,6 +409,8 @@ button {
 .body-area {
   display: flex;
   flex-direction: row;
+  padding-top: 60px;
+  padding-left: calc(15% + 100px);
 }
 
 .forms-area {
@@ -326,7 +419,6 @@ button {
   border-radius: 38px;
   height: 38px;
   line-height: 38px;
-  width: 562px;
   background: white;
   align-items: center;
 }
@@ -348,6 +440,18 @@ button {
   border: 1px solid #9e30fe;
   background: #9e30fe url('../img/enter.png') no-repeat center;
   background-size: 16px;
+}
+
+.forms-area-btn.submit {
+  border: 1px solid #9e30fe;
+  background: #9e30fe url('../img/enter.png') no-repeat center;
+  background-size: 16px;
+}
+
+.forms-area-btn.edit {
+  border: 1px solid #9e30fe;
+  background: #9e30fe url('../img/edit-white.png') no-repeat center;
+  background-size: 22px;
 }
 
 .forms-area-btn.additional-forms {
@@ -491,21 +595,31 @@ button {
   width: 30px;
 }
 
-/*요기부터 모바일*/
+.week-month-title {
+  display: none;
+}
 
-@media (max-width: 768px) {
+/*요기부터 모바일*/
+@media (max-width: 1215px) {
+  .body-area {
+    padding-left: calc(100% - 930px);
+  }
+}
+
+@media (max-width: 930px) {
   /* 768px 이내 css */
   .main-container {
+    width: 100%;
   }
 
   .dimmed-area.opened {
-    top: 188px;
+    top: 140px;
   }
 
   .todo-list-container {
     width: 100%;
-    padding: 188px 25px 18px;
-    margin: 0 10px 70px;
+    padding: 80px 25px 18px;
+    margin: 0 10px;
   }
 
   .forms-container {
@@ -515,22 +629,40 @@ button {
     margin: 0;
   }
 
+  .today-calendar-container {
+    display: none;
+  }
+
   .forms-container .forms-area {
     width: 100%;
   }
 
   .todo-header {
-    padding: 24px 10px 14px;
-    /*flex-direction: row;*/
-    /*height: 400px;*/
-    /*min-width: 360px;*/
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 25px 0;
   }
+
+  .todo-header .right-area {
+    display: flex;
+  }
+
   .todo-header .search-area {
-    width: 100%;
+    /*width: 100%;*/
+    display: none;
   }
-  .todo-header .profile-area {
-    /*프로필 최소 영역 픽셀로*/
-    /*width: 100px;*/
+
+  .search-btn-sm-show .search-icon-btn {
+    display: block;
+    height: 33px;
+    width: 33px;
+    border: none;
+    background: rgba(0, 0, 0, 0) url('../img/search-white.png') no-repeat center;
+    background-size: 16px;
+    border-radius: 0 100% 100% 0;
   }
 
   .header-container .week-container {
@@ -561,6 +693,26 @@ button {
     width: calc(100% - 64px);
   }
 
+  .todo-date-title-sm-show {
+    display: flex;
+    font-weight: bold;
+  }
+
+  .todo-date-title-sm-show .month {
+    font-size: 27px;
+    line-height: 52px;
+    cursor: pointer;
+  }
+
+  .todo-date-title-sm-show .month:hover {
+    text-decoration: underline;
+  }
+
+  .todo-date-title-sm-show .year {
+    font-size: 16px;
+    margin-left: 15px;
+  }
+
   .week-date-item {
     justify-content: space-evenly;
     width: 100%;
@@ -575,12 +727,12 @@ button {
   }
 
   .week-date-item .date {
+    font-family: 'Dinmed', sans-serif;
     font-size: 14px;
     height: 26px;
     line-height: 18px;
     width: 26px;
     margin: 7px auto 0;
-    font-weight: bold;
     cursor: pointer;
   }
 
@@ -608,5 +760,39 @@ button {
 
   .todo-header .logo-area {
     display: none;
+  }
+
+  .priority-label button {
+    margin-top: 5px;
+  }
+
+  .forms-container.opened {
+    height: 565px;
+  }
+
+  .week-month-title {
+    display: block;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 2%;
+  }
+
+  .dimmed-calendar-modal-area.opened {
+    display: block;
+    height: 1000px;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+    padding: 40% 15%;
+    background: rgba(0,0,0,0.37);
+  }
+
+  .blurred-bg {
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
   }
 }
