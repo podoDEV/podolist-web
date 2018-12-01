@@ -6,7 +6,7 @@ export const userLogin = (accessToken) => ({
   accessToken
 });
 
-export const applyUserInfo = (name) => ({
+export const applyUserInfo = (userInfo) => ({
   type: APPLY_USER_INFO,
-  name
+  userInfo
 });

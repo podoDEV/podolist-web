@@ -19,10 +19,11 @@ export default (
           selectedDate: Number(moment().format('D'))
         };
       }
+      // base, selectedDate 한 번에 업데이트가 필요하다
 
       return {
-        base: base + months,
-        selectedDate: 1
+        ...state,
+        base: base + months
       };
     }
     case CHANGE_TODAY_DATE:

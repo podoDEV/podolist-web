@@ -7,14 +7,14 @@ import Forms from './forms';
 import Calendar from '../calendar';
 import Header from './header';
 import TodayCalendarModal from './todayCalendarModal';
-import {changeTodayDate, changeTodayBase} from '../../actions/today';
+import {changeTodayDateSaga, changeTodayBaseSaga} from '../../actions/today';
 
 class Index extends Component {
   static propTypes = {
     base: PropTypes.number.isRequired,
     selectedDate: PropTypes.number,
-    changeTodayBase: PropTypes.func.isRequired,
-    changeTodayDate: PropTypes.func.isRequired
+    changeTodayBaseSaga: PropTypes.func.isRequired,
+    changeTodayDateSaga: PropTypes.func.isRequired
   };
 
   state = {
@@ -28,7 +28,7 @@ class Index extends Component {
   };
 
   render() {
-    const {base, changeTodayBase, changeTodayDate, selectedDate} = this.props;
+    const {base, changeTodayBaseSaga, changeTodayDateSaga, selectedDate} = this.props;
     const {openTodayCalendarModal} = this.state;
 
     return (
@@ -50,8 +50,8 @@ class Index extends Component {
             <Calendar
               base={base}
               selectedDate={selectedDate}
-              changeDateBase={changeTodayBase}
-              changeSelectedDate={changeTodayDate}
+              changeDateBase={changeTodayBaseSaga}
+              changeSelectedDate={changeTodayDateSaga}
             />
           </section>
         </div>
@@ -66,8 +66,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  changeTodayDate,
-  changeTodayBase
+  changeTodayDateSaga,
+  changeTodayBaseSaga
 };
 
 export default connect(

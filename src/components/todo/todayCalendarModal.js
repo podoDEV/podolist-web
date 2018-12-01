@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Calendar from '../calendar';
-import {changeTodayDate, changeTodayBase} from '../../actions/today';
+import {changeTodayDateSaga, changeTodayBaseSaga} from '../../actions/today';
 
 class TodayCalendarModal extends Component {
   static propTypes = {
     base: PropTypes.number.isRequired,
     selectedDate: PropTypes.number,
-    changeTodayBase: PropTypes.func.isRequired,
-    changeTodayDate: PropTypes.func.isRequired,
+    changeTodayBaseSaga: PropTypes.func.isRequired,
+    changeTodayDateSaga: PropTypes.func.isRequired,
     openTodayCalendarModal: PropTypes.bool.isRequired,
     setOpenTodayCalendarModal: PropTypes.func.isRequired
   };
@@ -21,7 +21,7 @@ class TodayCalendarModal extends Component {
   };
 
   render() {
-    const {base, changeTodayBase, changeTodayDate, selectedDate, openTodayCalendarModal} = this.props;
+    const {base, changeTodayBaseSaga, changeTodayDateSaga, selectedDate, openTodayCalendarModal} = this.props;
 
     return (
       <div
@@ -31,8 +31,8 @@ class TodayCalendarModal extends Component {
         <Calendar
           base={base}
           selectedDate={selectedDate}
-          changeDateBase={changeTodayBase}
-          changeSelectedDate={changeTodayDate}
+          changeDateBase={changeTodayBaseSaga}
+          changeSelectedDate={changeTodayDateSaga}
         />
       </div>
     );
@@ -45,8 +45,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  changeTodayDate,
-  changeTodayBase
+  changeTodayDateSaga,
+  changeTodayBaseSaga
 };
 
 export default connect(

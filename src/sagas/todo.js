@@ -1,4 +1,5 @@
-import {call, takeLatest, put} from 'redux-saga/effects';
+import {call, takeLatest, put, select} from 'redux-saga/effects';
+import moment from 'moment';
 import {
   FETCH_TODO,
   CREATE_TODO,
@@ -10,7 +11,7 @@ import {
   applyToggleIsCompletedTodo,
   applyUpdatedTodo
 } from '../actions/todo';
-import {deleteItem, getItemList, createItem, updateItem, toggleIsCompletedItem} from '../service/todo';
+import {deleteItem, createItem, updateItem, toggleIsCompletedItem, getItemList} from '../service/todo';
 
 export default function*() {
   yield takeLatest(FETCH_TODO, fetchTodoSaga);
@@ -20,23 +21,40 @@ export default function*() {
   yield takeLatest(TOGGLE_ISCOMPLETED_TODO, toggleIsCompletedTodoSaga);
 }
 
+const handleError = (err) => {
+  // @TODO: 401 ERROR 처리 필요
+  console.log(err);
+};
+
+function getDateFormat(selectedDate, base) {
+  return moment()
+    .set('date', selectedDate)
+    .add(base, 'M')
+    .format('YYYYMMDD');
+}
+
 function* toggleIsCompletedTodoSaga(action) {
   try {
-    const {itemId, isCompleted} = action;
-    // 작업중
+    const {itemId, isCompleted, isDelayed} = action;
     yield call(toggleIsCompletedItem, itemId, isCompleted);
-    yield put(applyToggleIsCompletedTodo(itemId));
+    yield put(applyToggleIsCompletedTodo(itemId, isDelayed));
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
-function* fetchTodoSaga() {
+export function* fetchTodoSaga() {
   try {
-    const {data} = yield call(getItemList);
+    const {
+      today: {selectedDate, base}
+    } = yield select();
+    const date = getDateFormat(selectedDate, base);
+    console.log(date);
+    const {data} = yield call(getItemList, date);
+
     yield put(setTodos(data));
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
@@ -45,27 +63,27 @@ function* createTodoSaga(action) {
     yield call(createItem, action.todo);
     yield fetchTodoSaga();
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
 function* removeTodoSaga(action) {
   try {
-    const {itemId} = action;
+    const {itemId, isDelayed} = action;
     yield call(deleteItem, itemId);
-    yield put(applyRemovedTodo(itemId));
+    yield put(applyRemovedTodo(itemId, isDelayed));
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
 function* updateTodoSaga(action) {
   try {
-    const {itemId, todo} = action;
+    const {itemId, todo, isDelayed} = action;
     yield call(updateItem, itemId, todo);
-    yield put(applyUpdatedTodo(itemId, todo));
+    yield put(applyUpdatedTodo(itemId, todo, isDelayed));
     // reorder list
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }

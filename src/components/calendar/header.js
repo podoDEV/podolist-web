@@ -16,7 +16,7 @@ export default class Header extends Component {
   };
 
   render() {
-    const {base, changeDateBase} = this.props;
+    const {base} = this.props;
     const year = moment()
       .add(base, 'M')
       .format('YYYY');

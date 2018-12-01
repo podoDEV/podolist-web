@@ -19,7 +19,8 @@
     "react-sticky": "^6.0.3",
     "redux": "^4.0.0",
     "redux-freeze": "^0.1.5",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "universal-cookie": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -11,10 +11,11 @@ export const APPLY_REMOVED_TODO = 'APPLY_REMOVED_TODO';
 export const APPLY_UPDATED_TODO = 'APPLY_UPDATED_TODO';
 export const APPLY_TOGGLE_ISCOMPLETED_TODO = 'APPLY_TOGGLE_ISCOMPLETED_TODO';
 
-export const applyUpdatedTodo = (itemId, updatedTodo) => ({
+export const applyUpdatedTodo = (itemId, updatedTodo, isDelayed) => ({
   type: APPLY_UPDATED_TODO,
   itemId,
-  updatedTodo
+  updatedTodo,
+  isDelayed
 });
 
 export const createTodo = (todo) => ({
@@ -22,17 +23,19 @@ export const createTodo = (todo) => ({
   todo
 });
 
-export const removeTodo = (itemId, isCompleted) => ({
+export const removeTodo = (itemId, isCompleted, isDelayed) => ({
   type: REMOVE_TODO,
   itemId,
-  isCompleted
+  isCompleted,
+  isDelayed
 });
 
-export const updateTodo = (itemId, todo) => {
+export const updateTodo = (itemId, todo, isDelayed) => {
   return {
     type: UPDATE_TODO,
     itemId,
-    todo
+    todo,
+    isDelayed
   };
 };
 
@@ -45,18 +48,21 @@ export const setTodos = (todos) => ({
   todos
 });
 
-export const applyRemovedTodo = (itemId) => ({
+export const applyRemovedTodo = (itemId, isDelayed) => ({
   type: APPLY_REMOVED_TODO,
-  itemId
+  itemId,
+  isDelayed
 });
 
-export const toggleIsCompletedTodo = (itemId, isCompleted) => ({
+export const toggleIsCompletedTodo = (itemId, isCompleted, isDelayed) => ({
   type: TOGGLE_ISCOMPLETED_TODO,
   itemId,
-  isCompleted
+  isCompleted,
+  isDelayed
 });
 
-export const applyToggleIsCompletedTodo = (itemId) => ({
+export const applyToggleIsCompletedTodo = (itemId, isDelayed) => ({
   type: APPLY_TOGGLE_ISCOMPLETED_TODO,
-  itemId
+  itemId,
+  isDelayed
 });

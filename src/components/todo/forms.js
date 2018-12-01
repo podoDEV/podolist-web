@@ -82,14 +82,16 @@ class Forms extends Component {
           title,
           priority,
           endedAt: moment(time).unix(),
-          startedAt: moment(time).unix()
+          startedAt: moment(time).unix(),
+          dueAt: moment(time).unix()
         });
       } else {
         updateTodo(editId, {
           title,
           priority,
           endedAt: moment(time).unix(),
-          startedAt: moment(time).unix()
+          startedAt: moment(time).unix(),
+          dueAt: moment(time).unix()
         });
       }
 
@@ -107,31 +109,31 @@ class Forms extends Component {
           className={selectedPriority === priority.URGENT ? this.getPriorityBg(priority.URGENT) : 'not-selected'}
           onClick={() => changeTodoPriority(priority.URGENT)}
         >
-          매우 중요
+          !!!!!!
         </button>
         <button
           className={selectedPriority === priority.HIGH ? this.getPriorityBg(priority.HIGH) : 'not-selected'}
           onClick={() => changeTodoPriority(priority.HIGH)}
         >
-          중요
+          !!!
         </button>
         <button
           className={selectedPriority === priority.MEDIUM ? this.getPriorityBg(priority.MEDIUM) : 'not-selected'}
           onClick={() => changeTodoPriority(priority.MEDIUM)}
         >
-          보통
+          !
         </button>
         <button
           className={selectedPriority === priority.LOW ? this.getPriorityBg(priority.LOW) : 'not-selected'}
           onClick={() => changeTodoPriority(priority.LOW)}
         >
-          여유
+          ~
         </button>
         <button
           className={selectedPriority === priority.NONE ? this.getPriorityBg(priority.NONE) : 'not-selected'}
           onClick={() => changeTodoPriority(priority.NONE)}
         >
-          그냥
+          -
         </button>
       </div>
     );

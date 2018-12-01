@@ -5,14 +5,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import {DAYS} from '../../constant';
-import {changeTodayDate, changeTodayBase} from '../../actions/today';
-import {getBase} from '../../reducers/forms';
+import {changeTodayDateSaga, changeTodayBaseSaga} from '../../actions/today';
 
 class Index extends Component {
   static propTypes = {
     base: PropTypes.number,
-    changeTodayDate: PropTypes.func,
-    changeTodayBase: PropTypes.func,
+    changeTodayDateSaga: PropTypes.func,
+    changeTodayBaseSaga: PropTypes.func,
     selectedDate: PropTypes.number
   };
 
@@ -52,7 +51,7 @@ class Index extends Component {
   };
 
   handleClickNextWeek = () => {
-    const {changeTodayBase, changeTodayDate} = this.props;
+    const {changeTodayBaseSaga, changeTodayDateSaga} = this.props;
 
     const newWeekStartDate = Number(
       moment(this.getWeekStartDate())
@@ -63,13 +62,13 @@ class Index extends Component {
     const newDate = Number(moment(newWeekStartDate).format('D'));
 
     if (this.isChangeMonth(1)) {
-      changeTodayBase(1);
+      changeTodayBaseSaga(1);
     }
-    changeTodayDate(newDate);
+    changeTodayDateSaga(newDate);
   };
 
   handleClickPrevWeek = () => {
-    const {changeTodayBase, changeTodayDate} = this.props;
+    const {changeTodayBaseSaga, changeTodayDateSaga} = this.props;
 
     const newWeekStartDate = Number(
       moment(this.getWeekStartDate())
@@ -79,13 +78,13 @@ class Index extends Component {
     const newDate = Number(moment(newWeekStartDate).format('D'));
 
     if (this.isChangeMonth(-1)) {
-      changeTodayBase(-1);
+      changeTodayBaseSaga(-1);
     }
-    changeTodayDate(newDate);
+    changeTodayDateSaga(newDate);
   };
 
   handleClickDateItem = (dateUnix) => {
-    const {changeTodayBase, changeTodayDate, base: prevBase} = this.props;
+    const {changeTodayBaseSaga, changeTodayDateSaga, base: prevBase} = this.props;
     const date = Number(moment(dateUnix).format('D'));
     const month = Number(moment(dateUnix).format('M'));
 
@@ -97,14 +96,13 @@ class Index extends Component {
 
     if (month - prevMonth !== 0) {
       if (month - prevMonth === -11) {
-        console.log('h!');
-        changeTodayBase(1);
+        changeTodayBaseSaga(1);
       } else {
-        changeTodayBase(month - prevMonth);
+        changeTodayBaseSaga(month - prevMonth);
       }
     }
 
-    changeTodayDate(date);
+    changeTodayDateSaga(date);
   };
 
   renderDateItem() {
@@ -153,8 +151,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  changeTodayDate,
-  changeTodayBase
+  changeTodayDateSaga,
+  changeTodayBaseSaga
 };
 
 export default connect(

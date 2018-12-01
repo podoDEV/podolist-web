@@ -2,20 +2,25 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Cookies from 'universal-cookie';
+import _ from 'lodash';
 
 import Item from './item';
 import {fetchTodo} from '../../actions/todo';
+import history from '../../browserHistory';
 
 class List extends Component {
   static propTypes = {
+    user: PropTypes.object,
     fetchTodo: PropTypes.func,
     todos: PropTypes.array,
+    delayedTodos: PropTypes.array,
     selectedDate: PropTypes.number,
     base: PropTypes.number
   };
 
   state = {
-    openDelayedItem: false,
+    openDelayedItem: true,
     openedContextMenuId: 0
   };
 
@@ -33,12 +38,22 @@ class List extends Component {
   };
 
   componentDidMount() {
+    const cookies = new Cookies();
+    const sessionId = cookies.get('SESSIONID');
+    const {user} = this.props;
+
+    if (!sessionId && _.isEmpty(user)) {
+      history.replace('/login');
+    } else if (sessionId && _.isEmpty(user)) {
+      // user/me 요청 날려보기
+    }
+
     this.props.fetchTodo();
   }
 
   getDelayedListStyle = () => {
     const {openDelayedItem} = this.state;
-    const {todos} = this.props;
+    const {delayedTodos} = this.props;
 
     let foldStyle = {
       transition: 'height 0.3s',
@@ -48,7 +63,7 @@ class List extends Component {
     };
 
     if (openDelayedItem) {
-      const len = todos.length;
+      const len = delayedTodos.length;
 
       foldStyle = {
         transition: 'height 0.4s',
@@ -63,40 +78,45 @@ class List extends Component {
 
   render() {
     const {openDelayedItem} = this.state;
-    const {base, selectedDate} = this.props;
-    const today = moment()
+    const {base, selectedDate, todos, delayedTodos} = this.props;
+    const date = moment()
       .set('date', selectedDate)
       .add(base, 'M')
       .format('YYYY.MM.DD');
+    const today = moment().format('YYYY.MM.DD');
+    const isToday = date === today;
+    const isExistDelayedItem = delayedTodos.length > 0;
 
     return (
       <div className="todo-list-container">
         <div className="today-list">
-          {/*delayed item 존재 시 에만 그림*/}
-          <div className="unfinished-title-div">
-            <span className="title">Delayed</span>
-            <button className={`fold-btn ${openDelayedItem ? '' : 'fold'}`} onClick={this.toggleDelayedItem} />
-          </div>
-          <ul className="todo-list" style={this.getDelayedListStyle()}>
-            {/*{this.props.todos.map((todo, idx) => (*/}
-            {/*<Item*/}
-            {/*todo={todo}*/}
-            {/*key={idx}*/}
-            {/*itemId={`delayed_` + idx}*/}
-            {/*setOpenedContextMenuId={this.setOpenedContextMenuId}*/}
-            {/*openedContextMenuId={this.state.openedContextMenuId}*/}
-            {/*/>*/}
-            {/*))}*/}
-          </ul>
-          {/*delayed item 존재 시 에만 그림*/}
-          <hr className="dividing-line" />
+          {isExistDelayedItem && (
+            <React.Fragment>
+              <div className="unfinished-title-div">
+                <span className="title">Delayed</span>
+                <button className={`fold-btn ${openDelayedItem ? '' : 'fold'}`} onClick={this.toggleDelayedItem} />
+              </div>
+              <ul className="todo-list" style={this.getDelayedListStyle()}>
+                {delayedTodos.map((todo, idx) => (
+                  <Item todo={todo} key={idx} itemId={todo.id} isDelayed={true} />
+                ))}
+              </ul>
+              <hr className="dividing-line" />
+            </React.Fragment>
+          )}
           <div className="today-title-div">
-            <span className="title">Today</span>
-            <span className="date">{today}</span>
+            {isToday ? (
+              <React.Fragment>
+                <span className="title">Today</span>
+                <span className="date">{date}</span>
+              </React.Fragment>
+            ) : (
+              <span className="title">{date}</span>
+            )}
           </div>
           <ul className="todo-list">
-            {this.props.todos.map((todo, idx) => (
-              <Item todo={todo} key={idx} itemId={todo.id} />
+            {todos.map((todo, idx) => (
+              <Item todo={todo} key={idx} itemId={todo.id} isDelayed={false} />
             ))}
           </ul>
         </div>
@@ -106,7 +126,9 @@ class List extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  todos: state.todos,
+  user: state.users,
+  todos: state.todos.items,
+  delayedTodos: state.todos.delayedItems,
   selectedDate: state.today.selectedDate,
   base: state.today.base
 });

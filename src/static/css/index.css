@@ -104,6 +104,92 @@ button {
   background: white;
   background-size: 16px;
   border-radius: 100%;
+  cursor: pointer;
+}
+
+.context {
+  padding: 0 10px;
+}
+
+.context.profile {
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  border-bottom: 1px solid #eee;
+}
+
+.context.log-out {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.context.language-area {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.context button {
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background-color: rgb(185, 185, 185);
+  color: #fff;
+  margin-right: 10px;
+}
+
+.context button.selected {
+  background-color: #9e30fe;
+}
+
+.context .account {
+  padding: 0 0 0 12px;
+}
+
+.account .name {
+  font-size: 16px;
+  margin-bottom: 9px;
+}
+
+.account .email {
+  font-size: 11px;
+}
+
+.context .profile-img {
+  height: 33px;
+  width: 33px;
+  border-radius: 100%;
+}
+
+.context.logout:hover {
+  background-color: #aaa;
+}
+
+.context .logout-img {
+  height: 14px;
+  width: 18px;
+  margin-right: 17px;
+}
+
+.todo-header .profile-menu-area {
+  display: none;
+}
+
+.todo-header .profile-menu-area.opened {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 200px;
+  padding: 20px 0;
+  color: black;
+  box-shadow: 0 1px 1px 1px #e3e3e3;
 }
 
 .todo-header .logo-area {
@@ -338,7 +424,6 @@ button {
 }
 
 .todo-action-div {
-
 }
 
 .todo-action-div.opened {
@@ -479,6 +564,7 @@ button {
   color: rgba(0, 0, 0, 0);
   height: 49px;
   width: 300px;
+  border-radius: 25px;
 }
 
 .kakao-btn-design:hover {
@@ -486,17 +572,24 @@ button {
 }
 
 .login-div .logo-area {
-  height: 200px;
-  line-height: 200px;
-  width: 200px;
-  margin: 75% auto 30%;
-  border: 1px solid #ccc;
-  border-radius: 100%;
-  text-align: center;
+  height: 400px;
+  margin: 40% auto 0;
+  background: rgba(0, 0, 0, 0) url('../img/podo_main.png') no-repeat center;
+  background-size: 100%;
 }
 
 .login-div .btn-area {
-  height: 30%;
+  /*height: 30%;*/
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login-div .main-link {
+  margin-top: 30px;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
 }
 
 .priority-label {
@@ -516,6 +609,7 @@ button {
   color: white;
   border-radius: 24px;
   margin-right: 6px;
+  font-size: 15px;
 }
 
 .urgent-border {
@@ -579,7 +673,7 @@ button {
 }
 
 .forms-container.closed {
-  height: 70px;
+  height: 65px;
 }
 
 .forms-container.opened .forms-option-area {
@@ -609,7 +703,7 @@ button {
 @media (max-width: 930px) {
   /* 768px 이내 css */
   .main-container {
-    width: 100%;
+    width: 98%;
   }
 
   .dimmed-area.opened {
@@ -623,10 +717,8 @@ button {
   }
 
   .forms-container {
-    width: 100%;
-    padding: 13px 25px 18px;
-    border: 0.5px solid rgb(197, 197, 197);
-    margin: 0;
+    width: 94%;
+    margin: 0 3%;
   }
 
   .today-calendar-container {
@@ -767,7 +859,7 @@ button {
   }
 
   .forms-container.opened {
-    height: 565px;
+    height: 530px;
   }
 
   .week-month-title {
@@ -785,7 +877,7 @@ button {
     width: 100%;
     z-index: 3;
     padding: 40% 15%;
-    background: rgba(0,0,0,0.37);
+    background: rgba(0, 0, 0, 0.37);
   }
 
   .blurred-bg {
@@ -794,5 +886,14 @@ button {
     height: 1000px;
     filter: blur(2px);
     -webkit-filter: blur(2px);
+  }
+
+  .todo-header .profile-menu-area.opened {
+    top: 60px;
+    right: 25px;
+  }
+
+  .context .account {
+    line-height: initial;
   }
 }

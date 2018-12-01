@@ -18,6 +18,7 @@ const priorityBorderClassMap = {
 
 class Item extends Component {
   static propTypes = {
+    isDelayed: PropTypes.bool,
     todo: PropTypes.object,
     removeTodo: PropTypes.func,
     toggleIsCompletedTodo: PropTypes.func,
@@ -64,7 +65,8 @@ class Item extends Component {
     const {
       todo: {id, title, isCompleted, priority, endedAt},
       openedContextMenuId,
-      itemId
+      itemId,
+      isDelayed
     } = this.props;
     const endedDate = moment(endedAt * 1000).format('YYYY-MM-DD');
     const isOpenedContextMenu = openedContextMenuId === itemId;
@@ -74,7 +76,7 @@ class Item extends Component {
         <div className="basic-todo-info-div">
           <div
             className={`todo-checkbox ${priorityBorderClassMap[priority]}`}
-            onClick={() => this.props.toggleIsCompletedTodo(id, isCompleted)}
+            onClick={() => this.props.toggleIsCompletedTodo(id, isCompleted, isDelayed)}
           >
             <img src={finishedImg} className={isCompleted ? 'completed-img' : 'none'} />
           </div>
@@ -83,7 +85,7 @@ class Item extends Component {
           </div>
           {isCompleted ? (
             <div className="pure-remove-btn-div">
-              <button className="todo-remove-btn" onClick={() => this.props.removeTodo(id, isCompleted)} />
+              <button className="todo-remove-btn" onClick={() => this.props.removeTodo(id, isCompleted, isDelayed)} />
             </div>
           ) : (
             <div className={`todo-action-div ${isOpenedContextMenu ? 'opened' : ''}`}>
@@ -93,7 +95,7 @@ class Item extends Component {
               />
               <button
                 className={`todo-remove-btn ${isOpenedContextMenu ? 'opened' : 'none'}`}
-                onClick={() => this.props.removeTodo(id, isCompleted)}
+                onClick={() => this.props.removeTodo(id, isCompleted, isDelayed)}
               />
               <button className="todo-more-btn" onClick={this.toggleOpenActionMenu} />
             </div>
