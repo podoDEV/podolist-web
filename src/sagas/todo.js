@@ -49,7 +49,6 @@ export function* fetchTodoSaga() {
       today: {selectedDate, base}
     } = yield select();
     const date = getDateFormat(selectedDate, base);
-    console.log(date);
     const {data} = yield call(getItemList, date);
 
     yield put(setTodos(data));

@@ -6,10 +6,15 @@ export const UPDATE_TODO = 'UPDATE_TODO';
 export const TOGGLE_ISCOMPLETED_TODO = 'TOGGLE_ISCOMPLETED_TODO';
 
 // store
+export const CLEAR_TODOS = 'CLEAR_TODOS';
 export const SET_TODOS = 'SET_TODOS';
 export const APPLY_REMOVED_TODO = 'APPLY_REMOVED_TODO';
 export const APPLY_UPDATED_TODO = 'APPLY_UPDATED_TODO';
 export const APPLY_TOGGLE_ISCOMPLETED_TODO = 'APPLY_TOGGLE_ISCOMPLETED_TODO';
+
+export const clearTodos = () => ({
+  type: CLEAR_TODOS
+});
 
 export const applyUpdatedTodo = (itemId, updatedTodo, isDelayed) => ({
   type: APPLY_UPDATED_TODO,

@@ -78,6 +78,8 @@ class Forms extends Component {
 
     if (title) {
       if (editId === -1) {
+        console.log(moment(time).unix());
+
         createTodo({
           title,
           priority,

@@ -6,7 +6,7 @@ const cookies = new Cookies();
 const SESSION_ID = cookies.get('SESSIONID');
 const optionHeaders = {
   withCredentials: true,
-  'set-cookie': `SESSIONID=${SESSION_ID};`
+  'Set-Cookie': `SESSIONID=${SESSION_ID};`
 };
 
 /**

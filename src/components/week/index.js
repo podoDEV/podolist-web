@@ -61,10 +61,10 @@ class Index extends Component {
 
     const newDate = Number(moment(newWeekStartDate).format('D'));
 
+    changeTodayDateSaga(newDate);
     if (this.isChangeMonth(1)) {
       changeTodayBaseSaga(1);
     }
-    changeTodayDateSaga(newDate);
   };
 
   handleClickPrevWeek = () => {
@@ -77,10 +77,10 @@ class Index extends Component {
     );
     const newDate = Number(moment(newWeekStartDate).format('D'));
 
+    changeTodayDateSaga(newDate);
     if (this.isChangeMonth(-1)) {
       changeTodayBaseSaga(-1);
     }
-    changeTodayDateSaga(newDate);
   };
 
   handleClickDateItem = (dateUnix) => {

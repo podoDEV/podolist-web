@@ -7,20 +7,29 @@ import Cookies from 'universal-cookie';
 
 import history from '../../browserHistory';
 import Week from '../week/index';
+import {fetchUserInfoSaga} from '../../actions/login';
 import logoutImg from '../../static/img/logout.png';
+import blankProfileImg from '../../static/img/user.png';
+import blankProfilePodoImg from '../../static/img/podo-user.png';
 
 class Header extends Component {
   static propTypes = {
     user: PropTypes.object,
+    profileImageUrl: PropTypes.string,
     selectedDate: PropTypes.number,
     base: PropTypes.number,
     setOpenTodayCalendarModal: PropTypes.func,
-    openTodayCalendarModal: PropTypes.bool
+    openTodayCalendarModal: PropTypes.bool,
+    fetchUserInfoSaga: PropTypes.func
   };
 
   state = {
     isOpenProfileMenu: false
   };
+
+  componentDidMount() {
+    this.props.fetchUserInfoSaga();
+  }
 
   handleClickSearchButton = () => {
     alert('검색 기능은 준비중이에요!🥴');
@@ -47,12 +56,13 @@ class Header extends Component {
   renderProfileMenuArea = () => {
     const {isOpenProfileMenu} = this.state;
     const {
-      user: {name}
+      user: {name, profileImageUrl}
     } = this.props;
-    const profileUrl = 'https://loremflickr.com/320/240/dogs';
-    const email = 'hanjungv@gmail.com';
+    const profileUrl = profileImageUrl ? profileImageUrl : blankProfileImg;
+    const contextProfileUrl = profileImageUrl ? profileImageUrl : blankProfilePodoImg;
     const profileOpenButtonStyle = {
-      background: `rgba(0,0,0,0) url(${profileUrl}) no-repeat center`
+      background: `rgba(0,0,0,0) url(${profileUrl}) no-repeat center`,
+      backgroundSize: '35px'
     };
 
     return (
@@ -60,10 +70,11 @@ class Header extends Component {
         <div className="profile-btn" onClick={this.toggleProfileMenu} style={profileOpenButtonStyle} />
         <div className={`profile-menu-area ${isOpenProfileMenu ? 'opened' : ''}`}>
           <div className="context profile">
-            <img src="https://loremflickr.com/320/240/dogs" className="profile-img" />
+            <img src={contextProfileUrl} className="profile-img" />
             <div className="account">
               <p className="name">{name}</p>
-              <p className="email">{email}</p>
+              {/*@TODO: email 동의 얻어야 하는 부분 있어서 이후 스펙으로 분리*/}
+              {/*<p className="email">{email}</p>*/}
             </div>
           </div>
           <div className="context log-out" onClick={this.handleClickLogoutButton}>
@@ -131,4 +142,11 @@ const mapStateToProps = (state) => ({
   base: state.today.base
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = {
+  fetchUserInfoSaga
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

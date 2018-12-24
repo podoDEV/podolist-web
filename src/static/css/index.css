@@ -557,6 +557,21 @@ button {
   height: 100vh;
 }
 
+.loader-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.loader-container.show {
+  display: block;
+  background-color: #fff;
+}
+
+.loader-container.none {
+  display: none;
+}
+
 .kakao-btn-design {
   background-image: url('../img/kakao.png');
   background-size: cover;

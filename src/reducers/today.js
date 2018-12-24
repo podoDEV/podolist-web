@@ -19,7 +19,6 @@ export default (
           selectedDate: Number(moment().format('D'))
         };
       }
-      // base, selectedDate 한 번에 업데이트가 필요하다
 
       return {
         ...state,
