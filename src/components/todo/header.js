@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
+import _ from 'lodash';
 
 import history from '../../browserHistory';
 import Week from '../week/index';
@@ -11,6 +12,16 @@ import {fetchUserInfoSaga} from '../../actions/login';
 import logoutImg from '../../static/img/logout.png';
 import blankProfileImg from '../../static/img/user.png';
 import blankProfilePodoImg from '../../static/img/podo-user.png';
+import {COOKIE_DOMAIN} from '../../sagas/login';
+
+const saying = [
+  '시간을 선택하는 것은 시간을 절약하는 것이다. -베이컨-',
+  '시간을 충실하게 만드는 것이 행복이다. -에머슨-',
+  '변명 중에서도 가장 어리석고 못난 변명은 "시간이 없어서" 라는 변명이다. -에디슨-',
+  '내가 헛되이 보낸 오늘 하루는 어제 죽어간 이들이 그토록 바라던 하루이다. -소포클레스-',
+  '많은 인생은 시간의 낭비에 의해서 한층 짧아진다. -존슨-',
+  '계획이란 미래에 관한 현재의 결정이다. -드래커-'
+];
 
 class Header extends Component {
   static propTypes = {
@@ -24,11 +35,15 @@ class Header extends Component {
   };
 
   state = {
-    isOpenProfileMenu: false
+    isOpenProfileMenu: false,
+    sayingIdx: _.random(0, saying.length - 1)
   };
 
   componentDidMount() {
-    this.props.fetchUserInfoSaga();
+    const {user} = this.props;
+    if (_.isEmpty(user)) {
+      this.props.fetchUserInfoSaga();
+    }
   }
 
   handleClickSearchButton = () => {
@@ -40,8 +55,11 @@ class Header extends Component {
   };
 
   handleClickLogoutButton = () => {
-    const cookie = new Cookies();
-    cookie.remove('SESSIONID');
+    // @TODO: 서버쪽으로 응답보내고 지워줘야 함
+    Cookies.remove('SESSIONID', {
+      path: '/',
+      domain: COOKIE_DOMAIN
+    });
     history.replace('/login');
   };
 
@@ -60,14 +78,12 @@ class Header extends Component {
     } = this.props;
     const profileUrl = profileImageUrl ? profileImageUrl : blankProfileImg;
     const contextProfileUrl = profileImageUrl ? profileImageUrl : blankProfilePodoImg;
-    const profileOpenButtonStyle = {
-      background: `rgba(0,0,0,0) url(${profileUrl}) no-repeat center`,
-      backgroundSize: '35px'
-    };
 
     return (
       <div className="profile-btn-area">
-        <div className="profile-btn" onClick={this.toggleProfileMenu} style={profileOpenButtonStyle} />
+        <div className="profile-btn" onClick={this.toggleProfileMenu}>
+          <img src={profileUrl} className="profile-img" />
+        </div>
         <div className={`profile-menu-area ${isOpenProfileMenu ? 'opened' : ''}`}>
           <div className="context profile">
             <img src={contextProfileUrl} className="profile-img" />
@@ -92,6 +108,7 @@ class Header extends Component {
 
   render() {
     const {selectedDate, base, openTodayCalendarModal} = this.props;
+    const {sayingIdx} = this.state;
 
     const date = moment()
       .set('date', selectedDate)
@@ -112,15 +129,16 @@ class Header extends Component {
             <Link to="/">Podolist</Link>
           </div>
           <div className="search-area">
-            <div className="search-bar">
-              <input type="text" className="search-input" />
-              <button className="search-icon-btn" onClick={this.handleClickSearchButton} />
-            </div>
+            {/*<div className="search-bar">*/}
+            {/*<input type="text" className="search-input" />*/}
+            {/*<button className="search-icon-btn" onClick={this.handleClickSearchButton} />*/}
+            {/*</div>*/}
+            {saying[sayingIdx]}
           </div>
           <div className="right-area">
-            <div className="search-btn-sm-show">
-              <button className="search-icon-btn" onClick={this.handleClickSearchButton} />
-            </div>
+            {/*<div className="search-btn-sm-show">*/}
+            {/*<button className="search-icon-btn" onClick={this.handleClickSearchButton} />*/}
+            {/*</div>*/}
             {this.renderProfileMenuArea()}
           </div>
         </header>

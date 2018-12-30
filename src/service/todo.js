@@ -1,13 +1,5 @@
-import Cookies from 'universal-cookie';
 import axios from './axios';
 import * as url from '../apiUrl';
-
-const cookies = new Cookies();
-const SESSION_ID = cookies.get('SESSIONID');
-const optionHeaders = {
-  withCredentials: true,
-  'Set-Cookie': `SESSIONID=${SESSION_ID};`
-};
 
 /**
  * 전체 todo 가져오기
@@ -15,7 +7,7 @@ const optionHeaders = {
  * @returns {Axios.Promise}
  */
 export function getItemList(date) {
-  return axios.get(url.fetchItems(date), {headers: optionHeaders});
+  return axios.get(url.fetchItems(date));
 }
 
 /**
@@ -24,7 +16,7 @@ export function getItemList(date) {
  * @returns {Axios.Promise}
  */
 export function createItem(todo) {
-  return axios.post(url.items(), todo, {headers: optionHeaders});
+  return axios.post(url.items(), todo);
 }
 
 /**
@@ -33,7 +25,7 @@ export function createItem(todo) {
  * @returns {Axios.Promise}
  */
 export function deleteItem(itemId) {
-  return axios.delete(url.itemsWithId(itemId), {headers: optionHeaders});
+  return axios.delete(url.itemsWithId(itemId));
 }
 
 /**
@@ -43,7 +35,7 @@ export function deleteItem(itemId) {
  * @returns {Axios.Promise}
  */
 export function toggleIsCompletedItem(itemId, isCompleted) {
-  return axios.put(url.itemsWithId(itemId), {isCompleted: !isCompleted}, {headers: optionHeaders});
+  return axios.put(url.itemsWithId(itemId), {isCompleted: !isCompleted});
 }
 
 /**
@@ -53,5 +45,5 @@ export function toggleIsCompletedItem(itemId, isCompleted) {
  * @returns {Axios.Promise}
  */
 export function updateItem(itemId, todo) {
-  return axios.put(url.itemsWithId(itemId), todo, {headers: optionHeaders});
+  return axios.put(url.itemsWithId(itemId), todo);
 }

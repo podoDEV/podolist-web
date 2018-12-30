@@ -1,9 +1,11 @@
 import {call, takeLatest, put} from 'redux-saga/effects';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 
 import history from '../browserHistory';
 import {USER_LOGIN, applyUserInfo, FETCH_USER_INFO_SAGA} from '../actions/login';
 import {login, fetchUserInfo} from '../service/login';
+
+export const COOKIE_DOMAIN = '.podolist.com';
 
 export default function*() {
   yield takeLatest(USER_LOGIN, userLoginSaga);
@@ -12,12 +14,14 @@ export default function*() {
 
 function* userLoginSaga(action) {
   try {
-    const cookies = new Cookies();
     const {
       data: {sessionId, user}
     } = yield call(login, {accessToken: action.accessToken});
 
-    // cookies.set('SESSIONID', sessionId, {path: '/'});
+    Cookies.set('SESSIONID', sessionId, {
+      domain: COOKIE_DOMAIN,
+      path: '/'
+    });
 
     if (user) {
       yield put(applyUserInfo(user));
@@ -32,14 +36,9 @@ function* userLoginSaga(action) {
 
 function* fetchUserInfoSaga() {
   try {
-    const cookies = new Cookies();
-    const SESSIONID = cookies.get('SESSIONID');
-
-    if (SESSIONID) {
-      const {data} = yield call(fetchUserInfo);
-
-      yield put(applyUserInfo(data));
-    }
+    const {data} = yield call(fetchUserInfo);
+    console.log(data, ': data');
+    yield put(applyUserInfo(data));
   } catch (err) {
     console.error(err);
   }

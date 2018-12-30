@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import KakaoLogin from 'react-kakao-login';
-import Cookies from 'universal-cookie';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import _ from 'lodash';
 import {BounceLoader} from 'react-spinners';
 
-import history from '../browserHistory';
 import PropTypes from 'prop-types';
 import {userLogin} from '../actions/login';
 
@@ -22,15 +19,7 @@ class Login extends Component {
     isLoading: true
   };
 
-  componentDidMount() {
-    const cookies = new Cookies();
-    const sessionId = cookies.get('SESSIONID');
-    const {user} = this.props;
-
-    if (sessionId && !_.isEmpty(user)) {
-      history.replace('/');
-    }
-  }
+  componentDidMount() {}
 
   success = (res) => {
     this.props.userLogin(res.response.access_token);

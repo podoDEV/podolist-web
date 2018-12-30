@@ -82,7 +82,7 @@ button {
   width: 100%;
   position: fixed;
   top: 0;
-  background-image: linear-gradient(rgb(169, 30, 254), rgb(147, 20, 254), rgb(147, 20, 254), rgb(169, 30, 254));
+  background-image: linear-gradient(rgb(169, 30, 254), rgb(147, 20, 254));
   z-index: 2;
 }
 
@@ -91,7 +91,6 @@ button {
   color: white;
   height: 66px;
   align-items: center;
-  justify-content: space-between;
   padding: 0 20px;
 }
 
@@ -100,9 +99,6 @@ button {
   height: 33px;
   width: 33px;
   border: none;
-  /*background: white url('../img/search.png') no-repeat center;*/
-  background: white;
-  background-size: 16px;
   border-radius: 100%;
   cursor: pointer;
 }
@@ -165,6 +161,12 @@ button {
   border-radius: 100%;
 }
 
+.profile-btn .profile-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
 .context.logout:hover {
   background-color: #aaa;
 }
@@ -183,7 +185,7 @@ button {
   display: block;
   position: absolute;
   top: 50px;
-  right: 20px;
+  right: 40px;
   background-color: #ffffff;
   border-radius: 10px;
   width: 200px;
@@ -192,13 +194,23 @@ button {
   box-shadow: 0 1px 1px 1px #e3e3e3;
 }
 
+.todo-header .right-area {
+  display: flex;
+  justify-content: flex-end;
+  width: calc(85% - 662px);
+  text-align: right;
+}
+
 .todo-header .logo-area {
-  width: 100px;
+  width: calc(15% + 80px);
+  height: 100%;
   text-align: center;
+  background: rgba(0, 0, 0, 0) url('../img/main-logo.png') no-repeat left;
+  background-size: 95px;
 }
 
 .todo-header .logo-area a {
-  color: white;
+  color: rgba(0, 0, 0, 0);
   text-decoration: none;
 }
 
@@ -214,6 +226,8 @@ button {
   width: 562px;
   display: flex;
   align-items: center;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .search-area .search-bar {
@@ -244,6 +258,7 @@ button {
 .today-calendar-container {
   width: 368px;
   padding: 24px 15px;
+  margin: auto;
 }
 
 .todo-list-container {
@@ -712,6 +727,23 @@ button {
 @media (max-width: 1215px) {
   .body-area {
     padding-left: calc(100% - 930px);
+  }
+
+  .todo-header .logo-area {
+    width: calc(100% - 910px);
+  }
+
+  .todo-header .right-area {
+    width: 368px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .todo-header .logo-area {
+    width: 100%;
+  }
+  .todo-header .search-area {
+    color: rgba(0, 0, 0, 0);
   }
 }
 

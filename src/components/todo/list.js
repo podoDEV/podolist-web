@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 import _ from 'lodash';
 
 import Item from './item';
@@ -38,16 +38,6 @@ class List extends Component {
   };
 
   componentDidMount() {
-    const cookies = new Cookies();
-    const sessionId = cookies.get('SESSIONID');
-    const {user} = this.props;
-
-    if (!sessionId && _.isEmpty(user)) {
-      history.replace('/login');
-    } else if (sessionId && _.isEmpty(user)) {
-      // user/me 요청 날려보기
-    }
-
     this.props.fetchTodo();
   }
 

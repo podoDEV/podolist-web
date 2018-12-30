@@ -7,11 +7,13 @@ import rawAxios from 'axios';
 
 // Default axios
 const axios = rawAxios.create({
-  withCredentials: false,
+  withCredentials: true,
+  crossDomain: true,
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': '*'
+    'Access-Control-Allow-Methods': '*',
+    'Cache-Control': 'no-cache'
   }
 });
 // addDummyParam(axios);

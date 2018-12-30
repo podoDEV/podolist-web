@@ -1,5 +1,5 @@
 /* eslint-disable */
-const apiDomain = 'http://api.dev.podolist.xyz:8000';
+const apiDomain = 'http://api.dev.podolist.com:8000';
 
 export const items = () => `${apiDomain}/items`;
 export const fetchItems = (date) => `${apiDomain}/items?date=${date}`;
