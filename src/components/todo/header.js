@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -9,10 +8,12 @@ import _ from 'lodash';
 import history from '../../browserHistory';
 import Week from '../week/index';
 import {fetchUserInfoSaga} from '../../actions/login';
+import {resetTodaySaga} from '../../actions/today';
+import {COOKIE_DOMAIN} from '../../sagas/login';
 import logoutImg from '../../static/img/logout.png';
 import blankProfileImg from '../../static/img/user.png';
 import blankProfilePodoImg from '../../static/img/podo-user.png';
-import {COOKIE_DOMAIN} from '../../sagas/login';
+import mainLogoImg from '../../static/img/main-logo.png';
 
 const saying = [
   '시간을 선택하는 것은 시간을 절약하는 것이다. -베이컨-',
@@ -31,7 +32,8 @@ class Header extends Component {
     base: PropTypes.number,
     setOpenTodayCalendarModal: PropTypes.func,
     openTodayCalendarModal: PropTypes.bool,
-    fetchUserInfoSaga: PropTypes.func
+    fetchUserInfoSaga: PropTypes.func,
+    resetTodaySaga: PropTypes.func
   };
 
   state = {
@@ -45,6 +47,10 @@ class Header extends Component {
       this.props.fetchUserInfoSaga();
     }
   }
+
+  handleClickMainLogo = () => {
+    this.props.resetTodaySaga();
+  };
 
   handleClickSearchButton = () => {
     alert('검색 기능은 준비중이에요!🥴');
@@ -126,7 +132,7 @@ class Header extends Component {
             <p className="year">{year}</p>
           </div>
           <div className="logo-area">
-            <Link to="/">Podolist</Link>
+            <img src={mainLogoImg} onClick={this.handleClickMainLogo} />
           </div>
           <div className="search-area">
             {/*<div className="search-bar">*/}
@@ -161,7 +167,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  fetchUserInfoSaga
+  fetchUserInfoSaga,
+  resetTodaySaga
 };
 
 export default connect(

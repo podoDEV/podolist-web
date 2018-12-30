@@ -94,11 +94,13 @@ class Index extends Component {
         .format('M')
     );
 
-    if (month - prevMonth !== 0) {
-      if (month - prevMonth === -11) {
+    const monthDiff = prevMonth - month;
+
+    if (monthDiff !== 0) {
+      if (monthDiff === 11 || monthDiff === -1) {
         changeTodayBaseSaga(1);
       } else {
-        changeTodayBaseSaga(month - prevMonth);
+        changeTodayBaseSaga(-1);
       }
     }
 

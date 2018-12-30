@@ -2,6 +2,11 @@ export const CHANGE_TODAY_DATE = 'CHANGE_TODAY_DATE';
 export const CHANGE_TODAY_BASE = 'CHANGE_TODAY_BASE';
 export const CHANGE_TODAY_DATE_SAGA = 'CHANGE_TODAY_DATE_SAGA';
 export const CHANGE_TODAY_BASE_SAGA = 'CHANGE_TODAY_BASE_SAGA';
+export const RESET_TODAY_SAGA = 'RESET_TODAY_SAGA';
+
+export const resetTodaySaga = () => ({
+  type: RESET_TODAY_SAGA
+});
 
 export const changeTodayDate = (selectedDate) => ({
   type: CHANGE_TODAY_DATE,

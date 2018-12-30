@@ -204,9 +204,13 @@ button {
 .todo-header .logo-area {
   width: calc(15% + 80px);
   height: 100%;
-  text-align: center;
-  background: rgba(0, 0, 0, 0) url('../img/main-logo.png') no-repeat left;
-  background-size: 95px;
+  padding: 20px 0;
+}
+
+.todo-header .logo-area img {
+  width: 110px;
+  height: 26px;
+  cursor: pointer;
 }
 
 .todo-header .logo-area a {
@@ -258,7 +262,7 @@ button {
 .today-calendar-container {
   width: 368px;
   padding: 24px 15px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .todo-list-container {
@@ -623,6 +627,8 @@ button {
 }
 
 .priority-label {
+  display: flex;
+  justify-content: space-between;
 }
 
 .showing-label-div {
