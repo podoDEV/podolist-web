@@ -11,7 +11,9 @@ import {
   applyToggleIsCompletedTodo,
   applyUpdatedTodo
 } from '../actions/todo';
+import history from '../browserHistory';
 import {deleteItem, createItem, updateItem, toggleIsCompletedItem, getItemList} from '../service/todo';
+import {logout} from '../service/login';
 
 export default function*() {
   yield takeLatest(FETCH_TODO, fetchTodoSaga);
@@ -21,9 +23,12 @@ export default function*() {
   yield takeLatest(TOGGLE_ISCOMPLETED_TODO, toggleIsCompletedTodoSaga);
 }
 
-const handleError = (err) => {
-  // @TODO: 401 ERROR 처리 필요
-  console.log(err);
+export const handleError = (err) => {
+  const errorCode = err.response.status;
+  if (errorCode === 401) {
+    logout();
+    history.replace('/login');
+  }
 };
 
 function getDateFormat(selectedDate, base) {

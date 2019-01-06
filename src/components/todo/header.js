@@ -2,18 +2,19 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import _ from 'lodash';
 
 import history from '../../browserHistory';
 import Week from '../week/index';
 import {fetchUserInfoSaga} from '../../actions/login';
 import {resetTodaySaga} from '../../actions/today';
-import {COOKIE_DOMAIN} from '../../sagas/login';
+// import {COOKIE_DOMAIN} from '../../sagas/login';
 import logoutImg from '../../static/img/logout.png';
 import blankProfileImg from '../../static/img/user.png';
 import blankProfilePodoImg from '../../static/img/podo-user.png';
 import mainLogoImg from '../../static/img/main-logo.png';
+import {logout} from '../../service/login';
 
 const saying = [
   '시간을 선택하는 것은 시간을 절약하는 것이다. -베이컨-',
@@ -62,10 +63,11 @@ class Header extends Component {
 
   handleClickLogoutButton = () => {
     // @TODO: 서버쪽으로 응답보내고 지워줘야 함
-    Cookies.remove('SESSIONID', {
-      path: '/',
-      domain: COOKIE_DOMAIN
-    });
+    // Cookies.remove('SESSIONID', {
+    //   path: '/',
+    //   domain: COOKIE_DOMAIN
+    // });
+    logout();
     history.replace('/login');
   };
 

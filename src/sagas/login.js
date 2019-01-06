@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import history from '../browserHistory';
 import {USER_LOGIN, applyUserInfo, FETCH_USER_INFO_SAGA} from '../actions/login';
 import {login, fetchUserInfo} from '../service/login';
+import {handleError} from './todo';
 
 export const COOKIE_DOMAIN = '.podolist.com';
 
@@ -30,16 +31,15 @@ function* userLoginSaga(action) {
       alert('로그인 실패!');
     }
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
 function* fetchUserInfoSaga() {
   try {
     const {data} = yield call(fetchUserInfo);
-    console.log(data, ': data');
     yield put(applyUserInfo(data));
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }

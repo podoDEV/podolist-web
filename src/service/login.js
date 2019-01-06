@@ -10,6 +10,10 @@ export function login(accessToken) {
   return axios.post(url.login(), accessToken);
 }
 
+export function logout() {
+  return axios.post(url.logout());
+}
+
 export function fetchUserInfo() {
   return axios.get(url.fetchUserInfo());
 }

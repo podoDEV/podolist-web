@@ -1,7 +1,7 @@
 import {delay} from 'redux-saga';
 import {spawn} from 'redux-saga/effects';
 
-import todo from './todo';
+import todo, {handleError} from './todo';
 import login from './login';
 import today from './today';
 
@@ -12,6 +12,6 @@ export default function* root() {
     yield spawn(today);
   } catch (err) {
     yield delay(10);
-    yield console.error('error: ', err);
+    yield handleError(err);
   }
 }

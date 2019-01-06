@@ -7,7 +7,7 @@ import {
   changeTodayDate,
   RESET_TODAY_SAGA
 } from '../actions/today';
-import {fetchTodoSaga} from './todo';
+import {fetchTodoSaga, handleError} from './todo';
 import {clearTodos} from '../actions/todo';
 
 export default function*() {
@@ -24,7 +24,7 @@ function* resetTodaySaga() {
     yield clearTodos();
     yield fetchTodoSaga();
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
@@ -34,7 +34,7 @@ function* changeTodayBaseSaga({months}) {
     yield clearTodos();
     yield fetchTodoSaga();
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }
 
@@ -44,6 +44,6 @@ function* changeTodayDateSaga({selectedDate}) {
     yield clearTodos();
     yield fetchTodoSaga();
   } catch (err) {
-    console.error(err);
+    handleError(err);
   }
 }

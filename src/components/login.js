@@ -6,6 +6,7 @@ import {BounceLoader} from 'react-spinners';
 
 import PropTypes from 'prop-types';
 import {userLogin} from '../actions/login';
+import {handleError} from '../sagas/todo';
 
 const APP_KEY = '0888a2c569cd376400ea3dc50d925724';
 // @TODO: 35px bounce loader bg rgba(0,0,0,0.05)
@@ -26,7 +27,7 @@ class Login extends Component {
   };
 
   failure = (error) => {
-    console.error(error);
+    handleError(error);
   };
 
   render() {

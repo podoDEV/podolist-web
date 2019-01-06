@@ -157,6 +157,7 @@ class Forms extends Component {
           onChange={(ev) => changeTodoTitle(ev.target.value)}
           className="forms-area-input"
           onFocus={this.openAdditionalForms}
+          autoComplete="false"
         />
         <button onClick={this.handleClickAddButton} className={`forms-area-btn ${isEdit ? 'edit' : 'submit'}`} />
       </div>
