@@ -8,6 +8,7 @@ import Calendar from '../calendar';
 import Header from './header';
 import TodayCalendarModal from './todayCalendarModal';
 import {changeTodayDateSaga, changeTodayBaseSaga} from '../../actions/today';
+import {isMobileDevice} from '../../common';
 
 class Index extends Component {
   static propTypes = {

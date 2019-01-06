@@ -3,10 +3,12 @@ import KakaoLogin from 'react-kakao-login';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {BounceLoader} from 'react-spinners';
-
 import PropTypes from 'prop-types';
+
 import {userLogin} from '../actions/login';
 import {handleError} from '../sagas/todo';
+import {isMobileDevice} from '../common';
+import AppStoreDownloadPage from './appStoreDownloadPage';
 
 const APP_KEY = '0888a2c569cd376400ea3dc50d925724';
 // @TODO: 35px bounce loader bg rgba(0,0,0,0.05)
@@ -17,7 +19,8 @@ class Login extends Component {
   };
 
   state = {
-    isLoading: true
+    isLoading: true,
+    isMobilePage: isMobileDevice()
   };
 
   componentDidMount() {}
@@ -31,6 +34,8 @@ class Login extends Component {
   };
 
   render() {
+    const {isMobilePage} = this.state;
+
     return (
       <div className="wrap">
         <div className={`loader-container ${!this.state.isLoading ? 'show' : 'none'}`}>
@@ -56,6 +61,7 @@ class Login extends Component {
             />
           </div>
         </div>
+        {isMobilePage && <AppStoreDownloadPage />}
       </div>
     );
   }

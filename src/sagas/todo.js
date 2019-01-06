@@ -26,8 +26,9 @@ export default function*() {
 export const handleError = (err) => {
   const errorCode = err.response.status;
   if (errorCode === 401) {
-    logout();
-    history.replace('/login');
+    // logout();
+    // history.replace('/login');
+    console.log('err handler develop mode');
   }
 };
 
