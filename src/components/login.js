@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import KakaoLogin from 'react-kakao-login';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {BounceLoader} from 'react-spinners';
@@ -10,8 +9,6 @@ import {handleError} from '../sagas/todo';
 import {isMobileDevice} from '../common';
 import AppStoreDownloadPage from './appStoreDownloadPage';
 
-const APP_KEY = '0888a2c569cd376400ea3dc50d925724';
-// @TODO: 35px bounce loader bg rgba(0,0,0,0.05)
 class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
@@ -23,15 +20,21 @@ class Login extends Component {
     isMobilePage: isMobileDevice()
   };
 
-  componentDidMount() {}
-
   success = (res) => {
-    this.props.userLogin(res.response.access_token);
+    this.props.userLogin(res.access_token);
   };
 
   failure = (error) => {
     handleError(error);
   };
+
+  componentDidMount() {
+    window.Kakao.Auth.createLoginButton({
+      container: '#btn-area',
+      success: this.success,
+      fail: this.failure
+    });
+  }
 
   render() {
     const {isMobilePage} = this.state;
@@ -52,14 +55,7 @@ class Login extends Component {
         </div>
         <div className="login-div">
           <div className="logo-area" />
-          <div className="btn-area">
-            <KakaoLogin
-              jsKey={APP_KEY}
-              onSuccess={this.success}
-              onFailure={this.failure}
-              className="kakao-btn-design"
-            />
-          </div>
+          <div className="btn-area" id="btn-area" />
         </div>
         {isMobilePage && <AppStoreDownloadPage />}
       </div>

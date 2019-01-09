@@ -11,6 +11,13 @@ export const SET_TODOS = 'SET_TODOS';
 export const APPLY_REMOVED_TODO = 'APPLY_REMOVED_TODO';
 export const APPLY_UPDATED_TODO = 'APPLY_UPDATED_TODO';
 export const APPLY_TOGGLE_ISCOMPLETED_TODO = 'APPLY_TOGGLE_ISCOMPLETED_TODO';
+export const MOVE_TODO_LIST = 'MOVE_TODO_LIST';
+
+export const moveTodoList = (itemId, isCompleted) => ({
+  type: MOVE_TODO_LIST,
+  itemId,
+  isCompleted
+});
 
 export const clearTodos = () => ({
   type: CLEAR_TODOS

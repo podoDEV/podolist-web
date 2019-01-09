@@ -13,6 +13,7 @@ import './static/css/index.css';
 
 import Login from './components/login';
 import TodoIndex from './components/todo/index';
+import Privacy from './components/privacy';
 
 sagaMiddleware.run(sagas);
 
@@ -22,6 +23,7 @@ render(
       <Switch>
         <Route exact path="/" component={TodoIndex} />
         <Route path="/login" component={Login} />
+        <Route path="/ko/privacy" component={Privacy} />
       </Switch>
     </ConnectedRouter>
   </Provider>,

@@ -6,7 +6,7 @@ export default class AppStoreDownloadPage extends Component {
   handleClickAppStoreLogo = () => {
     alert('app store 다운로드!');
   };
-  // @TODO: app store 체크 하고 redirect
+
   render() {
     return (
       <div className="mobile-download-div">

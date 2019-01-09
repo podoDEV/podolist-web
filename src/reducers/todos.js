@@ -5,7 +5,8 @@ import {
   APPLY_REMOVED_TODO,
   APPLY_TOGGLE_ISCOMPLETED_TODO,
   APPLY_UPDATED_TODO,
-  CLEAR_TODOS
+  CLEAR_TODOS,
+  MOVE_TODO_LIST
 } from '../actions/todo';
 
 export default (
@@ -76,6 +77,25 @@ export default (
       return {
         ...state,
         items: state.items.map((item) => (item.id === itemId ? updatedTodo : item))
+      };
+    }
+    case MOVE_TODO_LIST: {
+      const {itemId, isCompleted} = action;
+      if (isCompleted) {
+        const item = _.find(state.items, (item) => item.id === itemId);
+        let itemsList = _.clone(state.delayedItems, true);
+        itemsList.push(item);
+        return {
+          delayedItems: itemsList,
+          items: state.items.filter((item) => item.id !== itemId)
+        };
+      }
+      const item = _.find(state.delayedItems, (item) => item.id === itemId);
+      let itemsList = _.clone(state.items, true);
+      itemsList.push(item);
+      return {
+        items: itemsList,
+        delayedItems: state.delayedItems.filter((item) => item.id !== itemId)
       };
     }
     case SET_TODOS:

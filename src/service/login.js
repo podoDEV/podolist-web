@@ -11,6 +11,7 @@ export function login(accessToken) {
 }
 
 export function logout() {
+  window.Kakao.Auth.logout();
   return axios.post(url.logout());
 }
 

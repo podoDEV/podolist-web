@@ -1,5 +1,6 @@
 import {call, takeLatest, put, select} from 'redux-saga/effects';
 import moment from 'moment';
+import _ from 'lodash';
 import {
   FETCH_TODO,
   CREATE_TODO,
@@ -9,7 +10,8 @@ import {
   applyRemovedTodo,
   TOGGLE_ISCOMPLETED_TODO,
   applyToggleIsCompletedTodo,
-  applyUpdatedTodo
+  applyUpdatedTodo,
+  moveTodoList
 } from '../actions/todo';
 import history from '../browserHistory';
 import {deleteItem, createItem, updateItem, toggleIsCompletedItem, getItemList} from '../service/todo';
@@ -26,9 +28,9 @@ export default function*() {
 export const handleError = (err) => {
   const errorCode = err.response.status;
   if (errorCode === 401) {
-    // logout();
-    // history.replace('/login');
-    console.log('err handler develop mode');
+    logout();
+    history.replace('/login');
+    // console.log('err handler develop mode');
   }
 };
 
@@ -42,8 +44,37 @@ function getDateFormat(selectedDate, base) {
 function* toggleIsCompletedTodoSaga(action) {
   try {
     const {itemId, isCompleted, isDelayed} = action;
+    // 오늘인가?
+    const {
+      today: {selectedDate, base},
+      todos
+    } = yield select();
+
+    const date = moment()
+      .set('date', selectedDate)
+      .add(base, 'M')
+      .format('YYYY.MM.DD');
+    const today = moment().format('YYYY.MM.DD');
+    const isToday = date === today;
+    let isFutureTodo = false;
+
+    if (isCompleted && !isDelayed) {
+      const selectedTodo = _.find(todos.items, (item) => item.id === itemId);
+      isFutureTodo = selectedTodo.endedAt * 1000 > moment();
+    }
+
+    if (isToday) {
+      yield put(applyToggleIsCompletedTodo(itemId, isDelayed));
+      if (isFutureTodo) {
+        yield put(applyRemovedTodo(itemId, isDelayed));
+      } else {
+        yield put(moveTodoList(itemId, isCompleted));
+      }
+    } else {
+      yield put(applyRemovedTodo(itemId, isDelayed));
+    }
+
     yield call(toggleIsCompletedItem, itemId, isCompleted);
-    yield put(applyToggleIsCompletedTodo(itemId, isDelayed));
   } catch (err) {
     handleError(err);
   }

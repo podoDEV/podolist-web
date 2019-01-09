@@ -62,11 +62,6 @@ class Header extends Component {
   };
 
   handleClickLogoutButton = () => {
-    // @TODO: 서버쪽으로 응답보내고 지워줘야 함
-    // Cookies.remove('SESSIONID', {
-    //   path: '/',
-    //   domain: COOKIE_DOMAIN
-    // });
     logout();
     history.replace('/login');
   };
