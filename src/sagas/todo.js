@@ -25,12 +25,17 @@ export default function*() {
   yield takeLatest(TOGGLE_ISCOMPLETED_TODO, toggleIsCompletedTodoSaga);
 }
 
+const isFuture = (todos, itemId) => {
+
+  const selectedTodo = _.find(todos.items, (item) => item.id === itemId);
+  return selectedTodo.endedAt * 1000 > moment();
+};
+
 export const handleError = (err) => {
   const errorCode = err.response.status;
   if (errorCode === 401) {
     logout();
     history.replace('/login');
-    // console.log('err handler develop mode');
   }
 };
 
@@ -44,7 +49,7 @@ function getDateFormat(selectedDate, base) {
 function* toggleIsCompletedTodoSaga(action) {
   try {
     const {itemId, isCompleted, isDelayed} = action;
-    // 오늘인가?
+    // @TODO: refactoring 시 중복 제거 필요
     const {
       today: {selectedDate, base},
       todos
@@ -59,8 +64,7 @@ function* toggleIsCompletedTodoSaga(action) {
     let isFutureTodo = false;
 
     if (isCompleted && !isDelayed) {
-      const selectedTodo = _.find(todos.items, (item) => item.id === itemId);
-      isFutureTodo = selectedTodo.endedAt * 1000 > moment();
+      isFutureTodo = isFuture(todos, itemId);
     }
 
     if (isToday) {
@@ -117,8 +121,48 @@ function* updateTodoSaga(action) {
   try {
     const {itemId, todo, isDelayed} = action;
     yield call(updateItem, itemId, todo);
-    yield put(applyUpdatedTodo(itemId, todo, isDelayed));
+
     // reorder list
+    const {
+      today: {selectedDate, base},
+      todos
+    } = yield select();
+
+    // const date = moment()
+    //   .set('date', selectedDate)
+    //   .add(base, 'M')
+    //   .format('YYYY.MM.DD');
+    // const today = moment().format('YYYY.MM.DD');
+    // const isToday = date === today;
+    // let isFutureTodo = false;
+    // let isEditDate;
+
+    if (isDelayed) {
+      console.log('hi!');
+      // const pastTodo = _.find(todos.delayedItems, (item) => item.id === itemId);
+      // console.log(pastTodo, todo, 'ho?');
+    } else {
+      // isFutureTodo = isFuture(todos, itemId);
+      // const pastTodo = _.find(todos.items, (item) => item.id === itemId);
+      // console.log(pastTodo, todo, 'bnnno?');
+    }
+
+    yield put(applyUpdatedTodo(itemId, todo, isDelayed));
+
+    // if (isToday) {
+    // } else {
+    //   // 2. false(미래)
+    //   // 2.1. 수정시 사라진다.
+    //   // 날짜 바뀌었을 경우
+    //   yield put(applyRemovedTodo(itemId, isDelayed));
+    // }
+
+    // isToday 확인
+    // 0. 날짜 수정인지 확인(밑 경우는 전부 true)
+    // 1. true
+    // 1.1. 과거 -> 과거 인 경우 그대로
+    // 1.2. 과거 -> 미래 / 미래 -> 과거인 경우 리스트 이동
+    // 1.3. 과거 -> 미래 / 현재 -> 미래인 경우 사라짐
   } catch (err) {
     handleError(err);
   }

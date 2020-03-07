@@ -4,7 +4,7 @@ import mainLogo from '../static/img/podo_main_no_margin.png';
 
 export default class AppStoreDownloadPage extends Component {
   handleClickAppStoreLogo = () => {
-    alert('app store 다운로드!');
+    window.location.href = 'https://itunes.apple.com/kr/app/podolist/id1439078928?mt=8';
   };
 
   render() {

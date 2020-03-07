@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class PrivacyPage extends Component {
   render() {
     const privacyStyle = {
-      width: '50%',
+      width: '80%',
       margin: 'auto'
     };
 
