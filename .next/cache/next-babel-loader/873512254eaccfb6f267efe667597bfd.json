@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\n\nfunction Hoilzz() {\n  return __jsx(\"div\", null, \"this is nested \");\n}\n\nexport default Hoilzz;","map":null,"metadata":{},"sourceType":"module"}

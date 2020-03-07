@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\n\nfunction Slug() {\n  return __jsx(\"div\", null, \"this is slug\");\n}\n\nexport default Slug;","map":null,"metadata":{},"sourceType":"module"}
