@@ -26,7 +26,8 @@
     "eject": "react-scripts eject",
     "dev": "next",
     "build:next": "next build",
-    "start:next": "next start"
+    "start:next": "next start",
+    "storybook": "start-storybook -p 6006 -c .storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
