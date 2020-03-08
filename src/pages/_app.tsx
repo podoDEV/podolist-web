@@ -1,7 +1,7 @@
-// import React, { ReactNode } from 'react';
-import { AppProps } from 'next/app';
-import '../common/styles/reset.css';
-import Layout from '../common/styles/Layout';
+import React, { ReactNode } from "react";
+import { AppProps } from "next/app";
+import "../common/styles/reset.css";
+import Layout from "../common/styles/Layout";
 
 // type AppProps = {
 //   Component: ReactNode;
@@ -9,8 +9,8 @@ import Layout from '../common/styles/Layout';
 // };
 
 function App({ Component, pageProps }: AppProps) {
-  console.log('pageProps: ', pageProps);
-  console.log('Component: ', Component);
+  console.log("pageProps: ", pageProps);
+  console.log("Component: ", Component);
   return (
     <Layout>
       <Component {...pageProps} />;

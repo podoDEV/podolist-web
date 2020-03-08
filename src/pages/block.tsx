@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 function mockFn() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve({ message: 'resolve it' });
+      resolve({ message: "resolve it" });
     }, 3000);
   });
 }
@@ -18,6 +18,7 @@ function Block({ message }: IProps) {
 
 Block.getInitialProps = async function() {
   const response = await mockFn();
+
   return response;
 };
 
