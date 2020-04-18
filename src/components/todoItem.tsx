@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
-import checkImg from "../static/img/finished.png";
+import checkImg from "static/img/finished.png";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 

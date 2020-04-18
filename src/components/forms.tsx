@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 interface Props {}
 
-const FormsContainer = styled("forms")`
+const FormsContainer = styled("form")`
   display: flex;
   max-width: 562px;
   min-height: 70px;

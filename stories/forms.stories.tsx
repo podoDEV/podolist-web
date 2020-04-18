@@ -1,5 +1,5 @@
 import * as React from "react";
-import Forms from "../src/components/forms";
+import Forms from "components/forms";
 import styled from "@emotion/styled";
 
 interface ContainerProps {

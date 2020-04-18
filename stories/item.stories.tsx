@@ -1,5 +1,5 @@
 import * as React from "react";
-import TodoItem from "../src/components/todoItem";
+import TodoItem from "components/todoItem";
 import styled from "@emotion/styled";
 
 interface ContainerProps {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Navigation from "../src/components/navigation";
+import Navigation from "components/navigation";
 import styled from "@emotion/styled";
 
 interface ContainerProps {

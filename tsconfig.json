@@ -14,8 +14,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["@emotion/core"]
+    "types": ["@emotion/core"],
+    "baseUrl": "./src",
+    "rootDir": "./src"
   },
-  "include": ["src"],
+  "include": ["src", "stories"],
   "exclude": ["node_modules"]
 }
