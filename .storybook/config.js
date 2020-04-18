@@ -17,6 +17,10 @@ const withGlobal = makeDecorator({
   }
 });
 
+const modalRoot = document.createElement("div");
+modalRoot.setAttribute("id", "modal-root");
+document.body.append(modalRoot);
+
 addDecorator(withGlobal);
 // automatically import all files ending in *.stories.tsx
 configure(require.context("../stories", true, /\.stories\.tsx?$/), module);

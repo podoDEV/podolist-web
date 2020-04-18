@@ -1,5 +1,5 @@
 import React from "react";
-import Dialog from "components/Dialog";
+import { Dialog, DialogTitle, DialogContents } from "components/Dialog";
 import Modal from "components/Modal";
 
 export default {
@@ -9,7 +9,10 @@ export default {
 export const dialog = () => {
   return (
     <Modal>
-      <Dialog />
+      <Dialog>
+        <DialogTitle>타이틀</DialogTitle>
+        <DialogContents>컨텐츠</DialogContents>
+      </Dialog>
     </Modal>
   );
 };

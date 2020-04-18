@@ -1,6 +1,7 @@
-import React, { ReactNode, Children } from "react";
+import React, { ReactNode, Children, useEffect } from "react";
 /**@jsx jsx */
 import { jsx, css } from "@emotion/core";
+import { createPortal } from "react-dom";
 
 const fullscreen = css`
   position: fixed;
@@ -19,6 +20,16 @@ type ModalProps = {
   children: ReactNode;
 };
 
+const modalRoot = document.getElementById("modal-root");
+
 export default function Modal({ children }: ModalProps) {
-  return <div css={[fullscreen, dimmed]}>{children}</div>;
+  const modalChild = document.createElement("div");
+  useEffect(() => {
+    modalRoot?.appendChild(modalChild);
+    return () => {
+      modalRoot?.removeChild(modalChild);
+    };
+  }, []);
+
+  return createPortal(<div css={[fullscreen, dimmed]}>{children}</div>, modalChild);
 }
