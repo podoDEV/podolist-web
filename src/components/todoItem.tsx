@@ -35,7 +35,9 @@ const TodoContainer = styled("div")`
 
 const CheckboxContainer = styled("div")``;
 
-const Checkbox = styled("div")<Pick<Props, "priority" | "checked">>(({ checked, priority }) => ({
+type CheckboxProps = Pick<Props, "priority" | "checked">;
+
+const Checkbox = styled("div")<CheckboxProps>(({ checked, priority }: CheckboxProps) => ({
   height: 18,
   width: 18,
   borderRadius: "50%",
@@ -51,7 +53,9 @@ const TextContainer = styled("div")`
   margin-left: 24px;
 `;
 
-const Text = styled("div")<Pick<Props, "checked">>(({ checked }) => ({
+type TextProps = Pick<Props, "checked">;
+
+const Text = styled("div")<TextProps>(({ checked }: TextProps) => ({
   fontSize: "18px",
   color: checked ? "rgb(151, 151, 151)" : "inherit",
   textDecoration: checked ? "line-through" : "none"
