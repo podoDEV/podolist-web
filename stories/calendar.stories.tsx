@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Calendar from "../src/components/calendar";
+import Calendar from "../src/components/calendar/calendar";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 
@@ -7,7 +7,7 @@ interface ContainerProps {
   width?: number;
 }
 
-const Container = styled.div(
+const Container = styled.div<ContainerProps>(
   {
     border: "1px solid red",
     padding: 30,
