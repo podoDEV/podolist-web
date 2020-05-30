@@ -40,8 +40,9 @@ const DayArea = styled("div")`
   flex-direction: column;
 `;
 
+export const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
 export default function CalendarDateArea(props: Props) {
-  const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const { date, setDate } = props;
 
   const getDateArr = () => {
