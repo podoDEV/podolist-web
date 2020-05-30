@@ -6,7 +6,7 @@ interface ContainerProps {
   width?: number;
 }
 
-const Container = styled.div(
+const Container = styled.div<ContainerProps>(
   {
     border: "1px solid red",
     padding: 30

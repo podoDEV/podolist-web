@@ -1,17 +1,20 @@
 import * as React from "react";
-import Navigation from "components/navigation";
+import Navigation from "../src/components/navigation/navigation";
 import styled from "@emotion/styled";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 interface ContainerProps {
   width?: number;
 }
 
-const Container = styled.div(
+const Container = styled.div<ContainerProps>(
   {
-    border: "1px solid red"
+    border: "1px solid red",
+    padding: 30
   },
   (props: ContainerProps) => ({
-    width: props.width || "100%"
+    width: props.width || 600
   })
 );
 
@@ -19,10 +22,14 @@ export default {
   title: "Navigation"
 };
 
-export const priorityItem = () => {
+export const navigation = () => {
+  const [date, setDate] = useState(dayjs());
+  const profileImageUrl =
+    "https://img.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg?size=338&ext=jpg";
+
   return (
     <Container>
-      <Navigation />
+      <Navigation date={date} setDate={setDate} profile={profileImageUrl} />
     </Container>
   );
 };
