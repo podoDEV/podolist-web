@@ -43,7 +43,7 @@ const DialogTitle = styled.h3`
 const DialogContents = styled.p`
   font-size: 1.125rem;
   margin: 0;
-  color: ${Color.LIGHT_GRAY};
+  color: ${Color.GRAY_300};
 `;
 
 const DialogButtonGroups = styled.div`

@@ -7,14 +7,14 @@ export type Theme = {
       main: Color.PRIMARY;
       contrastText: Color.
     };
-    gray: Color.LIGHT_GRAY;
+    gray: Color.GRAY_300;
   };
 };
 
 export const theme: Theme = {
   color: {
     primary: Color.PRIMARY,
-    gray: Color.LIGHT_GRAY
+    gray: Color.GRAY_300
   }
 };
 
