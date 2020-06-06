@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContents, DialogButtonGroups } from "components/Dialog";
 import Modal from "components/Modal";
 
@@ -7,8 +7,9 @@ export default {
 };
 
 export const dialog = () => {
+  const [open, setOpen] = useState(true);
   return (
-    <Modal>
+    <Modal open={true}>
       <Dialog>
         <DialogTitle>타이틀</DialogTitle>
         <DialogContents>컨텐츠</DialogContents>

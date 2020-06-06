@@ -17,19 +17,23 @@ const dimmed = css`
 `;
 
 type ModalProps = {
+  open: boolean;
   children: ReactNode;
 };
 
 const modalRoot = document.getElementById("modal-root");
 
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ open, children }: ModalProps) {
   const modalChild = document.createElement("div");
+
   useEffect(() => {
     modalRoot?.appendChild(modalChild);
     return () => {
       modalRoot?.removeChild(modalChild);
     };
   }, []);
+
+  if (!open) return null;
 
   return createPortal(<div css={[fullscreen, dimmed]}>{children}</div>, modalChild);
 }
