@@ -1,10 +1,12 @@
 import React from "react";
 import logo from "./logo.svg";
+import { GlobalStyle } from "./globalStyle";
 import "./App.css";
 
 function App() {
   return (
     <div>
+      <GlobalStyle />
       <header className="App-header">
         {logo}
         <p>
