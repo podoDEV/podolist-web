@@ -9,8 +9,6 @@ import Layout from "../common/styles/Layout";
 // };
 
 function App({ Component, pageProps }: AppProps) {
-  console.log("pageProps: ", pageProps);
-  console.log("Component: ", Component);
   return (
     <Layout>
       <Component {...pageProps} />;

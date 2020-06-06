@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _emotion_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @emotion/core */ "@emotion/core");
 /* harmony import */ var _emotion_core__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_emotion_core__WEBPACK_IMPORTED_MODULE_1__);
-var _jsxFileName = "/Users/harry/Documents/workspace/podolist-web/src/common/styles/Layout.tsx";
+var _jsxFileName = "/Users/harry/Documents/private/podolist-web/src/common/styles/Layout.tsx";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
@@ -183,13 +183,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_styles_reset_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/styles/reset.css */ "./src/common/styles/reset.css");
 /* harmony import */ var _common_styles_reset_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_common_styles_reset_css__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _common_styles_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/styles/Layout */ "./src/common/styles/Layout.tsx");
-var _jsxFileName = "/Users/harry/Documents/workspace/podolist-web/src/pages/_app.tsx";
-
+var _jsxFileName = "/Users/harry/Documents/private/podolist-web/src/pages/_app.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-// import React, { ReactNode } from 'react';
+
 
  // type AppProps = {
 //   Component: ReactNode;
@@ -200,18 +199,16 @@ function App({
   Component,
   pageProps
 }) {
-  console.log('pageProps: ', pageProps);
-  console.log('Component: ', Component);
   return __jsx(_common_styles_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 15
+      lineNumber: 13
     },
     __self: this
   }, __jsx(Component, _extends({}, pageProps, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16
+      lineNumber: 14
     },
     __self: this
   })), ";");
