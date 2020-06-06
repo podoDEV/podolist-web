@@ -45,4 +45,14 @@ const DialogContents = styled.p`
   color: ${Color.LIGHT_GRAY};
 `;
 
-export { Dialog, DialogTitle, DialogContents };
+const DialogButtonGroups = styled.div`
+  > *:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+  > button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+`;
+
+export { Dialog, DialogTitle, DialogContents, DialogButtonGroups };
