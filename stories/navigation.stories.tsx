@@ -11,7 +11,8 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>(
   {
     border: "1px solid red",
-    padding: 30
+    padding: 30,
+    height: 1000
   },
   (props: ContainerProps) => ({
     width: props.width || 600
@@ -24,12 +25,11 @@ export default {
 
 export const navigation = () => {
   const [date, setDate] = useState(dayjs());
-  const profileImageUrl =
-    "https://img.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg?size=338&ext=jpg";
+  const name = "hanjung";
 
   return (
     <Container>
-      <Navigation date={date} setDate={setDate} profile={profileImageUrl} />
+      <Navigation date={date} setDate={setDate} name={name} />
     </Container>
   );
 };
