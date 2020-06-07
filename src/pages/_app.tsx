@@ -13,7 +13,7 @@ function App({ Component, pageProps }: AppProps) {
   console.log("Component: ", Component);
   return (
     <Layout>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </Layout>
   );
 }
