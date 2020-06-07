@@ -1,4 +1,4 @@
-export enum ImportanceType {
+export enum PriorityType {
   URGENT = "urgent",
   HIGH = "high",
   MEDIUM = "medium",

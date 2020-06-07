@@ -8,7 +8,7 @@ import EnterIcon from "static/img/enter.png";
 import Calendar from "components/calendar/calendar";
 import dayjs from "dayjs";
 import Chip from "components/chip/Chip";
-import { ImportanceType } from "constants/Importance";
+import { PriorityType } from "constants/Priority";
 
 const FormsContainer = styled("form")`
   display: flex;
@@ -51,34 +51,38 @@ const ContentsInput = styled("input")`
   border: none;
 `;
 
-const IMPORTANCE_CHIPS = [
+const PRIORITY_CHIPS = [
   {
     label: "!!!!!",
-    value: ImportanceType.URGENT
+    value: PriorityType.URGENT
   },
   {
     label: "!!!",
-    value: ImportanceType.HIGH
+    value: PriorityType.HIGH
   },
   {
     label: "!",
-    value: ImportanceType.MEDIUM
+    value: PriorityType.MEDIUM
   },
   {
     label: "~",
-    value: ImportanceType.LOW
+    value: PriorityType.LOW
   },
   {
     label: "-",
-    value: ImportanceType.NONE
+    value: PriorityType.NONE
   }
 ];
 
-export default function TodoAdderForm(props: Props) {
+interface TodoAdderFormProps {
+  defaultOpenOptions: boolean;
+}
+
+export default function TodoAdderForm({ defaultOpenOptions }: TodoAdderFormProps) {
   const [date, setDate] = useState(dayjs());
 
   const { register, handleSubmit, watch, errors } = useForm();
-  const [isOpenOptions, setIsOpenOptions] = useState(false);
+  const [isOpenOptions, setIsOpenOptions] = useState(defaultOpenOptions);
 
   const onSubmit = data => {
     console.log(data, "data");
@@ -92,6 +96,7 @@ export default function TodoAdderForm(props: Props) {
     <FormsContainer onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
         <OpenFormsBtn onClick={handleClickOpenFormBtn} />
+        {isOpenOptions && <PriorityCircle />}
         <ContentsInput name="contents" ref={register} />
         <AddFormsBtn />
       </InputContainer>
@@ -109,7 +114,7 @@ export default function TodoAdderForm(props: Props) {
                 justify-content: space-between;
               `}
             >
-              {IMPORTANCE_CHIPS.map(({ label, value }) => {
+              {PRIORITY_CHIPS.map(({ label, value }) => {
                 return (
                   <Chip
                     css={css`

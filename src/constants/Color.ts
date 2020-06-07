@@ -1,3 +1,5 @@
+import { PriorityType } from "./Priority";
+
 export enum Color {
   GRAY_300 = "#A6A7B4",
   GRAY_500 = "#d1d1d1",
@@ -11,5 +13,13 @@ export enum Color {
   BLUE = "#4a90e2",
   WHITE = "#fff"
 }
+
+export const PriorityColor = {
+  [PriorityType.URGENT]: Color.RED,
+  [PriorityType.HIGH]: Color.ORANGE,
+  [PriorityType.MEDIUM]: Color.GREEN,
+  [PriorityType.LOW]: Color.CYAN,
+  [PriorityType.NONE]: Color.BLUE
+};
 
 export type ColorKey = keyof Color;
