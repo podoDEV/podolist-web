@@ -3,7 +3,7 @@ import React, { HTMLProps } from "react";
 import { css, jsx } from "@emotion/core";
 import { Color } from "constants/Color";
 
-interface ChipProps extends HTMLProps<HTMLDivElement> {
+export interface ChipProps extends HTMLProps<HTMLDivElement> {
   label?: string;
 }
 

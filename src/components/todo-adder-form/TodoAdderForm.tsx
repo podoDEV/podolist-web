@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import AddIcon from "static/img/add-btn.png";
 import EnterIcon from "static/img/enter.png";
 import Calendar from "components/calendar/calendar";
 import dayjs from "dayjs";
 import Chip from "components/chip/Chip";
 import { PriorityType } from "constants/Priority";
+import PriorityCircle from "components/priority-circle/PriorityCircle";
+import PriorityRadioGroup from "./PriorityRadioGroup";
 
 const FormsContainer = styled("form")`
   display: flex;
@@ -92,11 +94,15 @@ export default function TodoAdderForm({ defaultOpenOptions }: TodoAdderFormProps
     setIsOpenOptions(true);
   };
 
+  const handleChangePriority = (value: PriorityType) => {
+    console.log(value);
+  };
+
   return (
     <FormsContainer onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
         <OpenFormsBtn onClick={handleClickOpenFormBtn} />
-        {isOpenOptions && <PriorityCircle />}
+        {/* {isOpenOptions && <PriorityCircle priority={} />} */}
         <ContentsInput name="contents" ref={register} />
         <AddFormsBtn />
       </InputContainer>
@@ -108,25 +114,7 @@ export default function TodoAdderForm({ defaultOpenOptions }: TodoAdderFormProps
         >
           <div>
             <div>중요도 설정</div>
-            <div
-              css={css`
-                display: flex;
-                justify-content: space-between;
-              `}
-            >
-              {PRIORITY_CHIPS.map(({ label, value }) => {
-                return (
-                  <Chip
-                    css={css`
-                      width: 75px;
-                    `}
-                    key={value}
-                    label={label}
-                    value={value}
-                  />
-                );
-              })}
-            </div>
+            <PriorityRadioGroup onChange={handleChangePriority} />
           </div>
           <div>
             <div>날짜</div>
