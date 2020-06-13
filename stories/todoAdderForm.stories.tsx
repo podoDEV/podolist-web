@@ -24,7 +24,7 @@ export default {
 export const notOpen = () => {
   return (
     <Container>
-      <TodoAdderForm />
+      <TodoAdderForm onSubmit={() => {}} />
     </Container>
   );
 };
@@ -32,7 +32,7 @@ export const notOpen = () => {
 export const open = () => {
   return (
     <Container>
-      <TodoAdderForm />
+      <TodoAdderForm defaultOpenOptions />
     </Container>
   );
 };

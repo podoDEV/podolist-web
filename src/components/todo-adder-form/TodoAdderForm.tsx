@@ -2,15 +2,20 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
-import { useForm, Controller } from "react-hook-form";
 import AddIcon from "static/img/add-btn.png";
 import EnterIcon from "static/img/enter.png";
 import Calendar from "components/calendar/calendar";
 import dayjs from "dayjs";
-import Chip from "components/chip/Chip";
 import { PriorityType } from "constants/Priority";
 import PriorityCircle from "components/priority-circle/PriorityCircle";
 import PriorityRadioGroup from "./PriorityRadioGroup";
+import { Color } from "constants/Color";
+
+const Label = styled.label`
+  display: block;
+  color: ${Color.PRIMARY};
+  padding-bottom: 0.5rem;
+`;
 
 const FormsContainer = styled("form")`
   display: flex;
@@ -24,6 +29,7 @@ const FormsContainer = styled("form")`
 
 const InputContainer = styled("div")`
   display: flex;
+  align-items: center;
   border-radius: 44px;
   background: rgb(255, 255, 255);
   width: 100%;
@@ -53,74 +59,70 @@ const ContentsInput = styled("input")`
   border: none;
 `;
 
-const PRIORITY_CHIPS = [
-  {
-    label: "!!!!!",
-    value: PriorityType.URGENT
-  },
-  {
-    label: "!!!",
-    value: PriorityType.HIGH
-  },
-  {
-    label: "!",
-    value: PriorityType.MEDIUM
-  },
-  {
-    label: "~",
-    value: PriorityType.LOW
-  },
-  {
-    label: "-",
-    value: PriorityType.NONE
+const OptionsContainer = styled.div`
+  padding: 1rem;
+  > * :not(:last-child) {
+    margin-bottom: 2rem;
   }
-];
+`;
 
-interface TodoAdderFormProps {
+// TODO: API 붙이면 교체~
+type FormStateType = {
+  dueAt: number;
+  endedAt: number;
+  startedAt: number;
+  priority: PriorityType;
+  title: string;
+};
+
+type TodoAdderFormProps = {
   defaultOpenOptions: boolean;
-}
+  // TODO: API 붙일 떄 param 교체
+  onSubmit: (params: any) => void;
+};
 
-export default function TodoAdderForm({ defaultOpenOptions }: TodoAdderFormProps) {
+export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdderFormProps) {
+  const [formState, setFormState] = useState<FormStateType>({
+    dueAt: 0,
+    endedAt: 0,
+    startedAt: 0,
+    priority: PriorityType.MEDIUM,
+    title: ""
+  });
   const [date, setDate] = useState(dayjs());
 
-  const { register, handleSubmit, watch, errors } = useForm();
   const [isOpenOptions, setIsOpenOptions] = useState(defaultOpenOptions);
-
-  const onSubmit = data => {
-    console.log(data, "data");
-  };
 
   const handleClickOpenFormBtn = () => {
     setIsOpenOptions(true);
   };
 
-  const handleChangePriority = (value: PriorityType) => {
-    console.log(value);
+  const handleChangePriority = (priority: PriorityType) => {
+    setFormState({
+      ...formState,
+      priority
+    });
   };
 
   return (
-    <FormsContainer onSubmit={handleSubmit(onSubmit)}>
+    <FormsContainer onSubmit={onSubmit}>
       <InputContainer>
         <OpenFormsBtn onClick={handleClickOpenFormBtn} />
-        {/* {isOpenOptions && <PriorityCircle priority={} />} */}
-        <ContentsInput name="contents" ref={register} />
+        {isOpenOptions && <PriorityCircle priority={formState.priority} />}
+        <ContentsInput />
         <AddFormsBtn />
       </InputContainer>
       {isOpenOptions && (
-        <div
-          css={css`
-            padding: 0 1rem;
-          `}
-        >
+        <OptionsContainer>
           <div>
-            <div>중요도 설정</div>
+            <Label>중요도 설정</Label>
             <PriorityRadioGroup onChange={handleChangePriority} />
           </div>
           <div>
-            <div>날짜</div>
+            <Label>날짜</Label>
             <Calendar date={date} setDate={setDate} />
           </div>
-        </div>
+        </OptionsContainer>
       )}
     </FormsContainer>
   );
