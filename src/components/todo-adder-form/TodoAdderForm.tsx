@@ -2,8 +2,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
-import AddIcon from "static/img/add-btn.png";
-import EnterIcon from "static/img/enter.png";
 import Calendar from "components/calendar/calendar";
 import dayjs from "dayjs";
 import { PriorityType } from "constants/Priority";
@@ -41,7 +39,7 @@ const OpenFormsBtn = styled("button")`
   height: 44px;
   border-radius: 44px;
   border: none;
-  background: url(${AddIcon}) 50% 50%/ 16px 16px no-repeat;
+  background: url("/images/add-btn.png") 50% 50%/ 16px 16px no-repeat;
   cursor: pointer;
 `;
 
@@ -50,7 +48,7 @@ const AddFormsBtn = styled("button")`
   height: 44px;
   border-radius: 44px;
   border: none;
-  background: rgb(158, 48, 254) url(${EnterIcon}) 50% 50%/ 16px 16px no-repeat;
+  background: rgb(158, 48, 254) url("/images/enter.png") 50% 50%/ 16px 16px no-repeat;
   cursor: pointer;
 `;
 

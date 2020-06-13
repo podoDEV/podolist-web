@@ -3,8 +3,6 @@ import React from "react";
 import { css, jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
-import calendarImg from "../../static/img/calendar-icon.png";
-import logoutImg from "../../static/img/logout.png";
 
 interface Props {
   date: Dayjs;
@@ -65,11 +63,11 @@ export default function NavigationInformationArea(props: Props) {
       <DateTitleArea>
         {month}월 {year}
         <ImageContainerButton onClick={toggleNaviCalendar}>
-          <img src={calendarImg} css={calendarImgStyle} />
+          <img src={"/images/calendar-icon.png"} css={calendarImgStyle} />
         </ImageContainerButton>
       </DateTitleArea>
       <ImageContainerButton onClick={onClickLogoutIcon}>
-        <img src={logoutImg} css={logoutImgStyle} />
+        <img src={"/images/logout.png"} css={logoutImgStyle} />
       </ImageContainerButton>
     </InformationArea>
   );

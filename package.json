@@ -34,7 +34,7 @@
     "dev": "next",
     "next:build": "next build",
     "next:start": "next start",
-    "storybook": "start-storybook -p 6006 -c .storybook",
+    "storybook": "start-storybook -s ./public -p 6006 -c .storybook",
     "test": "start-server-and-test start http://localhost:3000 cy:open",
     "test:ci": "start-server-and-test start http://localhost:3000 cy:run",
     "cy:open": "cypress open",

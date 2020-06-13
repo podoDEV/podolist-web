@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
-import checkImg from "static/img/finished.png";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -81,7 +80,7 @@ export default function TodoItem(props: Props) {
     <TodoContainer>
       <CheckboxContainer>
         <Checkbox priority={priority} checked={checked} />
-        {checked && <img src={checkImg} css={checkImgCss} />}
+        {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
       </CheckboxContainer>
       <TextContainer>
         <Text checked={checked}>{text}</Text>
