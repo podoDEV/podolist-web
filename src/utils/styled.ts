@@ -5,18 +5,18 @@ export type Theme = {
   color: {
     primary: {
       main: Color.PRIMARY;
-      contrastText: Color.
+      contrastText: Color.PRIMARY;
     };
     gray: Color.LIGHT_GRAY;
   };
 };
 
-export const theme: Theme = {
-  color: {
-    primary: Color.PRIMARY,
-    gray: Color.LIGHT_GRAY
-  }
-};
+// export const theme: Theme = {
+// color: {
+//   primary: Color.PRIMARY,
+//   gray: Color.LIGHT_GRAY
+// }
+// };
 
 export type ThemeColorTypes = keyof Theme["color"];
 
