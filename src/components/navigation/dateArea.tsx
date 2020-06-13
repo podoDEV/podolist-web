@@ -31,7 +31,7 @@ const DayArea = styled("div")`
 
 const DayOfWeekText = styled("div")`
   display: flex;
-  font-size: 17px;
+  font-size: 15px;
   justify-content: center;
   align-items: center;
 
@@ -45,6 +45,7 @@ const DateText = styled("div")<DayTextProps>(({ selected }: DayTextProps) => ({
   fontSize: "14px",
   justifyContent: "center",
   alignItems: "center",
+  fontWeight: "bold",
 
   height: "28px",
   width: "28px",
@@ -53,13 +54,21 @@ const DateText = styled("div")<DayTextProps>(({ selected }: DayTextProps) => ({
   boxSizing: "border-box",
 
   border: selected ? "1px solid #ddd" : "none",
-  backgroundColor: selected ? "#fff" : "#9e30fe",
+  backgroundColor: selected ? "#fff" : "inherit",
   color: selected ? "#9e30fe" : "#fff"
 }));
 
+const ArrowButton = styled("button")`
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0);
+  border: none;
+`;
+
 const arrowImgStyle = css`
   height: 12px;
-  cursor: pointer;
 `;
 
 export default function NavigationDateArea(props: Props) {
@@ -74,7 +83,9 @@ export default function NavigationDateArea(props: Props) {
 
   return (
     <DateArea>
-      <img src={arrowLeft} css={arrowImgStyle} onClick={() => onClickArrowIcon(false)} />
+      <ArrowButton onClick={() => onClickArrowIcon(false)}>
+        <img src={arrowLeft} css={arrowImgStyle} />
+      </ArrowButton>
       {dayOfWeek.map((day, idx) => {
         const dd = sundayDate.add(idx, "day");
         const selected = date.isSame(dd, "date");
@@ -88,7 +99,9 @@ export default function NavigationDateArea(props: Props) {
           </DayArea>
         );
       })}
-      <img src={arrowRight} css={arrowImgStyle} onClick={() => onClickArrowIcon(true)} />
+      <ArrowButton onClick={() => onClickArrowIcon(true)}>
+        <img src={arrowRight} css={arrowImgStyle} />
+      </ArrowButton>
     </DateArea>
   );
 }

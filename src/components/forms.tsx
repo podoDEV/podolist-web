@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import React from "react";
 import styled from "@emotion/styled";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import { useForm } from "react-hook-form";
 
-interface Props {}
+// interface Props {}
 
 const FormsContainer = styled("form")`
   display: flex;
@@ -48,11 +48,11 @@ const ContentsInput = styled("input")`
   border: none;
 `;
 
-export default function Forms(props: Props) {
+export default function Forms() {
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const onSubmit = data => {
-    console.log(data, "data");
+  const onSubmit = () => {
+    // console.log(data, "data");
   };
 
   const click = () => {
