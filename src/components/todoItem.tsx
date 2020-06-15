@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
+import { PriorityColor } from "constants/Color";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -10,21 +11,6 @@ interface Props {
   text: string;
   date: string;
   checked: boolean;
-}
-
-function getColor(priority: Priority) {
-  switch (priority) {
-    case "urgent":
-      return "rgb(208, 2, 27)";
-    case "high":
-      return "rgb(245, 166, 35)";
-    case "medium":
-      return "rgb(126, 211, 33)";
-    case "low":
-      return "rgb(80, 227, 194)";
-    case "none":
-      return "rgb(74, 144, 226)";
-  }
 }
 
 const TodoContainer = styled("div")`
@@ -41,7 +27,7 @@ const Checkbox = styled("div")<CheckboxProps>(({ checked, priority }: CheckboxPr
   width: 18,
   borderRadius: "50%",
   cursor: "pointer",
-  border: `2px solid ${checked ? "rgb(215, 215, 215)" : getColor(priority)}`,
+  border: `2px solid ${checked ? "rgb(215, 215, 215)" : PriorityColor[priority]}`,
   backgroundColor: checked ? "rgb(215, 215, 215)" : "inherit"
 }));
 
