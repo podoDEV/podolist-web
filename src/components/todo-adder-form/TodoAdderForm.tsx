@@ -53,6 +53,7 @@ const AddFormsBtn = styled("button")`
 `;
 
 const ContentsInput = styled("input")`
+  font-size: 15px;
   width: calc(100% - 88px);
   border: none;
 `;
