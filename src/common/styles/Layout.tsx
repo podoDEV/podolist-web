@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import img from "../../../public/logo192.png";
 
 const mobileLayout = css`
   max-width: 600px;
