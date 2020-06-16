@@ -1,19 +1,34 @@
-import React, { ReactNode } from "react";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
 import { AppProps } from "next/app";
-import "../common/styles/reset.css";
+import React, { FC } from "react";
+import { applyMiddleware, compose, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import Layout from "../common/styles/Layout";
+import "../common/styles/reset.css";
+import reducer from "../reducers";
 
-// type AppProps = {
-//   Component: ReactNode;
-//   pageProps: any
-// };
+export interface State {
+  user: null;
+}
 
-function App({ Component, pageProps }: AppProps) {
+const makeStore: MakeStore<State> = () => {
+  const middlewares: any = [];
+  const enhancer =
+    process.env.NODE_ENV === "production" // eslint-disable-line no-undef
+      ? compose(applyMiddleware(...middlewares))
+      : composeWithDevTools(applyMiddleware(...middlewares));
+
+  return createStore(reducer, {}, enhancer);
+};
+
+const wrapper = createWrapper(makeStore, { debug: true });
+
+const WrappedApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <Layout>
       <Component {...pageProps} />
     </Layout>
   );
-}
+};
 
-export default App;
+export default wrapper.withRedux(WrappedApp);

@@ -1,12 +1,14 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "@emotion/styled";
 import { jsx } from "@emotion/core";
 import KakaoLogin from "react-kakao-login";
 import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
+import { useDispatch, useSelector } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import Cookies from "js-cookie";
 import { post } from "../common/fetch";
+import { State } from "./_app";
 
 const KakaoLoginBtn = styled(KakaoLogin)`
   border: none;
@@ -30,6 +32,10 @@ export default function Index() {
   const failure = () => {
     console.log("fail");
   };
+
+  const user = useSelector<State>(state => state.user);
+
+  console.log(user);
 
   return (
     <div>
