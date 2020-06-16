@@ -1,11 +1,11 @@
-import React, { FC } from "react";
-import { AppProps } from "next/app";
-import "../common/styles/reset.css";
-import Layout from "../common/styles/Layout";
 import { createWrapper, MakeStore } from "next-redux-wrapper";
-import reducer from "../reducers";
-import { createStore, compose, applyMiddleware } from "redux";
+import { AppProps } from "next/app";
+import React, { FC } from "react";
+import { applyMiddleware, compose, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import Layout from "../common/styles/Layout";
+import "../common/styles/reset.css";
+import reducer from "../reducers";
 
 export interface State {
   user: null;

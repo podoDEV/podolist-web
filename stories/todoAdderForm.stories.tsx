@@ -1,6 +1,7 @@
 import * as React from "react";
-import Forms from "components/forms";
+
 import styled from "@emotion/styled";
+import TodoAdderForm from "components/todo-adder-form/TodoAdderForm";
 
 interface ContainerProps {
   width?: number;
@@ -17,13 +18,13 @@ const Container = styled.div(
 );
 
 export default {
-  title: "Forms"
+  title: "todoAdderForms"
 };
 
 export const notOpen = () => {
   return (
     <Container>
-      <Forms />
+      <TodoAdderForm onSubmit={() => {}} />
     </Container>
   );
 };
@@ -31,7 +32,7 @@ export const notOpen = () => {
 export const open = () => {
   return (
     <Container>
-      <Forms />
+      <TodoAdderForm defaultOpenOptions />
     </Container>
   );
 };

@@ -3,9 +3,7 @@ import React from "react";
 import { css, jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
-import arrowLeft from "../../static/img/arrow-left.png";
 import { dayOfWeek } from "../calendar/dateArea";
-import arrowRight from "../../static/img/arrow-right.png";
 
 interface Props {
   date: Dayjs;
@@ -84,7 +82,7 @@ export default function NavigationDateArea(props: Props) {
   return (
     <DateArea>
       <ArrowButton onClick={() => onClickArrowIcon(false)}>
-        <img src={arrowLeft} css={arrowImgStyle} />
+        <img src="/images/arrow-left.png" css={arrowImgStyle} />
       </ArrowButton>
       {dayOfWeek.map((day, idx) => {
         const dd = sundayDate.add(idx, "day");
@@ -100,7 +98,7 @@ export default function NavigationDateArea(props: Props) {
         );
       })}
       <ArrowButton onClick={() => onClickArrowIcon(true)}>
-        <img src={arrowRight} css={arrowImgStyle} />
+        <img src="/images/arrow-right.png" css={arrowImgStyle} />
       </ArrowButton>
     </DateArea>
   );
