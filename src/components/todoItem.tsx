@@ -13,9 +13,10 @@ interface Props {
   checked: boolean;
 }
 
-const TodoContainer = styled("div")`
+const TodoContainer = styled("li")`
   color: rgba(83, 83, 83, 1);
   display: flex;
+  padding: 10px 0px;
 `;
 
 const CheckboxContainer = styled("div")``;

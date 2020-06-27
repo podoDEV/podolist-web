@@ -1,11 +1,12 @@
 /** @jsx jsx */
 import React, { useState } from "react";
-import { jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
 import InformationArea from "./informationArea";
 import DateArea from "./dateArea";
 import Calendar from "../calendar/calendar";
+import { mobileScreenWidth } from "../todoList";
 
 interface Props {
   date: Dayjs;
@@ -13,11 +14,19 @@ interface Props {
   name: string;
 }
 
+const NavigationWrapper = styled("div")`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(#9314fe, #a91efe);
+  height: 160px;
+`;
+
 const NavigationContainer = styled("div")`
   display: flex;
-  background: linear-gradient(#a91efe, #9314fe);
+  background: linear-gradient(#9314fe, #a91efe);
   box-sizing: border-box;
-  height: 160px;
+  width: 800px;
   padding: 10px 20px;
   color: #fff;
   flex-direction: column;
@@ -25,7 +34,7 @@ const NavigationContainer = styled("div")`
 
 const NaviCalendarArea = styled("div")`
   position: absolute;
-  width: 100vh;
+  max-width: 100vh;
   height: 100vw;
   top: 0;
   left: 0;
@@ -43,19 +52,21 @@ export default function Navigation(props: Props) {
   };
 
   return (
-    <NavigationContainer>
-      <InformationArea
-        date={date}
-        setDate={setDate}
-        name={name}
-        toggleNaviCalendar={toggleNaviCalendar}
-      />
-      <DateArea date={date} setDate={setDate} />
-      {openNaviCalendar && (
-        <NaviCalendarArea>
-          <Calendar date={date} setDate={setDate} />
-        </NaviCalendarArea>
-      )}
-    </NavigationContainer>
+    <NavigationWrapper>
+      <NavigationContainer css={mobileScreenWidth}>
+        <InformationArea
+          date={date}
+          setDate={setDate}
+          name={name}
+          toggleNaviCalendar={toggleNaviCalendar}
+        />
+        <DateArea date={date} setDate={setDate} />
+        {openNaviCalendar && (
+          <NaviCalendarArea>
+            <Calendar date={date} setDate={setDate} />
+          </NaviCalendarArea>
+        )}
+      </NavigationContainer>
+    </NavigationWrapper>
   );
 }

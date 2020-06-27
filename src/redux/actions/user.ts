@@ -1,6 +1,8 @@
-export const LOGIN = "LOGIN";
+import { UserState } from "../reducers/user";
 
-export const login = (accessToken: string) => ({
-  type: LOGIN,
-  accessToken
+export const APPLY_USER_INFO = "APPLY_USER_INFO";
+
+export const applyUserInfo = (user: UserState) => ({
+  type: APPLY_USER_INFO,
+  user
 });
