@@ -3,12 +3,14 @@ import React from "react";
 import { css, jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
+import { State } from "../../pages/_app";
+import { UserState } from "../../redux/reducers/user";
 
 interface Props {
   date: Dayjs;
   setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
-  toggleNaviCalendar: () => {};
-  name: string;
+  toggleNaviCalendar: () => void;
 }
 
 const InformationArea = styled("div")`
@@ -34,7 +36,15 @@ const logoutImgStyle = css`
   cursor: pointer;
 `;
 
-// @TODO: global로 버튼 포커스 아웃라인 없애기
+const RightAreaContainer = styled("div")`
+  display: flex;
+  align-items: center;
+`;
+
+const Name = styled("span")`
+  font-size: 15px;
+`;
+
 const ImageContainerButton = styled("button")`
   width: 30px;
   height: 30px;
@@ -47,13 +57,14 @@ const ImageContainerButton = styled("button")`
 `;
 
 export default function NavigationInformationArea(props: Props) {
-  const { date, setDate, name, toggleNaviCalendar } = props;
+  const { date, setDate, toggleNaviCalendar } = props;
 
   const month = date.format("M");
   const year = date.format("YYYY");
+  const user = useSelector<State, UserState | null>(state => state.user);
 
   const onClickLogoutIcon = () => {
-    if (window.confirm(`${name}님 로그아웃 하시겠습니까?`)) {
+    if (window.confirm(`${user!.name}님 로그아웃 하시겠습니까?`)) {
       alert("로그아웃!");
     }
   };
@@ -66,9 +77,12 @@ export default function NavigationInformationArea(props: Props) {
           <img src={"/images/calendar-icon.png"} css={calendarImgStyle} />
         </ImageContainerButton>
       </DateTitleArea>
-      <ImageContainerButton onClick={onClickLogoutIcon}>
-        <img src={"/images/logout.png"} css={logoutImgStyle} />
-      </ImageContainerButton>
+      <RightAreaContainer>
+        {user && <Name>🙋‍♀️ {user.name} 님</Name>}
+        <ImageContainerButton onClick={onClickLogoutIcon}>
+          <img src={"/images/logout.png"} css={logoutImgStyle} />
+        </ImageContainerButton>
+      </RightAreaContainer>
     </InformationArea>
   );
 }

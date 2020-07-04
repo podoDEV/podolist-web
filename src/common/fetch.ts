@@ -17,9 +17,7 @@ export async function post(url: string, body?: string) {
 
   return fetch(url, options)
     .then(res => {
-      if (res.status === 200) {
-        return Promise.resolve(res.json());
-      }
+      return Promise.resolve(res.status === 200 ? res.json() : res);
     })
     .catch(err => {
       console.error(err);
@@ -34,9 +32,7 @@ export async function get(url: string) {
 
   return fetch(url, options)
     .then(res => {
-      if (res.status === 200) {
-        return Promise.resolve(res.json());
-      }
+      return Promise.resolve(res.status === 200 ? res.json() : res);
     })
     .catch(err => {
       console.error(err);
