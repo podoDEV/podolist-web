@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 
 const Label = styled.label`
@@ -75,12 +75,12 @@ type FormStateType = {
 };
 
 type TodoAdderFormProps = {
-  defaultOpenOptions?: boolean;
+  defaultIsOpen?: boolean;
   // TODO: API 붙일 떄 param 교체
-  onSubmit: (params: any) => void;
+  onSubmit: () => void;
 };
 
-export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdderFormProps) {
+export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
   const [formState, setFormState] = useState<FormStateType>({
     dueAt: 0,
     endedAt: 0,
@@ -90,10 +90,10 @@ export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdde
   });
   const [date, setDate] = useState(dayjs());
 
-  const [isOpenOptions, setIsOpenOptions] = useState(defaultOpenOptions);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
 
   const handleClickOpenFormBtn = () => {
-    setIsOpenOptions(true);
+    setIsOpen(!isOpen);
   };
 
   const handleChangePriority = (priority: PriorityType) => {
@@ -103,15 +103,20 @@ export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdde
     });
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <FormsContainer onSubmit={onSubmit}>
+    <FormsContainer onSubmit={handleSubmit}>
       <InputContainer>
         <OpenFormsBtn onClick={handleClickOpenFormBtn} />
-        {isOpenOptions && <PriorityCircle priority={formState.priority} />}
+        {isOpen && <PriorityCircle priority={formState.priority} />}
         <ContentsInput />
         <AddFormsBtn />
       </InputContainer>
-      {isOpenOptions && (
+      {isOpen && (
         <OptionsContainer>
           <div>
             <Label>중요도 설정</Label>
