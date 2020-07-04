@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { useSelector } from "react-redux";
@@ -89,14 +89,10 @@ function formatted(numb: number) {
   return dayjs(numb * 1000).format("YYYY.MM.DD");
 }
 
-export default function TodoList(props: Props) {
+export default function TodoList() {
   const { delayedItems } = useSelector<State, TodoState>(state => state.todo);
   const [folded, setFolded] = useState(false);
   const numberOfDelayedItems = delayedItems ? delayedItems.length : 0;
-
-  useEffect(() => {
-    console.log("todolist");
-  }, []);
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
