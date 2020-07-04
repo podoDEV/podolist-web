@@ -5,11 +5,7 @@ import { jsx, keyframes, css } from "@emotion/core";
 import KakaoLogin from "react-kakao-login";
 import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
 import { useDispatch } from "react-redux";
-import * as apiUrl from "../common/apiUrl";
-import Cookies from "js-cookie";
-import { post } from "../common/fetch";
-import Router from "next/router";
-import { applyUserInfo } from "../redux/actions/user";
+import { userLogin, checkValidUser } from "../redux/actions/user";
 
 const slide = keyframes`
   0% { height: 0% }
@@ -23,11 +19,18 @@ const bounce = keyframes`
   18% {transform: translate3d(0,-2px,0);}
 `;
 
-const AnimationContainer = styled("div")`
+const PreloaderContainer = styled("div")`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+`;
+
+const AnimationContainer = styled("div")`
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(#9314fe, #a91efe);
 `;
 
@@ -58,36 +61,33 @@ export default function Index() {
   const [pageStatus, setPageStatus] = useState("START");
 
   useEffect(() => {
-    setTimeout(() => {
-      setPageStatus("SLIDE_FINISH");
-    }, 1300);
+    dispatch(checkValidUser(() => setPageStatus("SLIDE_START")));
   }, []);
+
+  useEffect(() => {
+    if (pageStatus === "SLIDE_START") {
+      setTimeout(() => {
+        setPageStatus("SLIDE_FINISH");
+      }, 1300);
+    }
+  }, [pageStatus]);
 
   const success = (res: KakaoLoginResponseV2) => {
     const { access_token: accessToken } = res.response;
-    post(apiUrl.login(), JSON.stringify({ accessToken }))
-      .then(res => {
-        const { sessionId, user } = res;
-        Cookies.set("SESSIONID", sessionId, { domain: ".podolist.com", path: "/" });
-        dispatch(applyUserInfo(user));
-      })
-      .then(() => {
-        Router.push("/todo");
-      });
-    // error 처리
+    dispatch(userLogin(accessToken));
   };
 
   const failure = () => {
     console.log("fail");
   };
 
-  return (
+  return pageStatus !== "START" ? (
     <AnimationContainer
       css={css`
         animation: ${slide} 1.5s ease;
       `}
     >
-      {pageStatus !== "START" && (
+      {pageStatus === "SLIDE_FINISH" && (
         <ButtonContainer>
           <Title>생각보다 괜찮은 투두리스트</Title>
           <img
@@ -109,5 +109,9 @@ export default function Index() {
         </ButtonContainer>
       )}
     </AnimationContainer>
+  ) : (
+    <PreloaderContainer>
+      <img src={"images/loading.gif"} />
+    </PreloaderContainer>
   );
 }

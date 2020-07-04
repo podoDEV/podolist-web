@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import React, { useState } from "react";
-import { jsx, css } from "@emotion/core";
+import React, { MouseEvent, useState } from "react";
+import { jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
 import InformationArea from "./informationArea";
@@ -11,7 +11,6 @@ import { mobileScreenWidth } from "../todoList";
 interface Props {
   date: Dayjs;
   setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
-  name: string;
 }
 
 const NavigationWrapper = styled("div")`
@@ -34,8 +33,8 @@ const NavigationContainer = styled("div")`
 
 const NaviCalendarArea = styled("div")`
   position: absolute;
-  max-width: 100vh;
-  height: 100vw;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   padding: 30% 20%;
@@ -44,25 +43,26 @@ const NaviCalendarArea = styled("div")`
 `;
 
 export default function Navigation(props: Props) {
-  const { date, setDate, name } = props;
+  const { date, setDate } = props;
   const [openNaviCalendar, setOpenNaviCalendar] = useState(false);
 
   const toggleNaviCalendar = () => {
     setOpenNaviCalendar(!openNaviCalendar);
   };
 
+  const clickDimmedArea = (ev: MouseEvent) => {
+    if ((ev.target as HTMLDivElement).id === "dimmedArea") {
+      toggleNaviCalendar();
+    }
+  };
+
   return (
     <NavigationWrapper>
       <NavigationContainer css={mobileScreenWidth}>
-        <InformationArea
-          date={date}
-          setDate={setDate}
-          name={name}
-          toggleNaviCalendar={toggleNaviCalendar}
-        />
+        <InformationArea date={date} setDate={setDate} toggleNaviCalendar={toggleNaviCalendar} />
         <DateArea date={date} setDate={setDate} />
         {openNaviCalendar && (
-          <NaviCalendarArea>
+          <NaviCalendarArea onClick={clickDimmedArea} id="dimmedArea">
             <Calendar date={date} setDate={setDate} />
           </NaviCalendarArea>
         )}
