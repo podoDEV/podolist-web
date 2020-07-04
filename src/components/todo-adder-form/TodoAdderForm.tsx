@@ -1,13 +1,13 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
-import { css, jsx } from "@emotion/core";
 import Calendar from "components/calendar/calendar";
-import dayjs from "dayjs";
-import { PriorityType } from "constants/Priority";
 import PriorityCircle from "components/priority-circle/PriorityCircle";
-import PriorityRadioGroup from "./PriorityRadioGroup";
 import { Color } from "constants/Color";
+import { PriorityType } from "constants/Priority";
+import dayjs from "dayjs";
+import { useState } from "react";
+import PriorityRadioGroup from "./PriorityRadioGroup";
 
 const Label = styled.label`
   display: block;
@@ -75,7 +75,7 @@ type FormStateType = {
 };
 
 type TodoAdderFormProps = {
-  defaultOpenOptions: boolean;
+  defaultOpenOptions?: boolean;
   // TODO: API 붙일 떄 param 교체
   onSubmit: (params: any) => void;
 };

@@ -1,5 +1,6 @@
 import { HYDRATE } from "next-redux-wrapper";
 import { AnyAction } from "redux";
+import { createAction } from "utils/createAction";
 
 export type ICountState = {
   data: number;
@@ -16,9 +17,7 @@ export const DECREASE = "DECREASE" as const;
 export const GET_RANDOM_NUMBER = "GET_RANDOM_NUMBER" as const;
 export const GET_RANDOM_NUMBER_SUCCESS = "GET_RANDOM_NUMBER_SUCCESS" as const;
 
-export const increase = () => ({
-  type: INCREASE
-});
+export const increase = createAction(INCREASE, (value: number) => ({ value }));
 export const decrease = () => ({
   type: DECREASE
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IStore } from "redux/reducers";
-import { decrease, increase } from "redux/reducers/countReducer";
+import { decrease, increase } from "redux/reducers/count";
 import { wrapper } from "./_app";
 
 export default function test(props) {

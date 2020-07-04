@@ -1,15 +1,15 @@
 /** @jsx jsx */
-import React, { useEffect, useState } from "react";
+import { css, jsx, keyframes } from "@emotion/core";
 import styled from "@emotion/styled";
-import { jsx, keyframes, css } from "@emotion/core";
+import Cookies from "js-cookie";
+import Router from "next/router";
+import { useEffect, useState } from "react";
 import KakaoLogin from "react-kakao-login";
 import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
-import { applyUserInfo } from "../actions/user";
 import { useDispatch } from "react-redux";
+import { applyUserInfo } from "redux/actions/user";
 import * as apiUrl from "../common/apiUrl";
-import Cookies from "js-cookie";
 import { post } from "../common/fetch";
-import Router from "next/router";
 
 const slide = keyframes`
   0% { height: 0% }

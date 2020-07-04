@@ -1,6 +1,6 @@
 import { all, fork, select, take } from "redux-saga/effects";
 import { IStore } from "redux/reducers";
-import { DECREASE, INCREASE } from "../reducers/countReducer";
+import { DECREASE, INCREASE } from "../reducers/count";
 
 function* watchIncrease() {
   while (true) {
