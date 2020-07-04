@@ -1,18 +1,23 @@
-import React from "react";
+import styled from "@emotion/styled";
 import PriorityRadioGroup from "components/todo-adder-form/PriorityRadioGroup";
+import React from "react";
 
 export default {
   title: "PriorityRadio"
 };
 
+const Container = styled.div`
+  width: 500px;
+`;
+
 export const priorityRadioGroup = () => {
   return (
-    <div>
+    <Container>
       <PriorityRadioGroup
         onChange={priority => {
           console.log(priority);
         }}
       />
-    </div>
+    </Container>
   );
 };
