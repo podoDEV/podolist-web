@@ -1,24 +1,83 @@
 import React, { ReactNode } from "react";
+import { ThemeProvider } from "emotion-theming";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-
-const mobileLayout = css`
-  margin: 0 auto;
-`;
-
-const mainLayout = css`
-  height: 100vh;
-`;
+import { useSelector } from "react-redux";
+import { State } from "../../pages/_app";
+import { StyleState } from "../../redux/reducers/style";
+import { GlobalStyle } from "../../globalStyle";
+import styled from "@emotion/styled";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
+export interface Theme {
+  buttonIcon: string;
+  gradientBG: string;
+  bg: string;
+  itemTitleText: string;
+  itemDateText: string;
+  item: {
+    titleTextColor: string;
+    dateTextColor: string;
+  };
+  calendar: {
+    bg: string;
+    textColor: string;
+  };
+}
+
+const mobileLayout = css`
+  margin: 0 auto;
+`;
+
+type MainLayoutTheme = Pick<Theme, "bg">;
+
+const MainLayout = styled("main")<MainLayoutTheme>(({ bg }: MainLayoutTheme) => ({
+  height: "100vh",
+  background: bg,
+  transition: "background .4s ease"
+}));
+
+const dark = {
+  buttonIcon: 'url("/images/moon.png") 50% 50%/ 16px 16px no-repeat',
+  gradientBG: "linear-gradient(#222, #656565)",
+  bg: "#121212",
+  item: {
+    titleTextColor: "rgb(255,255,255)",
+    dateTextColor: "rgba(255,255,255,0.5)"
+  },
+  calendar: {
+    bg: "#252525",
+    textColor: "#fff"
+  }
+};
+
+const light = {
+  buttonIcon: 'url("/images/sun.png") 50% 50%/ 16px 16px no-repeat',
+  gradientBG: "linear-gradient(#a91efe, #9314fe)",
+  bg: "#fff",
+  item: {
+    titleTextColor: "rgb(83,83,83)",
+    dateTextColor: "rgba(0,0,0,0.5)"
+  },
+  calendar: {
+    bg: "#fff",
+    textColor: "#2c2c2c"
+  }
+};
+
 function Layout({ children }: LayoutProps) {
+  const { darkMode } = useSelector<State, StyleState>(state => state.style);
+
   return (
-    <div css={mobileLayout}>
-      <main css={mainLayout}>{children}</main>
-    </div>
+    <ThemeProvider theme={darkMode ? dark : light}>
+      <GlobalStyle />
+      <div css={mobileLayout}>
+        <MainLayout bg={darkMode ? dark.bg : light.bg}>{children}</MainLayout>
+      </div>
+    </ThemeProvider>
   );
 }
 

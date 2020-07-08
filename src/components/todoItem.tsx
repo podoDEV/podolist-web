@@ -3,6 +3,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { PriorityColor } from "constants/Color";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../common/styles/Layout";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -39,17 +41,16 @@ const TextContainer = styled("div")`
   margin-left: 24px;
 `;
 
-type TextProps = Pick<Props, "checked">;
+type TextProps = Pick<Props, "checked"> & { color: string };
 
-const Text = styled("div")<TextProps>(({ checked }: TextProps) => ({
+const Text = styled("div")<TextProps>(({ checked, color }: TextProps) => ({
   fontSize: "18px",
-  color: checked ? "rgb(151, 151, 151)" : "inherit",
+  color: checked ? "rgb(151, 151, 151)" : color,
   textDecoration: checked ? "line-through" : "none"
 }));
 
 const Date = styled("span")`
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.5);
   margin-top: 7px;
 `;
 
@@ -62,6 +63,7 @@ const checkImgCss = css`
 
 export default function TodoItem(props: Props) {
   const { priority, text, date, checked } = props;
+  const { dateTextColor, titleTextColor } = useTheme<Theme>().item;
 
   return (
     <TodoContainer>
@@ -70,8 +72,16 @@ export default function TodoItem(props: Props) {
         {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
       </CheckboxContainer>
       <TextContainer>
-        <Text checked={checked}>{text}</Text>
-        <Date>{date}</Date>
+        <Text checked={checked} color={titleTextColor}>
+          {text}
+        </Text>
+        <Date
+          css={css`
+            color: ${dateTextColor};
+          `}
+        >
+          {date}
+        </Date>
       </TextContainer>
     </TodoContainer>
   );

@@ -1,12 +1,14 @@
 /** @jsx jsx */
 import React, { MouseEvent, useState } from "react";
-import { jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
 import InformationArea from "./informationArea";
 import DateArea from "./dateArea";
 import Calendar from "../calendar/calendar";
 import { mobileScreenWidth } from "../todoList";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
@@ -17,13 +19,11 @@ const NavigationWrapper = styled("div")`
   display: flex;
   justify-content: center;
   width: 100%;
-  background: linear-gradient(#9314fe, #a91efe);
   height: 160px;
 `;
 
 const NavigationContainer = styled("div")`
   display: flex;
-  background: linear-gradient(#9314fe, #a91efe);
   box-sizing: border-box;
   width: 800px;
   padding: 10px 20px;
@@ -37,14 +37,21 @@ const NaviCalendarArea = styled("div")`
   height: 100%;
   top: 0;
   left: 0;
-  padding: 30% 20%;
+  padding: 30% 25%;
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.6);
+`;
+
+export const naviCalendarArea = css`
+  @media (max-width: 600px) {
+    padding: 30% 20px;
+  }
 `;
 
 export default function Navigation(props: Props) {
   const { date, setDate } = props;
   const [openNaviCalendar, setOpenNaviCalendar] = useState(false);
+  const theme = useTheme<Theme>();
 
   const toggleNaviCalendar = () => {
     setOpenNaviCalendar(!openNaviCalendar);
@@ -56,13 +63,17 @@ export default function Navigation(props: Props) {
     }
   };
 
+  const gradientBGCSS = css`
+    background: ${theme.gradientBG};
+  `;
+
   return (
-    <NavigationWrapper>
-      <NavigationContainer css={mobileScreenWidth}>
-        <InformationArea date={date} setDate={setDate} toggleNaviCalendar={toggleNaviCalendar} />
+    <NavigationWrapper css={gradientBGCSS}>
+      <NavigationContainer css={[mobileScreenWidth, gradientBGCSS]}>
+        <InformationArea date={date} toggleNaviCalendar={toggleNaviCalendar} />
         <DateArea date={date} setDate={setDate} />
         {openNaviCalendar && (
-          <NaviCalendarArea onClick={clickDimmedArea} id="dimmedArea">
+          <NaviCalendarArea css={naviCalendarArea} onClick={clickDimmedArea} id="dimmedArea">
             <Calendar date={date} setDate={setDate} />
           </NaviCalendarArea>
         )}

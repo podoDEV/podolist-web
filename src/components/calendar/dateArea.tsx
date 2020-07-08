@@ -5,6 +5,8 @@ import { jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import WeekArea from "./weekArea";
 import { range } from "../../common/util";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
@@ -25,15 +27,18 @@ const DayOfWeekArea = styled("div")`
 
 interface DayOfWeekTitleProps {
   sunday?: boolean;
+  color: string;
 }
 
-const DayOfWeekTitle = styled("span")<DayOfWeekTitleProps>(({ sunday }: DayOfWeekTitleProps) => ({
-  display: "flex",
-  fontSize: "14px",
-  width: "36px",
-  justifyContent: "center",
-  color: sunday ? "rgb(208,2,27)" : "rgb(44,44,44)"
-}));
+const DayOfWeekTitle = styled("span")<DayOfWeekTitleProps>(
+  ({ sunday, color }: DayOfWeekTitleProps) => ({
+    display: "flex",
+    fontSize: "14px",
+    width: "36px",
+    justifyContent: "center",
+    color: sunday ? "rgb(208,2,27)" : color
+  })
+);
 
 const DayArea = styled("div")`
   display: flex;
@@ -44,6 +49,7 @@ export const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 export default function CalendarDateArea(props: Props) {
   const { date, setDate } = props;
+  const { calendar } = useTheme<Theme>();
 
   const getDateArr = () => {
     const numberOfDay = date.endOf("month").diff(date.startOf("month"), "day") + 1;
@@ -80,7 +86,11 @@ export default function CalendarDateArea(props: Props) {
     <DateArea>
       <DayOfWeekArea>
         {dayOfWeek.map((day, dayIndex) => (
-          <DayOfWeekTitle key={`daytitle_${day}`} sunday={dayIndex === 0}>
+          <DayOfWeekTitle
+            key={`daytitle_${day}`}
+            sunday={dayIndex === 0}
+            color={calendar.textColor}
+          >
             {day}
           </DayOfWeekTitle>
         ))}

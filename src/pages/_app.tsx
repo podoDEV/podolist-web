@@ -3,12 +3,14 @@ import { AppProps } from "next/app";
 import React, { FC } from "react";
 import makeStore from "redux/makeStore";
 import Layout from "../common/styles/Layout";
-import "../common/styles/reset.css";
 import { TodoState } from "../redux/reducers/todo";
+import { StyleState } from "../redux/reducers/style";
+import { UserState } from "../redux/reducers/user";
 
 export interface State {
-  user: null;
+  user: UserState | null;
   todo: TodoState;
+  style: StyleState;
 }
 
 export const wrapper = createWrapper(makeStore, { debug: true });

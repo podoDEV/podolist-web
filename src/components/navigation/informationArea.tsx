@@ -1,15 +1,17 @@
 /** @jsx jsx */
 import React from "react";
 import { css, jsx } from "@emotion/core";
+import { useTheme } from "emotion-theming";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../pages/_app";
 import { UserState } from "../../redux/reducers/user";
+import { toggleDarkMode } from "../../redux/actions/style";
+import { Theme } from "../../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   toggleNaviCalendar: () => void;
 }
 
@@ -32,7 +34,7 @@ const calendarImgStyle = css`
 `;
 
 const logoutImgStyle = css`
-  height: 24px;
+  height: 20px;
   cursor: pointer;
 `;
 
@@ -53,11 +55,30 @@ const ImageContainerButton = styled("button")`
   align-items: center;
   background: transparent;
   border: none;
-  margin-left: 5px;
 `;
 
+interface DarkModeButtonProps {
+  buttonIcon: string;
+}
+
+const DarkModeButton = styled("div")<DarkModeButtonProps>(
+  ({ buttonIcon }: DarkModeButtonProps) => ({
+    width: "30px",
+    height: "30px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: buttonIcon,
+    border: "none",
+    cursor: "pointer",
+    transition: "background .5s ease"
+  })
+);
+
 export default function NavigationInformationArea(props: Props) {
-  const { date, setDate, toggleNaviCalendar } = props;
+  const { date, toggleNaviCalendar } = props;
+  const dispatch = useDispatch();
+  const theme = useTheme<Theme>();
 
   const month = date.format("M");
   const year = date.format("YYYY");
@@ -67,6 +88,10 @@ export default function NavigationInformationArea(props: Props) {
     if (window.confirm(`${user!.name}님 로그아웃 하시겠습니까?`)) {
       alert("로그아웃!");
     }
+  };
+
+  const onClickDarkModeIcon = () => {
+    dispatch(toggleDarkMode());
   };
 
   return (
@@ -79,6 +104,7 @@ export default function NavigationInformationArea(props: Props) {
       </DateTitleArea>
       <RightAreaContainer>
         {user && <Name>🙋‍♀️ {user.name} 님</Name>}
+        <DarkModeButton onClick={onClickDarkModeIcon} buttonIcon={theme.buttonIcon} />
         <ImageContainerButton onClick={onClickLogoutIcon}>
           <img src={"/images/logout.png"} css={logoutImgStyle} />
         </ImageContainerButton>
