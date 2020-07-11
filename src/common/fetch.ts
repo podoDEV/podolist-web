@@ -1,3 +1,5 @@
+import Router from "next/router";
+
 const defaultOptions: RequestInit = {
   credentials: "include",
   headers: {
@@ -8,6 +10,15 @@ const defaultOptions: RequestInit = {
   }
 };
 
+function handleError(errorCode: number) {
+  if (errorCode === 401) {
+    const { pathname } = Router;
+    if (pathname === "/") {
+      Router.push("/login");
+    }
+  }
+}
+
 export async function post(url: string, body?: string) {
   const options: RequestInit = {
     method: "POST",
@@ -15,15 +26,19 @@ export async function post(url: string, body?: string) {
     body
   };
 
-  return fetch(url, options)
-    .then(res => {
-      if (res.status === 200) {
-        return Promise.resolve(res.json());
-      }
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  return (
+    fetch(url, options)
+      .then(res => {
+        if (res.status === 200) {
+          return Promise.resolve(res.json());
+        }
+
+        throw res.status;
+      })
+      .catch(errCode => {
+        handleError(errCode);
+      }) ?? {}
+  );
 }
 
 export async function get(url: string) {
@@ -32,13 +47,17 @@ export async function get(url: string) {
     ...defaultOptions
   };
 
-  return fetch(url, options)
-    .then(res => {
-      if (res.status === 200) {
-        return Promise.resolve(res.json());
-      }
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  return (
+    (await fetch(url, options)
+      .then(res => {
+        if (res.status === 200) {
+          return Promise.resolve(res.json());
+        }
+
+        throw res.status;
+      })
+      .catch(errCode => {
+        handleError(errCode);
+      })) ?? {}
+  );
 }

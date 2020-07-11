@@ -1,15 +1,14 @@
 /** @jsx jsx */
-import { css, jsx, keyframes } from "@emotion/core";
+import { jsx, keyframes } from "@emotion/core";
 import styled from "@emotion/styled";
-import Cookies from "js-cookie";
-import Router from "next/router";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import KakaoLogin from "react-kakao-login";
-import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
 import { useDispatch } from "react-redux";
-import { applyUserInfo } from "redux/actions/user";
 import * as apiUrl from "../common/apiUrl";
-import { post } from "../common/fetch";
+import { get } from "../common/fetch";
+import Navigation from "../components/navigation/navigation";
+import Todo from "../components/todoList";
+import { applyTodo } from "../redux/actions/todo";
 
 const slide = keyframes`
   0% { height: 0% }
@@ -23,91 +22,27 @@ const bounce = keyframes`
   18% {transform: translate3d(0,-2px,0);}
 `;
 
-const AnimationContainer = styled("div")`
+const TodoPageContainer = styled("div")`
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(#9314fe, #a91efe);
-`;
-
-const ButtonContainer = styled("div")`
-  display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
-const Title = styled("p")`
-  color: #fff;
-  letter-spacing: 1px;
-  font-size: 20px;
-  margin-bottom: 13px;
-  align-self: flex-end;
-`;
-
-const KakaoLoginBtn = styled(KakaoLogin)`
-  border: none;
-  background: no-repeat center url(/images/kakao-login.png);
-  height: 65px;
-  width: 183px;
-  transition-delay: 2s;
-`;
-
-export default function Index() {
+export default function TodoIndex() {
   const dispatch = useDispatch();
-  const [pageStatus, setPageStatus] = useState("START");
+  const [date, setDate] = useState(dayjs());
 
   useEffect(() => {
-    setTimeout(() => {
-      setPageStatus("SLIDE_FINISH");
-    }, 1300);
+    const numb = Number(date.format("YYYYMMDD"));
+    get(apiUrl.fetchItems(numb)).then(res => {
+      dispatch(applyTodo(res));
+    });
   }, []);
 
-  const success = (res: KakaoLoginResponseV2) => {
-    const { access_token: accessToken } = res.response;
-    post(apiUrl.login(), JSON.stringify({ accessToken }))
-      .then(res => {
-        const { sessionId, user } = res;
-        Cookies.set("SESSIONID", sessionId, { domain: ".podolist.com", path: "/" });
-        dispatch(applyUserInfo(user));
-      })
-      .then(() => {
-        Router.push("/todo");
-      });
-    // error 처리
-  };
-
-  const failure = () => {
-    console.log("fail");
-  };
-
   return (
-    <AnimationContainer
-      css={css`
-        animation: ${slide} 1.5s ease;
-      `}
-    >
-      {pageStatus !== "START" && (
-        <ButtonContainer>
-          <Title>생각보다 괜찮은 투두리스트</Title>
-          <img
-            src={"/images/logo.png"}
-            css={css`
-              height: 60px;
-              margin-bottom: 45px;
-            `}
-          />
-          <KakaoLoginBtn
-            jsKey="0888a2c569cd376400ea3dc50d925724"
-            onSuccess={success}
-            onFailure={failure}
-            buttonText=""
-            css={css`
-              animation: ${bounce} 5s ease infinite;
-            `}
-          />
-        </ButtonContainer>
-      )}
-    </AnimationContainer>
+    <TodoPageContainer>
+      <Navigation date={date} setDate={setDate} />
+      <Todo date={date} />
+    </TodoPageContainer>
   );
 }
