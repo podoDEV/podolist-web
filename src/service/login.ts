@@ -8,7 +8,3 @@ export const login = (accessToken: string) => {
 export const fetchUserInfo = () => {
   return get(apiUrl.fetchUserInfo());
 };
-
-export const checkValidUser = () => {
-  return get(apiUrl.validSessionId());
-};
