@@ -34,9 +34,6 @@
   },
   "scripts": {
     "start": "next -H local.podolist.com",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "dev": "next",
     "next:build": "next build",
     "next:start": "next start",
     "storybook": "start-storybook -s ./public -p 6006 -c .storybook",
