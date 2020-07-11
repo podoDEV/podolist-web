@@ -1,117 +1,36 @@
 /** @jsx jsx */
 import React, { useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import { jsx, keyframes, css } from "@emotion/core";
-import KakaoLogin from "react-kakao-login";
-import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
+import { jsx } from "@emotion/core";
 import { useDispatch } from "react-redux";
-import { userLogin, checkValidUser } from "../redux/actions/user";
+import dayjs from "dayjs";
+import { applyTodo } from "../redux/actions/todo";
+import { get } from "../common/fetch";
+import * as apiUrl from "../common/apiUrl";
+import Navigation from "../components/navigation/navigation";
+import Todo from "../components/todoList";
+import styled from "@emotion/styled";
 
-const slide = keyframes`
-  0% { height: 0% }
-  100% { height: 100% }
-`;
-
-const bounce = keyframes`
-  from, 4%, 10%, 16%, to {transform: translate3d(0,0,0);}
-  8% {transform: translate3d(0, -10px, 0);}
-  12% {transform: translate3d(0, -5px, 0);}
-  18% {transform: translate3d(0,-2px,0);}
-`;
-
-const PreloaderContainer = styled("div")`
+const TodoPageContainer = styled("div")`
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
-
-const AnimationContainer = styled("div")`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(#9314fe, #a91efe);
-`;
-
-const ButtonContainer = styled("div")`
-  display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
-const Title = styled("p")`
-  color: #fff;
-  letter-spacing: 1px;
-  font-size: 20px;
-  margin-bottom: 13px;
-  align-self: flex-end;
-`;
-
-const KakaoLoginBtn = styled(KakaoLogin)`
-  border: none;
-  background: no-repeat center url(/images/kakao-login.png);
-  height: 65px;
-  width: 183px;
-  transition-delay: 2s;
-`;
-
-export default function Index() {
+export default function TodoIndex() {
   const dispatch = useDispatch();
-  const [pageStatus, setPageStatus] = useState("START");
+  const [date, setDate] = useState(dayjs());
 
   useEffect(() => {
-    dispatch(checkValidUser(() => setPageStatus("SLIDE_START")));
+    const numb = Number(date.format("YYYYMMDD"));
+    get(apiUrl.fetchItems(numb)).then(res => {
+      dispatch(applyTodo(res));
+    });
   }, []);
 
-  useEffect(() => {
-    if (pageStatus === "SLIDE_START") {
-      setTimeout(() => {
-        setPageStatus("SLIDE_FINISH");
-      }, 1300);
-    }
-  }, [pageStatus]);
-
-  const success = (res: KakaoLoginResponseV2) => {
-    const { access_token: accessToken } = res.response;
-    dispatch(userLogin(accessToken));
-  };
-
-  const failure = () => {
-    console.log("fail");
-  };
-
-  return pageStatus !== "START" ? (
-    <AnimationContainer
-      css={css`
-        animation: ${slide} 1.5s ease;
-      `}
-    >
-      {pageStatus === "SLIDE_FINISH" && (
-        <ButtonContainer>
-          <Title>생각보다 괜찮은 투두리스트</Title>
-          <img
-            src={"/images/logo.png"}
-            css={css`
-              height: 60px;
-              margin-bottom: 45px;
-            `}
-          />
-          <KakaoLoginBtn
-            jsKey="0888a2c569cd376400ea3dc50d925724"
-            onSuccess={success}
-            onFailure={failure}
-            buttonText=""
-            css={css`
-              animation: ${bounce} 5s ease infinite;
-            `}
-          />
-        </ButtonContainer>
-      )}
-    </AnimationContainer>
-  ) : (
-    <PreloaderContainer>
-      <img src={"images/loading.gif"} />
-    </PreloaderContainer>
+  return (
+    <TodoPageContainer>
+      <Navigation date={date} setDate={setDate} />
+      <Todo date={date} />
+    </TodoPageContainer>
   );
 }
