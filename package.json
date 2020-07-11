@@ -15,6 +15,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.9",
+    "@types/redux-saga": "^0.10.5",
     "axios": "^0.19.2",
     "clsx": "^1.1.1",
     "dayjs": "^1.8.27",
@@ -61,7 +62,8 @@
   },
   "devDependencies": {
     "@storybook/react": "^5.3.14",
-    "babel-loader": "^8.0.6",
+    "@types/react-transition-group": "^4.4.0",
+    "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.1",
     "cypress": "^4.1.0",
     "eslint": "^6.8.0",
@@ -71,6 +73,7 @@
     "eslint-plugin-react": "^7.19.0",
     "file-loader": "^5.1.0",
     "prettier": "^1.19.1",
+    "react-transition-group": "^4.4.1",
     "redux-devtools-extension": "^2.13.8",
     "start-server-and-test": "^1.10.8"
   }

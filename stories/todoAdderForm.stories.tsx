@@ -1,7 +1,6 @@
-import * as React from "react";
-
 import styled from "@emotion/styled";
 import TodoAdderForm from "components/todo-adder-form/TodoAdderForm";
+import * as React from "react";
 
 interface ContainerProps {
   width?: number;
@@ -32,7 +31,7 @@ export const notOpen = () => {
 export const open = () => {
   return (
     <Container>
-      <TodoAdderForm defaultOpenOptions />
+      <TodoAdderForm defaultIsOpen onSubmit={() => console.log("onsubmit")} />
     </Container>
   );
 };

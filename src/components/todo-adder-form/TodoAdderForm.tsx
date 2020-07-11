@@ -1,13 +1,14 @@
 /** @jsx jsx */
-import React, { useState } from "react";
-import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 import Calendar from "components/calendar/calendar";
-import dayjs from "dayjs";
-import { PriorityType } from "constants/Priority";
 import PriorityCircle from "components/priority-circle/PriorityCircle";
-import PriorityRadioGroup from "./PriorityRadioGroup";
 import { Color } from "constants/Color";
+import { PriorityType } from "constants/Priority";
+import dayjs from "dayjs";
+import { FormEvent, useState } from "react";
+import { CSSTransition } from "react-transition-group";
+import PriorityRadioGroup from "./PriorityRadioGroup";
 
 const Label = styled.label`
   display: block;
@@ -23,6 +24,21 @@ const FormsContainer = styled("form")`
   border-radius: 22px 22px 0 0;
   background: rgba(244, 244, 244);
   padding: 3px;
+  .toast-enter {
+    height: 0;
+  }
+  .toast-enter-active,
+  .toast-enter-done {
+    height: 500px;
+    transition: height 0.3s ease-in-out;
+  }
+  .toast-exit {
+    height: 500px;
+  }
+  .toast-exit-active {
+    height: 0;
+    transition: height 0.3s ease-in-out;
+  }
 `;
 
 const InputContainer = styled("div")`
@@ -32,6 +48,13 @@ const InputContainer = styled("div")`
   background: rgb(255, 255, 255);
   width: 100%;
   height: 44px;
+  transition: all 0.1s ease-in;
+  &.close {
+    transform: rotate(45deg);
+  }
+  &.open {
+    transform: rotate(0);
+  }
 `;
 
 const OpenFormsBtn = styled("button")`
@@ -50,6 +73,7 @@ const AddFormsBtn = styled("button")`
   border: none;
   background: rgb(158, 48, 254) url("/images/enter.png") 50% 50%/ 16px 16px no-repeat;
   cursor: pointer;
+  overflow: hidden;
 `;
 
 const ContentsInput = styled("input")`
@@ -59,7 +83,8 @@ const ContentsInput = styled("input")`
 `;
 
 const OptionsContainer = styled.div`
-  padding: 1rem;
+  padding: 0 1rem;
+  overflow: hidden;
   > * :not(:last-child) {
     margin-bottom: 2rem;
   }
@@ -75,12 +100,12 @@ type FormStateType = {
 };
 
 type TodoAdderFormProps = {
-  defaultOpenOptions: boolean;
+  defaultIsOpen?: boolean;
   // TODO: API 붙일 떄 param 교체
-  onSubmit: (params: any) => void;
+  onSubmit: () => void;
 };
 
-export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdderFormProps) {
+export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
   const [formState, setFormState] = useState<FormStateType>({
     dueAt: 0,
     endedAt: 0,
@@ -90,10 +115,10 @@ export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdde
   });
   const [date, setDate] = useState(dayjs());
 
-  const [isOpenOptions, setIsOpenOptions] = useState(defaultOpenOptions);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
 
   const handleClickOpenFormBtn = () => {
-    setIsOpenOptions(true);
+    setIsOpen(!isOpen);
   };
 
   const handleChangePriority = (priority: PriorityType) => {
@@ -103,17 +128,27 @@ export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdde
     });
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <FormsContainer onSubmit={onSubmit}>
+    <FormsContainer onSubmit={handleSubmit}>
       <InputContainer>
-        <OpenFormsBtn onClick={handleClickOpenFormBtn} />
-        {isOpenOptions && <PriorityCircle priority={formState.priority} />}
+        <OpenFormsBtn className={isOpen ? "close" : "open"} onClick={handleClickOpenFormBtn} />
+        {isOpen && <PriorityCircle priority={formState.priority} />}
         <ContentsInput />
         <AddFormsBtn />
       </InputContainer>
-      {isOpenOptions && (
+      {/* {isOpen && ( */}
+      <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
         <OptionsContainer>
-          <div>
+          <div
+            css={css`
+              padding-top: 1rem;
+            `}
+          >
             <Label>중요도 설정</Label>
             <PriorityRadioGroup onChange={handleChangePriority} />
           </div>
@@ -122,7 +157,8 @@ export default function TodoAdderForm({ defaultOpenOptions, onSubmit }: TodoAdde
             <Calendar date={date} setDate={setDate} />
           </div>
         </OptionsContainer>
-      )}
+      </CSSTransition>
+      {/* )} */}
     </FormsContainer>
   );
 }
