@@ -7,8 +7,10 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../pages/_app";
 import { UserState } from "../../redux/reducers/user";
-import { toggleDarkMode } from "../../redux/actions/style";
+import { StyleState } from "../../redux/reducers/style";
+import { setDarkMode } from "../../redux/actions/style";
 import { Theme } from "../../common/styles/Layout";
+import { setLocalStorageDarkMode } from "../../common/styles/darkMode";
 
 interface Props {
   date: Dayjs;
@@ -83,6 +85,7 @@ export default function NavigationInformationArea(props: Props) {
   const month = date.format("M");
   const year = date.format("YYYY");
   const user = useSelector<State, UserState | null>(state => state.user);
+  const { darkMode } = useSelector<State, StyleState>(state => state.style);
 
   const onClickLogoutIcon = () => {
     if (window.confirm(`${user!.name}님 로그아웃 하시겠습니까?`)) {
@@ -91,7 +94,8 @@ export default function NavigationInformationArea(props: Props) {
   };
 
   const onClickDarkModeIcon = () => {
-    dispatch(toggleDarkMode());
+    setLocalStorageDarkMode(!darkMode);
+    dispatch(setDarkMode(!darkMode));
   };
 
   return (

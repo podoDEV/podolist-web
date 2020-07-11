@@ -42,7 +42,7 @@ const MainLayout = styled("main")<MainLayoutTheme>(({ bg }: MainLayoutTheme) => 
 
 const dark = {
   buttonIcon: 'url("/images/moon.png") 50% 50%/ 16px 16px no-repeat',
-  gradientBG: "linear-gradient(#222, #656565)",
+  gradientBG: "linear-gradient(#101010,#2b2b2b)",
   bg: "#121212",
   item: {
     titleTextColor: "rgb(255,255,255)",
