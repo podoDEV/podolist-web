@@ -46,12 +46,14 @@ type TextProps = Pick<Props, "checked"> & { color: string };
 const Text = styled("div")<TextProps>(({ checked, color }: TextProps) => ({
   fontSize: "18px",
   color: checked ? "rgb(151, 151, 151)" : color,
-  textDecoration: checked ? "line-through" : "none"
+  textDecoration: checked ? "line-through" : "none",
+  textAlign: "left"
 }));
 
 const Date = styled("span")`
   font-size: 14px;
   margin-top: 7px;
+  text-align: left;
 `;
 
 const checkImgCss = css`

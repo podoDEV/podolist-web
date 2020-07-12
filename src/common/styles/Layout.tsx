@@ -26,6 +26,7 @@ export interface Theme {
     bg: string;
     textColor: string;
   };
+  preloader: string;
 }
 
 const mobileLayout = css`
@@ -51,7 +52,8 @@ const dark = {
   calendar: {
     bg: "#252525",
     textColor: "#fff"
-  }
+  },
+  preloader: "/images/loading-dark.gif"
 };
 
 const light = {
@@ -65,7 +67,8 @@ const light = {
   calendar: {
     bg: "#fff",
     textColor: "#2c2c2c"
-  }
+  },
+  preloader: "/images/loading-light.gif"
 };
 
 function Layout({ children }: LayoutProps) {
