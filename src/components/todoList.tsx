@@ -50,6 +50,8 @@ export const mobileScreenWidth = css`
   @media (max-width: 800px) {
     width: 100%;
     margin: auto;
+    box-sizing: border-box;
+    padding: 15px 25px;
   }
 `;
 

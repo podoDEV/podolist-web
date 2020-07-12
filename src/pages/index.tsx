@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, keyframes } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -9,18 +9,9 @@ import { get } from "../common/fetch";
 import Navigation from "../components/navigation/navigation";
 import Todo from "../components/todoList";
 import { applyTodo } from "../redux/actions/todo";
-
-const slide = keyframes`
-  0% { height: 0% }
-  100% { height: 100% }
-`;
-
-const bounce = keyframes`
-  from, 4%, 10%, 16%, to {transform: translate3d(0,0,0);}
-  8% {transform: translate3d(0, -10px, 0);}
-  12% {transform: translate3d(0, -5px, 0);}
-  18% {transform: translate3d(0,-2px,0);}
-`;
+import { fetchUserInfo } from "../redux/actions/user";
+import { setDarkMode } from "../redux/actions/style";
+import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -28,14 +19,29 @@ const TodoPageContainer = styled("div")`
   flex-direction: column;
 `;
 
+function getInitDarkMode() {
+  const userDarkTheme = getLocalStorageDarkMode();
+
+  if (userDarkTheme) {
+    return userDarkTheme === "true";
+  }
+
+  return matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
 
   useEffect(() => {
+    const darkMode = getInitDarkMode();
+    dispatch(setDarkMode(darkMode));
+    setLocalStorageDarkMode(darkMode);
+
     const numb = Number(date.format("YYYYMMDD"));
     get(apiUrl.fetchItems(numb)).then(res => {
       dispatch(applyTodo(res));
+      dispatch(fetchUserInfo());
     });
   }, []);
 
