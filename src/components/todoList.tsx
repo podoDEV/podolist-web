@@ -49,9 +49,8 @@ const DateTitle = styled("span")`
 export const mobileScreenWidth = css`
   @media (max-width: 800px) {
     width: 100%;
-    margin: auto;
     box-sizing: border-box;
-    padding: 15px 25px;
+    padding: 0 25px;
   }
 `;
 
@@ -88,7 +87,7 @@ const List = styled("ul")`
 const FoldableList = styled("ul")<ListProps>(({ folded, len }: ListProps) => ({
   transition: "height 0.4s",
   WebkitTransition: "height 0.4s",
-  height: folded ? "0px" : `${75 * len}px`,
+  height: folded ? "0px" : `${60 * len}px`,
   overflow: "hidden",
   border: "none",
   background: "none"
@@ -121,13 +120,15 @@ export default function TodoList(props: Props) {
             </ListTitleContainer>
             <FoldableList folded={folded} len={numberOfDelayedItems}>
               {delayedItems &&
-                delayedItems.map(({ title, priority, endedAt }, key) => (
+                delayedItems.map(({ title, priority, endedAt }, idx) => (
                   <TodoItem
                     text={title}
                     priority={priority}
                     date={formatted(endedAt)}
                     checked={false}
-                    key={key}
+                    key={`todo-item-delayed-${idx}`}
+                    idx={idx}
+                    delayed={true}
                   />
                 ))}
             </FoldableList>
@@ -149,13 +150,15 @@ export default function TodoList(props: Props) {
         </ListTitleContainer>
         <List>
           {items &&
-            items.map(({ title, priority, endedAt }, key) => (
+            items.map(({ title, priority, endedAt }, idx) => (
               <TodoItem
                 text={title}
                 priority={priority}
                 date={formatted(endedAt)}
                 checked={false}
-                key={key}
+                key={`todo-item-${idx}`}
+                idx={idx}
+                delayed={false}
               />
             ))}
         </List>

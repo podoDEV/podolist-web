@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { PriorityColor } from "constants/Color";
@@ -13,17 +13,18 @@ interface Props {
   text: string;
   date: string;
   checked: boolean;
+  idx: number;
+  delayed: boolean;
 }
 
 const TodoContainer = styled("li")`
   color: rgba(83, 83, 83, 1);
   display: flex;
   padding: 10px 0px;
+  justify-content: space-between;
 `;
 
-const CheckboxContainer = styled("div")`
-  padding-top: 5px;
-`;
+const CheckboxContainer = styled("div")``;
 
 type CheckboxProps = Pick<Props, "priority" | "checked">;
 
@@ -66,28 +67,79 @@ const checkImgCss = css`
   bottom: 22px;
 `;
 
+const Content = styled("div")`
+  display: flex;
+  flex-direction: row;
+`;
+
+const HoveredContent = styled("div")`
+  display: flex;
+  align-self: center;
+`;
+
+const Button = styled("button")`
+  border: none;
+  background: transparent;
+`;
+
+const img = css`
+  height: 12px;
+  width: 12px;
+`;
+
 export default function TodoItem(props: Props) {
-  const { priority, text, date, checked } = props;
+  const [hovered, setHovered] = useState(false);
+  const { priority, text, date, checked, idx, delayed } = props;
   const { dateTextColor, titleTextColor } = useTheme<Theme>().item;
 
+  const handleMouseOver = () => {
+    if (!hovered) {
+      setHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
+  const handelClickEditButton = () => {
+    console.log("edit", idx, delayed);
+  };
+
+  const handelClickRemoveButton = () => {
+    console.log("remove", idx, delayed);
+  };
+
   return (
-    <TodoContainer>
-      <CheckboxContainer>
-        <Checkbox priority={priority} checked={checked} />
-        {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
-      </CheckboxContainer>
-      <TextContainer>
-        <Text checked={checked} color={titleTextColor}>
-          {text}
-        </Text>
-        <Date
-          css={css`
-            color: ${dateTextColor};
-          `}
-        >
-          {date}
-        </Date>
-      </TextContainer>
+    <TodoContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+      <Content>
+        <CheckboxContainer>
+          <Checkbox priority={priority} checked={checked} />
+          {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
+        </CheckboxContainer>
+        <TextContainer>
+          <Text checked={checked} color={titleTextColor}>
+            {text}
+          </Text>
+          <Date
+            css={css`
+              color: ${dateTextColor};
+            `}
+          >
+            {date}
+          </Date>
+        </TextContainer>
+      </Content>
+      {hovered && (
+        <HoveredContent>
+          <Button onClick={handelClickEditButton}>
+            <img src={"/images/edit.png"} css={img} />
+          </Button>
+          <Button onClick={handelClickRemoveButton}>
+            <img src={"/images/delete.png"} css={img} />
+          </Button>
+        </HoveredContent>
+      )}
     </TodoContainer>
   );
 }
