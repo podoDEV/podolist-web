@@ -70,7 +70,7 @@ const FoldButton = styled("button")<FoldButtonProps>(({ folded }: FoldButtonProp
 
 const BorderBottom = styled("div")`
   border: 0.5px solid #ececec;
-  margin: 0 0 15px;
+  margin: 15px 0;
 `;
 
 interface ListProps {
