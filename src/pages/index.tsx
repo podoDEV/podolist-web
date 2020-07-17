@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -12,6 +12,8 @@ import { applyTodo } from "../redux/actions/todo";
 import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../common/styles/Layout";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -32,23 +34,35 @@ function getInitDarkMode() {
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
+  const [pageStatus, setPageStatus] = useState("NONE"); // NONE FETCHING
+  const { preloader } = useTheme<Theme>();
+
+  const fetchData = () => {
+    setPageStatus("FETCHING");
+    const numb = Number(date.format("YYYYMMDD"));
+    get(apiUrl.fetchItems(numb)).then(res => {
+      dispatch(applyTodo(res));
+      setPageStatus("NONE");
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [date]);
 
   useEffect(() => {
     const darkMode = getInitDarkMode();
     dispatch(setDarkMode(darkMode));
     setLocalStorageDarkMode(darkMode);
 
-    const numb = Number(date.format("YYYYMMDD"));
-    get(apiUrl.fetchItems(numb)).then(res => {
-      dispatch(applyTodo(res));
-      dispatch(fetchUserInfo());
-    });
+    fetchData();
+    dispatch(fetchUserInfo());
   }, []);
 
   return (
     <TodoPageContainer>
       <Navigation date={date} setDate={setDate} />
-      <Todo date={date} />
+      {pageStatus === "FETCHING" ? <img src={preloader} /> : <Todo date={date} />}
     </TodoPageContainer>
   );
 }

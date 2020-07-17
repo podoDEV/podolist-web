@@ -78,7 +78,14 @@ interface ListProps {
   len: number;
 }
 
-const List = styled("button")<ListProps>(({ folded, len }: ListProps) => ({
+const List = styled("ul")`
+  height: "100%";
+  overflow: "hidden";
+  border: "none";
+  background: "none";
+`;
+
+const FoldableList = styled("ul")<ListProps>(({ folded, len }: ListProps) => ({
   transition: "height 0.4s",
   WebkitTransition: "height 0.4s",
   height: folded ? "0px" : `${65 * len}px`,
@@ -91,26 +98,58 @@ function formatted(numb: number) {
   return dayjs(numb * 1000).format("YYYY.MM.DD");
 }
 
-export default function TodoList() {
-  const { delayedItems } = useSelector<State, TodoState>(state => state.todo);
+export default function TodoList(props: Props) {
+  const { delayedItems, items } = useSelector<State, TodoState>(state => state.todo);
   const [folded, setFolded] = useState(false);
   const numberOfDelayedItems = delayedItems ? delayedItems.length : 0;
+  const date = dayjs(props.date).format("YYYY.MM.DD");
+  const today = date === dayjs().format("YYYY.MM.DD");
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
+      {delayedItems && !!delayedItems.length && (
+        <>
+          <ListContainer>
+            <ListTitleContainer>
+              <ListTitle today={false}>Delayed</ListTitle>
+              <FoldButton
+                folded={folded}
+                onClick={() => {
+                  setFolded(!folded);
+                }}
+              />
+            </ListTitleContainer>
+            <FoldableList folded={folded} len={numberOfDelayedItems}>
+              {delayedItems &&
+                delayedItems.map(({ title, priority, endedAt }, key) => (
+                  <TodoItem
+                    text={title}
+                    priority={priority}
+                    date={formatted(endedAt)}
+                    checked={false}
+                    key={key}
+                  />
+                ))}
+            </FoldableList>
+          </ListContainer>
+          <BorderBottom />
+        </>
+      )}
       <ListContainer>
         <ListTitleContainer>
-          <ListTitle today={false}>Delayed</ListTitle>
-          <FoldButton
-            folded={folded}
-            onClick={() => {
-              setFolded(!folded);
-            }}
-          />
+          <ListTitle>
+            {today ? (
+              <>
+                Today<DateTitle>{date}</DateTitle>
+              </>
+            ) : (
+              date
+            )}
+          </ListTitle>
         </ListTitleContainer>
-        <List folded={folded} len={numberOfDelayedItems}>
-          {delayedItems &&
-            delayedItems.map(({ title, priority, endedAt }, key) => (
+        <List>
+          {items &&
+            items.map(({ title, priority, endedAt }, key) => (
               <TodoItem
                 text={title}
                 priority={priority}
@@ -120,14 +159,6 @@ export default function TodoList() {
               />
             ))}
         </List>
-      </ListContainer>
-      <BorderBottom />
-      <ListContainer>
-        <ListTitleContainer>
-          <ListTitle>
-            Today<DateTitle>Today</DateTitle>
-          </ListTitle>
-        </ListTitleContainer>
       </ListContainer>
     </TodoListContainer>
   );
