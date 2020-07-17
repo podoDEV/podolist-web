@@ -4,13 +4,17 @@ import { css, jsx } from "@emotion/core";
 import { useTheme } from "emotion-theming";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
+import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+
+import * as apiUrl from "../../common/apiUrl";
 import { State } from "../../pages/_app";
 import { UserState } from "../../redux/reducers/user";
 import { StyleState } from "../../redux/reducers/style";
 import { setDarkMode } from "../../redux/actions/style";
 import { Theme } from "../../common/styles/Layout";
 import { setLocalStorageDarkMode } from "../../common/styles/darkMode";
+import { post } from "../../common/fetch";
 
 interface Props {
   date: Dayjs;
@@ -89,7 +93,8 @@ export default function NavigationInformationArea(props: Props) {
 
   const onClickLogoutIcon = () => {
     if (window.confirm(`${user!.name}님 로그아웃 하시겠습니까?`)) {
-      alert("로그아웃!");
+      post(apiUrl.logout());
+      Router.push("/login");
     }
   };
 
