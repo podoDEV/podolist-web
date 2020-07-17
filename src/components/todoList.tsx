@@ -81,7 +81,7 @@ interface ListProps {
 const List = styled("button")<ListProps>(({ folded, len }: ListProps) => ({
   transition: "height 0.4s",
   WebkitTransition: "height 0.4s",
-  height: folded ? "0px" : `${65 * len}px`,
+  height: folded ? "0px" : `${75 * len}px`,
   overflow: "hidden",
   border: "none",
   background: "none"

@@ -5,7 +5,7 @@ module.exports = {
     // Important: return the modified config
     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
     config.module.rules.push({
-      test: /\.(svg|png|jpe?g|gif)$/i,
+      test: /\.(svg|png|jpe?g|gif|otf)$/i,
       use: [
         {
           loader: "file-loader"

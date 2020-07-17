@@ -21,7 +21,9 @@ const TodoContainer = styled("li")`
   padding: 10px 0px;
 `;
 
-const CheckboxContainer = styled("div")``;
+const CheckboxContainer = styled("div")`
+  padding-top: 5px;
+`;
 
 type CheckboxProps = Pick<Props, "priority" | "checked">;
 
@@ -37,6 +39,7 @@ const Checkbox = styled("div")<CheckboxProps>(({ checked, priority }: CheckboxPr
 const TextContainer = styled("div")`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   padding: 1px 0;
   margin-left: 24px;
 `;
