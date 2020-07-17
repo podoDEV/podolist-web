@@ -19,7 +19,7 @@ const NavigationWrapper = styled("div")`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 160px;
+  height: 150px;
 `;
 
 const NavigationContainer = styled("div")`

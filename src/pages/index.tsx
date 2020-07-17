@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -19,6 +19,7 @@ const TodoPageContainer = styled("div")`
   display: flex;
   align-items: center;
   flex-direction: column;
+  height: 100vh;
 `;
 
 function getInitDarkMode() {
