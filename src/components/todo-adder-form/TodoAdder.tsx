@@ -7,6 +7,7 @@ export default function TodoAdder() {
   return (
     <div
       css={css`
+        width: 750px;
         position: fixed;
         bottom: 0;
       `}

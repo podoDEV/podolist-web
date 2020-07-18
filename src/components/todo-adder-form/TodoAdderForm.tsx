@@ -85,8 +85,8 @@ const ContentsInput = styled("input")`
 const OptionsContainer = styled.div`
   padding: 0 1rem;
   overflow: hidden;
-  > * :not(:last-child) {
-    margin-bottom: 2rem;
+  & > :not(:last-child) {
+    margin-bottom: 1rem;
   }
 `;
 
@@ -137,7 +137,14 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
     <FormsContainer onSubmit={handleSubmit}>
       <InputContainer>
         <OpenFormsBtn className={isOpen ? "close" : "open"} onClick={handleClickOpenFormBtn} />
-        {isOpen && <PriorityCircle priority={formState.priority} />}
+        {isOpen && (
+          <PriorityCircle
+            css={css`
+              margin-right: 8px;
+            `}
+            priority={formState.priority}
+          />
+        )}
         <ContentsInput />
         <AddFormsBtn />
       </InputContainer>

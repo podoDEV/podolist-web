@@ -82,6 +82,7 @@ function Radio({ label, ...props }: RadioProps) {
       <input
         css={css`
           position: absolute;
+          opacity: 0;
           top: 0;
           left: 0;
           width: 0;

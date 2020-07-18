@@ -14,7 +14,6 @@ interface PriorityChipProps extends ChipProps {
 export default function PriorityChip({ priority, active, ...props }: PriorityChipProps) {
   return (
     <Chip
-      className={clsx(`${priority}`, { active })}
       css={css`
         &.${priority} {
           &.${active && "active"} {
@@ -30,6 +29,7 @@ export default function PriorityChip({ priority, active, ...props }: PriorityChi
         height: 2.375rem;
         cursor: pointer;
       `}
+      className={clsx(`${priority}`, { active })}
       {...props}
     />
   );
