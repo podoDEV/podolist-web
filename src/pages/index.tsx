@@ -40,7 +40,8 @@ export default function TodoIndex() {
 
   const fetchData = () => {
     setPageStatus("FETCHING");
-    const numb = Number(date.format("YYYYMMDD"));
+    const numb = date.format("YYYYMMDD");
+    // @TODO: saga로 빼기
     get(apiUrl.fetchItems(numb)).then(res => {
       dispatch(applyTodo(res));
       setPageStatus("NONE");

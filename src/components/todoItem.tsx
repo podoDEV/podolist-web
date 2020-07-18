@@ -5,16 +5,18 @@ import { css, jsx } from "@emotion/core";
 import { PriorityColor } from "constants/Color";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
+import { useDispatch } from "react-redux";
+import { removeTodoItem } from "../redux/actions/todo";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
 interface Props {
   priority: Priority;
   text: string;
+  selectedData: string;
   date: string;
   checked: boolean;
-  idx: number;
-  delayed: boolean;
+  id: number;
 }
 
 const TodoContainer = styled("li")`
@@ -89,8 +91,9 @@ const img = css`
 
 export default function TodoItem(props: Props) {
   const [hovered, setHovered] = useState(false);
-  const { priority, text, date, checked, idx, delayed } = props;
+  const { priority, text, date, checked, id, selectedData } = props;
   const { dateTextColor, titleTextColor } = useTheme<Theme>().item;
+  const dispatch = useDispatch();
 
   const handleMouseOver = () => {
     if (!hovered) {
@@ -103,17 +106,21 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    console.log("edit", idx, delayed);
+    console.log("edit", id);
   };
 
   const handelClickRemoveButton = () => {
-    console.log("remove", idx, delayed);
+    dispatch(removeTodoItem(id, selectedData));
+  };
+
+  const handleClickCheckbox = () => {
+    console.log("handle click checkbox", id);
   };
 
   return (
     <TodoContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
       <Content>
-        <CheckboxContainer>
+        <CheckboxContainer onClick={handleClickCheckbox}>
           <Checkbox priority={priority} checked={checked} />
           {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
         </CheckboxContainer>

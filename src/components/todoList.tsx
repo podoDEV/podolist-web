@@ -9,7 +9,6 @@ import { TodoState } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 
 interface Props {
-  // todo:
   date: Dayjs;
 }
 
@@ -101,6 +100,7 @@ export default function TodoList(props: Props) {
   const { delayedItems, items } = useSelector<State, TodoState>(state => state.todo);
   const [folded, setFolded] = useState(false);
   const numberOfDelayedItems = delayedItems ? delayedItems.length : 0;
+  const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
 
@@ -120,15 +120,15 @@ export default function TodoList(props: Props) {
             </ListTitleContainer>
             <FoldableList folded={folded} len={numberOfDelayedItems}>
               {delayedItems &&
-                delayedItems.map(({ title, priority, endedAt }, idx) => (
+                delayedItems.map(({ title, priority, endedAt, isCompleted, id }) => (
                   <TodoItem
                     text={title}
                     priority={priority}
+                    selectedData={selectedDate}
                     date={formatted(endedAt)}
-                    checked={false}
-                    key={`todo-item-delayed-${idx}`}
-                    idx={idx}
-                    delayed={true}
+                    checked={isCompleted}
+                    key={`todo-item-delayed-${id}`}
+                    id={id}
                   />
                 ))}
             </FoldableList>
@@ -150,15 +150,15 @@ export default function TodoList(props: Props) {
         </ListTitleContainer>
         <List>
           {items &&
-            items.map(({ title, priority, endedAt }, idx) => (
+            items.map(({ title, priority, endedAt, id }) => (
               <TodoItem
                 text={title}
                 priority={priority}
                 date={formatted(endedAt)}
+                selectedData={selectedDate}
                 checked={false}
-                key={`todo-item-${idx}`}
-                idx={idx}
-                delayed={false}
+                key={`todo-item-${id}`}
+                id={id}
               />
             ))}
         </List>
