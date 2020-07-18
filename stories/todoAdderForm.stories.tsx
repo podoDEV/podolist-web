@@ -31,7 +31,7 @@ export const notOpen = () => {
 export const open = () => {
   return (
     <Container>
-      <TodoAdderForm defaultIsOpen onSubmit={() => console.log("onsubmit")} />
+      <TodoAdderForm defaultIsOpen={true} onSubmit={() => console.log("onsubmit")} />
     </Container>
   );
 };

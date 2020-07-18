@@ -6,9 +6,11 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs from "dayjs";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
+import Dimmed from "components/common/Dimmed";
+import useOutsideClick from "hooks/useOutsideClick";
 
 const Label = styled.label`
   display: block;
@@ -17,9 +19,9 @@ const Label = styled.label`
 `;
 
 const FormsContainer = styled("form")`
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  max-width: 562px;
+  width: 562px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
   background: rgba(244, 244, 244);
@@ -121,62 +123,82 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
     title: ""
   });
   const [date, setDate] = useState(dayjs());
-
-  const [isOpen, setIsOpen] = useState(defaultIsOpen);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
   };
-
   const handleChangePriority = (priority: PriorityType) => {
     setFormState({
       ...formState,
       priority
     });
   };
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();
   };
 
+  const formContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useOutsideClick(formContainerRef, () => {
+    isOpen && setIsOpen(false);
+  });
+
   return (
-    <FormsContainer onSubmit={handleSubmit}>
-      <InputContainer>
-        <OpenFormsBtn className={isOpen ? "close" : "open"} onClick={handleClickOpenFormBtn} />
-        {isOpen && (
-          <PriorityCircle
-            css={css`
-              margin-right: 8px;
-            `}
-            priority={formState.priority}
-          />
-        )}
-        <ContentsInput />
-        <AddFormsBtn />
-      </InputContainer>
-      <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
-        <OptionsContainer>
-          {isOpen ? (
-            <>
-              <div
+    <>
+      {isOpen && (
+        <Dimmed
+          css={css`
+            top: 65px;
+          `}
+        />
+      )}
+      <div
+        css={css`
+          width: 750px;
+          position: fixed;
+          bottom: 0;
+        `}
+      >
+        <FormsContainer ref={formContainerRef} onSubmit={handleSubmit}>
+          <InputContainer>
+            <OpenFormsBtn className={isOpen ? "close" : "open"} onClick={handleClickOpenFormBtn} />
+            {isOpen && (
+              <PriorityCircle
                 css={css`
-                  padding-top: 1rem;
+                  margin-right: 8px;
                 `}
-              >
-                <Label>중요도 설정</Label>
-                <PriorityRadioGroup onChange={handleChangePriority} />
-              </div>
-              <div>
-                <Label>날짜</Label>
-                <Calendar date={date} setDate={setDate} />
-              </div>
-            </>
-          ) : (
-            <div></div>
-          )}
-        </OptionsContainer>
-      </CSSTransition>
-    </FormsContainer>
+                priority={formState.priority}
+              />
+            )}
+            <ContentsInput />
+            <AddFormsBtn />
+          </InputContainer>
+          <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
+            <OptionsContainer>
+              {isOpen ? (
+                <>
+                  <div
+                    css={css`
+                      padding-top: 1rem;
+                    `}
+                  >
+                    <Label>중요도 설정</Label>
+                    <PriorityRadioGroup onChange={handleChangePriority} />
+                  </div>
+                  <div>
+                    <Label>날짜</Label>
+                    <Calendar date={date} setDate={setDate} />
+                  </div>
+                </>
+              ) : (
+                <div></div>
+              )}
+            </OptionsContainer>
+          </CSSTransition>
+        </FormsContainer>
+      </div>
+    </>
   );
 }
