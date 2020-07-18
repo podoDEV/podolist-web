@@ -139,7 +139,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
     onSubmit();
   };
 
-  const formContainerRef = useRef<HTMLDivElement | null>(null);
+  const formContainerRef = useRef<HTMLFormElement | null>(null);
 
   useOutsideClick(formContainerRef, () => {
     isOpen && setIsOpen(false);
