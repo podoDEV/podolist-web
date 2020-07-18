@@ -1,7 +1,7 @@
 const apiDomain = "http://api.dev.podolist.com:8000";
 
 export const items = () => `${apiDomain}/items`;
-export const fetchItems = (date: number) => `${apiDomain}/items?date=${date}`;
+export const fetchItems = (date: string) => `${apiDomain}/items?date=${date}`;
 export const itemsWithId = (itemId: number) => `${apiDomain}/items/${itemId}`;
 export const login = () => `${apiDomain}/login/kakao`;
 export const logout = () => `${apiDomain}/logout`;

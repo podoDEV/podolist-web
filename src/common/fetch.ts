@@ -61,3 +61,45 @@ export async function get(url: string) {
       })) ?? {}
   );
 }
+
+export async function put(url: string) {
+  const options: RequestInit = {
+    method: "PUT",
+    ...defaultOptions
+  };
+
+  return (
+    (await fetch(url, options)
+      .then(res => {
+        if (res.status === 200) {
+          return Promise.resolve(res.json());
+        }
+
+        throw res.status;
+      })
+      .catch(errCode => {
+        handleError(errCode);
+      })) ?? {}
+  );
+}
+
+export async function deleteFetch(url: string) {
+  const options: RequestInit = {
+    method: "DELETE",
+    ...defaultOptions
+  };
+
+  return (
+    (await fetch(url, options)
+      .then(res => {
+        if (res.status === 204) {
+          return Promise.resolve(res.json());
+        }
+
+        throw res.status;
+      })
+      .catch(errCode => {
+        handleError(errCode);
+      })) ?? {}
+  );
+}
