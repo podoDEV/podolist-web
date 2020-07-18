@@ -30,14 +30,14 @@ const FormsContainer = styled("form")`
   .toast-enter-active,
   .toast-enter-done {
     height: 500px;
-    transition: height 0.3s ease-in-out;
+    transition: height 0.3s;
   }
   .toast-exit {
     height: 500px;
   }
   .toast-exit-active {
     height: 0;
-    transition: height 0.3s ease-in-out;
+    transition: height 0.3s;
   }
 `;
 
@@ -63,7 +63,14 @@ const OpenFormsBtn = styled("button")`
   border-radius: 44px;
   border: none;
   background: url("/images/add-btn.png") 50% 50%/ 16px 16px no-repeat;
+  &.open {
+    transform: rotate(0);
+  }
+  &.close {
+    transform: rotate(45deg);
+  }
   cursor: pointer;
+  transition: rotate 0.1s;
 `;
 
 const AddFormsBtn = styled("button")`
@@ -148,24 +155,28 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
         <ContentsInput />
         <AddFormsBtn />
       </InputContainer>
-      {/* {isOpen && ( */}
       <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
         <OptionsContainer>
-          <div
-            css={css`
-              padding-top: 1rem;
-            `}
-          >
-            <Label>중요도 설정</Label>
-            <PriorityRadioGroup onChange={handleChangePriority} />
-          </div>
-          <div>
-            <Label>날짜</Label>
-            <Calendar date={date} setDate={setDate} />
-          </div>
+          {isOpen ? (
+            <>
+              <div
+                css={css`
+                  padding-top: 1rem;
+                `}
+              >
+                <Label>중요도 설정</Label>
+                <PriorityRadioGroup onChange={handleChangePriority} />
+              </div>
+              <div>
+                <Label>날짜</Label>
+                <Calendar date={date} setDate={setDate} />
+              </div>
+            </>
+          ) : (
+            <div></div>
+          )}
         </OptionsContainer>
       </CSSTransition>
-      {/* )} */}
     </FormsContainer>
   );
 }
