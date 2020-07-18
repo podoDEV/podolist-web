@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import TodoAdderForm from "components/todo-adder-form/TodoAdderForm";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,6 +15,7 @@ import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
+import TodoAdder from "components/todo-adder-form/TodoAdder";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -64,6 +66,7 @@ export default function TodoIndex() {
     <TodoPageContainer>
       <Navigation date={date} setDate={setDate} />
       {pageStatus === "FETCHING" ? <img src={preloader} /> : <Todo date={date} />}
+      <TodoAdder />
     </TodoPageContainer>
   );
 }
