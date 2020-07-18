@@ -14,7 +14,7 @@ import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
-import TodoAdder from "components/todo-adder-form/TodoAdder";
+import TodoAdder from "components/todo-adder/TodoAdder";
 
 const TodoPageContainer = styled("div")`
   display: flex;

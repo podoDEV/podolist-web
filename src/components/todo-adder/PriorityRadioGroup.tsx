@@ -2,7 +2,7 @@ import React, { ReactNode, useState, InputHTMLAttributes } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { PriorityType } from "constants/Priority";
-import PriorityChip from "components/todo-adder-form/PriorityChip";
+import PriorityChip from "components/todo-adder/PriorityChip";
 
 const PRIORITY_LABEL_INFO = [
   {

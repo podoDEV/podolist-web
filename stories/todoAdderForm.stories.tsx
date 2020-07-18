@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import TodoAdderForm from "components/todo-adder-form/TodoAdderForm";
+import TodoAdderForm from "components/todo-adder/TodoAdderForm";
 import * as React from "react";
 
 interface ContainerProps {
