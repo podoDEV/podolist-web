@@ -32,10 +32,7 @@ export default (state = initialState, action: TodoActionTypes) => {
       const { todo } = action;
       return {
         ...state,
-        items: {
-          ...state.items,
-          todo
-        }
+        items: [...state.items, todo]
       };
     default:
       return state;
