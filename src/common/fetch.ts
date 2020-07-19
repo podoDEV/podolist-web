@@ -29,7 +29,7 @@ export async function post(url: string, body?: string) {
   return (
     fetch(url, options)
       .then(res => {
-        if (res.status === 200) {
+        if (res.status >= 200 && res.status < 300) {
           return Promise.resolve(res.json());
         }
 
