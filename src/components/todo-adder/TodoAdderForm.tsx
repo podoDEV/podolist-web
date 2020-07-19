@@ -5,12 +5,14 @@ import Calendar from "components/calendar/calendar";
 import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { FormEvent, useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
 import useOutsideClick from "hooks/useOutsideClick";
+import { CreateTodoParams } from "./TodoAdder";
+import { useImmer } from "use-immer";
 
 const Label = styled.label`
   display: block;
@@ -99,44 +101,39 @@ const OptionsContainer = styled.div`
   }
 `;
 
-// TODO: API 붙이면 교체~
-type FormStateType = {
-  dueAt: number;
-  endedAt: number;
-  startedAt: number;
-  priority: PriorityType;
-  title: string;
+type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> & {
+  startedAt: Dayjs;
 };
 
 type TodoAdderFormProps = {
   defaultIsOpen?: boolean;
-  // TODO: API 붙일 떄 param 교체
-  onSubmit: () => void;
+  onSubmit: (params: FormStateType) => void;
 };
 
 export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
-  const [formState, setFormState] = useState<FormStateType>({
-    dueAt: 0,
-    endedAt: 0,
-    startedAt: 0,
+  const [formState, produceFormState] = useImmer<FormStateType>({
+    startedAt: dayjs(),
     priority: PriorityType.MEDIUM,
     title: ""
   });
-  const [date, setDate] = useState(dayjs());
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
   };
   const handleChangePriority = (priority: PriorityType) => {
-    setFormState({
-      ...formState,
-      priority
+    produceFormState(draft => {
+      draft.priority = priority;
+    });
+  };
+  const setDate = (date: Dayjs) => {
+    produceFormState(draft => {
+      draft.startedAt = date;
     });
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit();
+    onSubmit(formState);
   };
 
   const formContainerRef = useRef<HTMLFormElement | null>(null);
@@ -172,7 +169,14 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
                 priority={formState.priority}
               />
             )}
-            <ContentsInput />
+            <ContentsInput
+              onChange={event => {
+                const { value } = event.target;
+                produceFormState(draft => {
+                  draft.title = value;
+                });
+              }}
+            />
             <AddFormsBtn />
           </InputContainer>
           <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
@@ -189,7 +193,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
                   </div>
                   <div>
                     <Label>날짜</Label>
-                    <Calendar date={date} setDate={setDate} />
+                    <Calendar date={formState.startedAt} setDate={setDate} />
                   </div>
                 </>
               ) : (
