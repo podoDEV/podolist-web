@@ -160,7 +160,11 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
       >
         <FormsContainer ref={formContainerRef} onSubmit={handleSubmit}>
           <InputContainer>
-            <OpenFormsBtn className={isOpen ? "close" : "open"} onClick={handleClickOpenFormBtn} />
+            <OpenFormsBtn
+              type="button"
+              className={isOpen ? "close" : "open"}
+              onClick={handleClickOpenFormBtn}
+            />
             {isOpen && (
               <PriorityCircle
                 css={css`
@@ -170,6 +174,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
               />
             )}
             <ContentsInput
+              onClick={() => setIsOpen(true)}
               onChange={event => {
                 const { value } = event.target;
                 produceFormState(draft => {
@@ -177,7 +182,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
                 });
               }}
             />
-            <AddFormsBtn />
+            <AddFormsBtn type="submit" />
           </InputContainer>
           <CSSTransition in={isOpen} timeout={300} classNames="toast" unmountOnExit>
             <OptionsContainer>
