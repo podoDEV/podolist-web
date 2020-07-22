@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useState, useRef } from "react";
+import { FormEvent, useState, useRef, useMemo, ChangeEvent } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
@@ -102,6 +102,10 @@ const OptionsContainer = styled.div`
   }
 `;
 
+const validator = (formState: FormStateType) => {
+  if (!formState.title) throw "할일을 입력해주세요.😢";
+};
+
 type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> & {
   startedAt: Dayjs;
 };
@@ -112,17 +116,22 @@ type TodoAdderFormProps = {
 };
 
 export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
-  const [formState, produceFormState] = useImmer<FormStateType>({
-    startedAt: dayjs(),
-    priority: PriorityType.MEDIUM,
-    title: ""
-  });
+  const initialFormState = useMemo(
+    () => ({
+      startedAt: dayjs(),
+      priority: PriorityType.MEDIUM,
+      title: ""
+    }),
+    []
+  );
+  const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
   };
-  const handleChangePriority = (priority: PriorityType) => {
+  const handleChangePriority = (event: ChangeEvent<HTMLInputElement>) => {
+    const priority = event.target.value as PriorityType;
     produceFormState(draft => {
       draft.priority = priority;
     });
@@ -133,8 +142,14 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
     });
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(formState);
+    try {
+      validator(formState);
+      event.preventDefault();
+      onSubmit(formState);
+      produceFormState(() => initialFormState);
+    } catch (message) {
+      alert(message);
+    }
   };
 
   const formContainerRef = useRef<HTMLFormElement | null>(null);
@@ -183,6 +198,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
                   draft.title = value;
                 });
               }}
+              value={formState.title}
             />
             <AddFormsBtn type="submit" />
           </InputContainer>
@@ -196,7 +212,10 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
                     `}
                   >
                     <Label>중요도 설정</Label>
-                    <PriorityRadioGroup onChange={handleChangePriority} />
+                    <PriorityRadioGroup
+                      onChange={handleChangePriority}
+                      checkedPriority={formState.priority}
+                    />
                   </div>
                   <div>
                     <Label>날짜</Label>

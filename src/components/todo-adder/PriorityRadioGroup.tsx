@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, InputHTMLAttributes } from "react";
+import React, { ReactNode, useState, InputHTMLAttributes, ChangeEvent } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { PriorityType } from "constants/Priority";
@@ -28,16 +28,11 @@ const PRIORITY_LABEL_INFO = [
 ];
 
 interface PriorityRadioGroupProps {
-  onChange: (value: PriorityType) => void;
-  defaultChecked?: PriorityType;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  checkedPriority: PriorityType;
 }
 
-export default function PriorityRadioGroup({
-  onChange,
-  defaultChecked: defaultCheckedPriority = PriorityType.MEDIUM
-}: PriorityRadioGroupProps) {
-  const [checkedPriority, setCheckedPriority] = useState<PriorityType>(defaultCheckedPriority);
-
+export default function PriorityRadioGroup({ onChange, checkedPriority }: PriorityRadioGroupProps) {
   return (
     <div
       css={css`
@@ -62,11 +57,7 @@ export default function PriorityRadioGroup({
                 <PriorityChip priority={priority.value} active={isChecked} label={priority.label} />
               }
               value={priority.value}
-              onChange={event => {
-                const value = event.target.value as PriorityType;
-                setCheckedPriority(value);
-                onChange(value);
-              }}
+              onChange={onChange}
               checked={isChecked}
             />
           </div>
