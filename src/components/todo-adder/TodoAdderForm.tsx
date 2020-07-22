@@ -23,7 +23,8 @@ const Label = styled.label`
 const FormsContainer = styled("form")`
   display: inline-flex;
   flex-direction: column;
-  width: 562px;
+  width: 100%;
+  max-width: 560px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
   background: rgba(244, 244, 244);
@@ -153,7 +154,8 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
       )}
       <div
         css={css`
-          width: 750px;
+          max-width: 750px;
+          width: 100%;
           position: fixed;
           bottom: 0;
         `}

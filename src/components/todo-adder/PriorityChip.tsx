@@ -25,8 +25,9 @@ export default function PriorityChip({ priority, active, ...props }: PriorityChi
         }
         color: ${Color.WHITE};
         border: none;
-        width: 5.3125rem;
-        height: 2.375rem;
+        width: 100%;
+        /* width: 5.3125rem; */
+        /* height: 2.375rem; */
         cursor: pointer;
       `}
       className={clsx(`${priority}`, { active })}

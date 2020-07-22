@@ -43,24 +43,33 @@ export default function PriorityRadioGroup({
       css={css`
         display: flex;
         justify-content: space-between;
+        > *:not(:last-child) {
+          margin-right: 5px;
+        }
       `}
     >
       {PRIORITY_LABEL_INFO.map(priority => {
         const isChecked = checkedPriority === (priority.value as PriorityType);
         return (
-          <Radio
-            key={priority.label + priority.value}
-            label={
-              <PriorityChip priority={priority.value} active={isChecked} label={priority.label} />
-            }
-            value={priority.value}
-            onChange={event => {
-              const value = event.target.value as PriorityType;
-              setCheckedPriority(value);
-              onChange(value);
-            }}
-            checked={isChecked}
-          />
+          <div
+            css={css`
+              flex: 1 1 0px;
+            `}
+          >
+            <Radio
+              key={priority.label + priority.value}
+              label={
+                <PriorityChip priority={priority.value} active={isChecked} label={priority.label} />
+              }
+              value={priority.value}
+              onChange={event => {
+                const value = event.target.value as PriorityType;
+                setCheckedPriority(value);
+                onChange(value);
+              }}
+              checked={isChecked}
+            />
+          </div>
         );
       })}
     </div>
