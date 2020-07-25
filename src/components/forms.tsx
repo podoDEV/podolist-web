@@ -4,21 +4,13 @@ import styled from "@emotion/styled";
 import { jsx } from "@emotion/core";
 import { useForm } from "react-hook-form";
 
-// interface Props {}
-
 const FormsContainer = styled("form")`
   display: flex;
-  max-width: 562px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
   background: rgba(244, 244, 244);
   padding: 3px;
 `;
-
-// const FormsContainer = styled("forms")`
-//   display: flex;
-//   width: 100%;
-// `;
 
 const InputContainer = styled("div")`
   display: flex;

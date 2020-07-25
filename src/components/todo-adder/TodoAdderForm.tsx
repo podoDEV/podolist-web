@@ -26,7 +26,7 @@ const FormsContainer = styled("form")`
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  max-width: 560px;
+  max-width: 750px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
   padding: 3px;
@@ -171,7 +171,6 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
       )}
       <div
         css={css`
-          max-width: 750px;
           width: 100%;
           position: fixed;
           bottom: 0;

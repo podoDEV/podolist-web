@@ -23,6 +23,11 @@ const TodoPageContainer = styled("div")`
   min-height: 100vh;
 `;
 
+const TodoContainer = styled.div`
+  width: 100%;
+  max-width: 750px;
+`;
+
 function getInitDarkMode() {
   const userDarkTheme = getLocalStorageDarkMode();
 
@@ -65,8 +70,10 @@ export default function TodoIndex() {
   return (
     <TodoPageContainer>
       <Navigation date={date} setDate={setDate} />
-      {pageStatus === "FETCHING" ? <img src={preloader} /> : <Todo date={date} />}
-      <TodoAdder />
+      <TodoContainer>
+        {pageStatus === "FETCHING" ? <img src={preloader} /> : <Todo date={date} />}
+        <TodoAdder />
+      </TodoContainer>
     </TodoPageContainer>
   );
 }
