@@ -1,5 +1,5 @@
 import React, { HTMLProps } from "react";
-/** @jxs jsx */
+/** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { Color } from "constants/Color";
 

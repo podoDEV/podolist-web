@@ -1,8 +1,8 @@
-import React, { ReactNode, useState, InputHTMLAttributes } from "react";
+import React, { ReactNode, useState, InputHTMLAttributes, ChangeEvent } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { PriorityType } from "constants/Priority";
-import PriorityChip from "components/todo-adder-form/PriorityChip";
+import PriorityChip from "components/todo-adder/PriorityChip";
 
 const PRIORITY_LABEL_INFO = [
   {
@@ -28,39 +28,39 @@ const PRIORITY_LABEL_INFO = [
 ];
 
 interface PriorityRadioGroupProps {
-  onChange: (value: PriorityType) => void;
-  defaultChecked?: PriorityType;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  checkedPriority: PriorityType;
 }
 
-export default function PriorityRadioGroup({
-  onChange,
-  defaultChecked: defaultCheckedPriority = PriorityType.MEDIUM
-}: PriorityRadioGroupProps) {
-  const [checkedPriority, setCheckedPriority] = useState<PriorityType>(defaultCheckedPriority);
-
+export default function PriorityRadioGroup({ onChange, checkedPriority }: PriorityRadioGroupProps) {
   return (
     <div
       css={css`
         display: flex;
         justify-content: space-between;
+        > *:not(:last-child) {
+          margin-right: 5px;
+        }
       `}
     >
       {PRIORITY_LABEL_INFO.map(priority => {
         const isChecked = checkedPriority === (priority.value as PriorityType);
         return (
-          <Radio
-            key={priority.label + priority.value}
-            label={
-              <PriorityChip priority={priority.value} active={isChecked} label={priority.label} />
-            }
-            value={priority.value}
-            onChange={event => {
-              const value = event.target.value as PriorityType;
-              setCheckedPriority(value);
-              onChange(value);
-            }}
-            checked={isChecked}
-          />
+          <div
+            css={css`
+              flex: 1 1 0px;
+            `}
+          >
+            <Radio
+              key={priority.label + priority.value}
+              label={
+                <PriorityChip priority={priority.value} active={isChecked} label={priority.label} />
+              }
+              value={priority.value}
+              onChange={onChange}
+              checked={isChecked}
+            />
+          </div>
         );
       })}
     </div>
@@ -82,6 +82,7 @@ function Radio({ label, ...props }: RadioProps) {
       <input
         css={css`
           position: absolute;
+          opacity: 0;
           top: 0;
           left: 0;
           width: 0;

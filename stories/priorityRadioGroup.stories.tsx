@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import PriorityRadioGroup from "components/todo-adder-form/PriorityRadioGroup";
+import PriorityRadioGroup from "components/todo-adder/PriorityRadioGroup";
 import React from "react";
 
 export default {

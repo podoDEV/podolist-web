@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import TodoAdderForm from "components/todo-adder-form/TodoAdderForm";
+import TodoAdderForm from "components/todo-adder/TodoAdderForm";
 import * as React from "react";
 
 interface ContainerProps {
@@ -31,7 +31,7 @@ export const notOpen = () => {
 export const open = () => {
   return (
     <Container>
-      <TodoAdderForm defaultIsOpen onSubmit={() => console.log("onsubmit")} />
+      <TodoAdderForm defaultIsOpen={true} onSubmit={() => console.log("onsubmit")} />
     </Container>
   );
 };
