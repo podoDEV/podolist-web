@@ -62,10 +62,11 @@ export async function get(url: string) {
   );
 }
 
-export async function put(url: string) {
+export async function put(url: string, body?: string) {
   const options: RequestInit = {
     method: "PUT",
-    ...defaultOptions
+    ...defaultOptions,
+    body
   };
 
   return (

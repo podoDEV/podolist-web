@@ -92,7 +92,7 @@ export default function TodoIndex() {
       <SelectedTodoContext.Provider value={selectedTodoContextValue}>
         <TodoContainer>
           {pageStatus === "FETCHING" ? <img src={preloader} /> : <TodoList date={date} />}
-          <TodoAdder />
+          <TodoAdder fetchTodo={fetchData} />
         </TodoContainer>
       </SelectedTodoContext.Provider>
     </TodoPageContainer>

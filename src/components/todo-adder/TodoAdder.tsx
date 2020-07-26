@@ -3,8 +3,8 @@ import { css, jsx } from "@emotion/core";
 import React, { useState, useContext } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
-import { post } from "common/fetch";
-import { items } from "common/apiUrl";
+import { post, put } from "common/fetch";
+import { items, updateItem } from "common/apiUrl";
 import { Todo } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,18 @@ async function createTodoApi(params: CreateTodoParams): Promise<Todo> {
   return response;
 }
 
-export default function TodoAdder() {
+export type UpdateTodoParams = CreateTodoParams;
+
+async function updateTodoApi(todoId: number, params: UpdateTodoParams) {
+  const response = await put(updateItem(todoId), JSON.stringify(params));
+  return response;
+}
+
+type TodoAdderProps = {
+  fetchTodo: () => void;
+};
+
+export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
   const dispatch = useDispatch();
   const { selectedTodo } = useContext(SelectedTodoContext);
 
@@ -33,21 +44,25 @@ export default function TodoAdder() {
       todoFormState={
         selectedTodo && {
           title: selectedTodo.title,
-          startedAt: dayjs(selectedTodo.startedAt),
+          startedAt: dayjs(selectedTodo.startedAt! * 1000),
           priority: selectedTodo.priority
         }
       }
       onSubmit={async formState => {
         const unixTimeStamp = dayjs(formState.startedAt).unix();
+        const params = {
+          ...formState,
+          // TODO: 달력 기간설정은 미지원..
+          startedAt: unixTimeStamp,
+          dueAt: unixTimeStamp,
+          endedAt: unixTimeStamp
+        };
         try {
-          const todo = await createTodoApi({
-            ...formState,
-            // TODO: 달력 기간설정은 미지원..
-            startedAt: unixTimeStamp,
-            dueAt: unixTimeStamp,
-            endedAt: unixTimeStamp
-          });
-          dispatch(addTodo(todo));
+          const todo = selectedTodo
+            ? await updateTodoApi(selectedTodo?.id!, params)
+            : await createTodoApi(params);
+
+          fetchTodo();
         } catch (error) {
           alert("문제가 발생했습니다.🔥");
           console.error(error);
