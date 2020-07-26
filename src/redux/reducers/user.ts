@@ -5,6 +5,7 @@ import { APPLY_USER_INFO } from "../actions/user";
 export interface UserState {
   id: number;
   name: string;
+  profileImageUrl: string;
 }
 
 type InitialStateType = UserState | null;

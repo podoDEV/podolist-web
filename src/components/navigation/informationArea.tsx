@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useState } from "react";
 import { css, jsx } from "@emotion/core";
 import { useTheme } from "emotion-theming";
 import { Dayjs } from "dayjs";
@@ -21,6 +21,10 @@ interface Props {
   toggleNaviCalendar: () => void;
 }
 
+const RightArea = styled("div")`
+  display: flex;
+`;
+
 const InformationArea = styled("div")`
   display: flex;
   padding: 14px 0px 10px 14px;
@@ -29,38 +33,47 @@ const InformationArea = styled("div")`
   align-items: center;
 `;
 
-const DateTitleArea = styled("div")`
+const DateTitleArea = styled("a")`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const ProfileImageArea = styled("button")`
+  border: none;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border-radius: 15px;
   display: flex;
   align-items: center;
 `;
 
-const calendarImgStyle = css`
-  height: 20px;
-  cursor: pointer;
-`;
-
-const logoutImgStyle = css`
-  height: 20px;
-  cursor: pointer;
-`;
-
-const RightAreaContainer = styled("div")`
-  display: flex;
-  align-items: center;
+const profileImageCss = css`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
 `;
 
 const Name = styled("span")`
-  font-size: 15px;
+  text-align: left;
+  font-size: 13px;
+  width: 100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const ImageContainerButton = styled("button")`
-  width: 30px;
   height: 30px;
   display: flex;
-  justify-content: center;
   align-items: center;
   background: transparent;
   border: none;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
 `;
 
 interface DarkModeButtonProps {
@@ -81,10 +94,26 @@ const DarkModeButton = styled("div")<DarkModeButtonProps>(
   })
 );
 
+const Dropbox = styled("div")`
+  display: flex;
+  padding: 5px 10px;
+  position: relative;
+  top: 45px;
+  right: 120px;
+  border-radius: 5px;
+`;
+
+const DropboxContent = styled("div")`
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+`;
+
 export default function NavigationInformationArea(props: Props) {
   const { date, toggleNaviCalendar } = props;
+  const [openDropbox, setOpenDropbox] = useState(false);
   const dispatch = useDispatch();
-  const theme = useTheme<Theme>();
+  const { buttonIcon, dropbox } = useTheme<Theme>();
 
   const month = date.format("M");
   const year = date.format("YYYY");
@@ -103,21 +132,42 @@ export default function NavigationInformationArea(props: Props) {
     dispatch(setDarkMode(!darkMode));
   };
 
+  const toggleProfileDropbox = () => {
+    setOpenDropbox(!openDropbox);
+  };
+
   return (
     <InformationArea>
-      <DateTitleArea>
+      <DateTitleArea onClick={toggleNaviCalendar}>
         {month}월 {year}
-        <ImageContainerButton onClick={toggleNaviCalendar}>
-          <img src={"/images/calendar-icon.png"} css={calendarImgStyle} />
-        </ImageContainerButton>
       </DateTitleArea>
-      <RightAreaContainer>
-        {user && <Name>🙋‍♀️ {user.name} 님</Name>}
-        <DarkModeButton onClick={onClickDarkModeIcon} buttonIcon={theme.buttonIcon} />
-        <ImageContainerButton onClick={onClickLogoutIcon}>
-          <img src={"/images/logout.png"} css={logoutImgStyle} />
-        </ImageContainerButton>
-      </RightAreaContainer>
+      <RightArea>
+        <DarkModeButton onClick={onClickDarkModeIcon} buttonIcon={buttonIcon} />
+        <ProfileImageArea onClick={toggleProfileDropbox}>
+          {user && <img src={user.profileImageUrl} css={profileImageCss} />}
+          {openDropbox && (
+            <Dropbox
+              css={css`
+                background-color: ${dropbox.bg};
+                border: ${dropbox.border};
+                color: ${dropbox.textColor};
+              `}
+            >
+              <DropboxContent>
+                {user && <Name>{user.name}</Name>}
+                <ImageContainerButton
+                  onClick={onClickLogoutIcon}
+                  css={css`
+                    color: ${dropbox.textColor};
+                  `}
+                >
+                  로그아웃 ✋
+                </ImageContainerButton>
+              </DropboxContent>
+            </Dropbox>
+          )}
+        </ProfileImageArea>
+      </RightArea>
     </InformationArea>
   );
 }
