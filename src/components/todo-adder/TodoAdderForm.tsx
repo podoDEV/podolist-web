@@ -131,12 +131,13 @@ export default function TodoAdderForm({
     []
   );
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   useEffect(() => {
     if (todoFormState) {
       produceFormState(() => todoFormState);
+      setIsOpen(true);
     }
   }, [todoFormState]);
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   const { formsBG } = useTheme<Theme>();
 
   const handleClickOpenFormBtn = () => {
@@ -167,7 +168,10 @@ export default function TodoAdderForm({
   const formContainerRef = useRef<HTMLFormElement | null>(null);
 
   useOutsideClick(formContainerRef, () => {
-    isOpen && setIsOpen(false);
+    if (isOpen) {
+      setIsOpen(false);
+      produceFormState(() => initialFormState);
+    }
   });
 
   return (
