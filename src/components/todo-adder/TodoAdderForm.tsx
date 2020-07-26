@@ -13,6 +13,8 @@ import Dimmed from "components/common/Dimmed";
 import useOutsideClick from "hooks/useOutsideClick";
 import { CreateTodoParams } from "./TodoAdder";
 import { useImmer } from "use-immer";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../../common/styles/Layout";
 
 const Label = styled.label`
   display: block;
@@ -27,7 +29,6 @@ const FormsContainer = styled("form")`
   max-width: 560px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
-  background: rgba(244, 244, 244);
   padding: 3px;
   .toast-enter {
     height: 0;
@@ -126,6 +127,7 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   );
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  const { formsBG } = useTheme<Theme>();
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
@@ -175,7 +177,13 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
           bottom: 0;
         `}
       >
-        <FormsContainer ref={formContainerRef} onSubmit={handleSubmit}>
+        <FormsContainer
+          ref={formContainerRef}
+          onSubmit={handleSubmit}
+          css={css`
+            background-color: ${formsBG};
+          `}
+        >
           <InputContainer>
             <OpenFormsBtn
               type="button"

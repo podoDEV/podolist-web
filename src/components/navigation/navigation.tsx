@@ -32,14 +32,15 @@ const NavigationContainer = styled("div")`
 `;
 
 const NaviCalendarArea = styled("div")`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  padding: 30% 25%;
+  padding: 20% 25%;
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
 `;
 
 export const naviCalendarArea = css`

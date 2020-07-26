@@ -15,7 +15,7 @@ interface Props {
 const TodoListContainer = styled("div")`
   display: flex;
   width: 750px;
-  margin: 15px 0;
+  margin: 15px 0 80px;
   flex-direction: column;
 `;
 
@@ -86,7 +86,7 @@ const List = styled("ul")`
 const FoldableList = styled("ul")<ListProps>(({ folded, len }: ListProps) => ({
   transition: "height 0.4s",
   WebkitTransition: "height 0.4s",
-  height: folded ? "0px" : `${60 * len}px`,
+  height: folded ? "0px" : `${61 * len}px`,
   overflow: "hidden",
   border: "none",
   background: "none"
