@@ -157,8 +157,12 @@ export default function TodoAdderForm({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-      validator(formState);
-      onSubmit(formState);
+      const finalFormState = {
+        ...formState,
+        title: inputRef?.current?.value || ""
+      };
+      validator(finalFormState);
+      onSubmit(finalFormState);
       produceFormState(() => initialFormState);
     } catch (message) {
       alert(message);
@@ -174,15 +178,11 @@ export default function TodoAdderForm({
     }
   });
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   return (
     <>
-      {isOpen && (
-        <Dimmed
-          css={css`
-            top: 65px;
-          `}
-        />
-      )}
+      {isOpen && <Dimmed />}
       <div
         css={css`
           width: 100%;
@@ -215,14 +215,9 @@ export default function TodoAdderForm({
               />
             )}
             <ContentsInput
+              ref={inputRef}
               onClick={() => setIsOpen(true)}
-              onChange={event => {
-                const { value } = event.target;
-                produceFormState(draft => {
-                  draft.title = value;
-                });
-              }}
-              value={formState.title}
+              defaultValue={formState.title}
             />
             <AddFormsBtn type="submit" />
           </InputContainer>
