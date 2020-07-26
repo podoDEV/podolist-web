@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useState, useRef, useMemo, ChangeEvent } from "react";
+import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
@@ -112,11 +112,16 @@ type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> &
 };
 
 type TodoAdderFormProps = {
+  todoFormState?: FormStateType;
   defaultIsOpen?: boolean;
   onSubmit: (params: FormStateType) => void;
 };
 
-export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
+export default function TodoAdderForm({
+  todoFormState,
+  defaultIsOpen,
+  onSubmit
+}: TodoAdderFormProps) {
   const initialFormState = useMemo(
     () => ({
       startedAt: dayjs(),
@@ -126,6 +131,11 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
     []
   );
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
+  useEffect(() => {
+    if (todoFormState) {
+      produceFormState(() => todoFormState);
+    }
+  }, [todoFormState]);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   const { formsBG } = useTheme<Theme>();
 
@@ -145,8 +155,8 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     try {
-      validator(formState);
       event.preventDefault();
+      validator(formState);
       onSubmit(formState);
       produceFormState(() => initialFormState);
     } catch (message) {

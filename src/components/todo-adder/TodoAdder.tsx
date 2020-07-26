@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post } from "common/fetch";
@@ -9,6 +9,7 @@ import { Todo } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
+import { SelectedTodoContext } from "pages";
 
 export type CreateTodoParams = {
   dueAt: number;
@@ -25,9 +26,17 @@ async function createTodoApi(params: CreateTodoParams): Promise<Todo> {
 
 export default function TodoAdder() {
   const dispatch = useDispatch();
+  const { selectedTodo } = useContext(SelectedTodoContext);
 
   return (
     <TodoAdderForm
+      todoFormState={
+        selectedTodo && {
+          title: selectedTodo.title,
+          startedAt: dayjs(selectedTodo.startedAt),
+          priority: selectedTodo.priority
+        }
+      }
       onSubmit={async formState => {
         const unixTimeStamp = dayjs(formState.startedAt).unix();
         try {
