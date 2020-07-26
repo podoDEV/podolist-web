@@ -174,6 +174,9 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
           width: 100%;
           position: fixed;
           bottom: 0;
+          max-width: 580px;
+          transform: translateX(-50%);
+          left: 50%;
         `}
       >
         <FormsContainer
