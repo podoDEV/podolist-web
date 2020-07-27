@@ -118,17 +118,12 @@ type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> &
 };
 
 type TodoAdderFormProps = {
-  todoFormState?: FormStateType;
   defaultIsOpen?: boolean;
   onSubmit: (params: FormStateType) => void;
 };
 
-export default function TodoAdderForm({
-  todoFormState,
-  defaultIsOpen,
-  onSubmit
-}: TodoAdderFormProps) {
-  const { setSelectedTodo } = useContext(SelectedTodoContext);
+export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
+  const { selectedTodo, setSelectedTodo } = useContext(SelectedTodoContext);
   const initialFormState = useMemo(
     () => ({
       startedAt: dayjs(),
@@ -140,11 +135,17 @@ export default function TodoAdderForm({
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   useEffect(() => {
-    if (todoFormState) {
-      produceFormState(() => todoFormState);
+    if (selectedTodo) {
+      produceFormState(() => {
+        return {
+          title: selectedTodo.title,
+          startedAt: dayjs(selectedTodo.startedAt! * 1000),
+          priority: selectedTodo.priority
+        };
+      });
       setIsOpen(true);
     }
-  }, [todoFormState]);
+  }, [selectedTodo]);
   const { formsBG } = useTheme<Theme>();
 
   const handleClickOpenFormBtn = () => {

@@ -40,13 +40,6 @@ export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
 
   return (
     <TodoAdderForm
-      todoFormState={
-        selectedTodo && {
-          title: selectedTodo.title,
-          startedAt: dayjs(selectedTodo.startedAt! * 1000),
-          priority: selectedTodo.priority
-        }
-      }
       onSubmit={async formState => {
         const unixTimeStamp = dayjs(formState.startedAt).unix();
         const params = {
@@ -57,7 +50,7 @@ export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
           endedAt: unixTimeStamp
         };
         try {
-          const todo = selectedTodo
+          const response = selectedTodo
             ? await updateTodoApi(selectedTodo?.id!, params)
             : await createTodoApi(params);
 
