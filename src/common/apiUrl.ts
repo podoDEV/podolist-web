@@ -6,4 +6,4 @@ export const itemsWithId = (itemId: number) => `${apiDomain}/items/${itemId}`;
 export const login = () => `${apiDomain}/login/kakao`;
 export const logout = () => `${apiDomain}/logout`;
 export const fetchUserInfo = () => `${apiDomain}/users/me`;
-export const updateItem = (todoId: number) => `/items${todoId}`;
+export const updateItem = (todoId: number) => `${apiDomain}/items/${todoId}`;

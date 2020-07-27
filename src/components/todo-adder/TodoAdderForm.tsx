@@ -118,12 +118,18 @@ type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> &
 };
 
 type TodoAdderFormProps = {
+  injectedFormState?: FormStateType;
   defaultIsOpen?: boolean;
+  onFoldOptions: () => void;
   onSubmit: (params: FormStateType) => void;
 };
 
-export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
-  const { selectedTodo, setSelectedTodo } = useContext(SelectedTodoContext);
+export default function TodoAdderForm({
+  injectedFormState,
+  defaultIsOpen,
+  onFoldOptions,
+  onSubmit
+}: TodoAdderFormProps) {
   const initialFormState = useMemo(
     () => ({
       startedAt: dayjs(),
@@ -135,18 +141,23 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   useEffect(() => {
-    if (selectedTodo) {
+    if (injectedFormState) {
       produceFormState(() => {
         return {
-          title: selectedTodo.title,
-          startedAt: dayjs(selectedTodo.startedAt! * 1000),
-          priority: selectedTodo.priority
+          title: injectedFormState.title,
+          startedAt: injectedFormState.startedAt,
+          priority: injectedFormState.priority
         };
       });
       setIsOpen(true);
     }
-  }, [selectedTodo]);
+  }, [injectedFormState]);
   const { formsBG } = useTheme<Theme>();
+  const handleFoldOptions = () => {
+    onFoldOptions();
+    produceFormState(() => initialFormState);
+    setIsOpen(false);
+  };
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
@@ -165,13 +176,10 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-
       validator(formState);
       await onSubmit(formState);
-      // TODO: 성공했을 때만 초기화해야함
-      // TODO: 성공했을 때 isOpen false로 변경
-      produceFormState(() => initialFormState);
-      setIsOpen(false);
+
+      handleFoldOptions();
     } catch (message) {
       if (typeof message === "string") {
         alert(message);
@@ -180,12 +188,9 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   };
 
   const formContainerRef = useRef<HTMLFormElement | null>(null);
-
   useOutsideClick(formContainerRef, () => {
     if (isOpen) {
-      setIsOpen(false);
-      produceFormState(() => initialFormState);
-      setSelectedTodo(undefined);
+      handleFoldOptions();
     }
   });
 

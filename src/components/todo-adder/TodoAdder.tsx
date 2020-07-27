@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo, useCallback } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post, put } from "common/fetch";
@@ -36,10 +36,24 @@ type TodoAdderProps = {
 };
 
 export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
-  const { selectedTodo } = useContext(SelectedTodoContext);
+  const { selectedTodo, setSelectedTodo } = useContext(SelectedTodoContext);
+
+  const injectedFormState = useMemo(() => {
+    return selectedTodo
+      ? {
+          title: selectedTodo.title,
+          startedAt: dayjs(selectedTodo.startedAt! * 1000),
+          priority: selectedTodo.priority
+        }
+      : undefined;
+  }, [selectedTodo]);
+
+  const handleFoldOptions = useCallback(() => setSelectedTodo(undefined), []);
 
   return (
     <TodoAdderForm
+      injectedFormState={injectedFormState}
+      onFoldOptions={handleFoldOptions}
       onSubmit={async formState => {
         const unixTimeStamp = dayjs(formState.startedAt).unix();
         const params = {
