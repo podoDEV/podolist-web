@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect } from "react";
+import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect, useContext } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
@@ -15,6 +15,7 @@ import { CreateTodoParams } from "./TodoAdder";
 import { useImmer } from "use-immer";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../common/styles/Layout";
+import { SelectedTodoContext } from "pages";
 
 const Label = styled.label`
   display: block;
@@ -122,6 +123,7 @@ export default function TodoAdderForm({
   defaultIsOpen,
   onSubmit
 }: TodoAdderFormProps) {
+  const { setSelectedTodo } = useContext(SelectedTodoContext);
   const initialFormState = useMemo(
     () => ({
       startedAt: dayjs(),
@@ -154,18 +156,20 @@ export default function TodoAdderForm({
       draft.startedAt = date;
     });
   };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-      const finalFormState = {
-        ...formState,
-        title: inputRef?.current?.value || ""
-      };
-      validator(finalFormState);
-      onSubmit(finalFormState);
+
+      validator(formState);
+      await onSubmit(formState);
+      // TODO: 성공했을 때만 초기화해야함
+      // TODO: 성공했을 때 isOpen false로 변경
       produceFormState(() => initialFormState);
+      setIsOpen(false);
     } catch (message) {
-      alert(message);
+      if (typeof message === "string") {
+        alert(message);
+      }
     }
   };
 
@@ -175,10 +179,9 @@ export default function TodoAdderForm({
     if (isOpen) {
       setIsOpen(false);
       produceFormState(() => initialFormState);
+      setSelectedTodo(undefined);
     }
   });
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
@@ -215,9 +218,14 @@ export default function TodoAdderForm({
               />
             )}
             <ContentsInput
-              ref={inputRef}
               onClick={() => setIsOpen(true)}
-              defaultValue={formState.title}
+              onChange={event => {
+                const { value } = event.target;
+                produceFormState(draft => {
+                  draft.title = value;
+                });
+              }}
+              value={formState.title}
             />
             <AddFormsBtn type="submit" />
           </InputContainer>

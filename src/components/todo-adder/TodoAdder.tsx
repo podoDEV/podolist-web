@@ -66,6 +66,7 @@ export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
         } catch (error) {
           alert("문제가 발생했습니다.🔥");
           console.error(error);
+          return Promise.reject(error);
         }
       }}
     />

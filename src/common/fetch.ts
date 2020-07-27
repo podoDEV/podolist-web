@@ -37,6 +37,7 @@ export async function post(url: string, body?: string) {
       })
       .catch(errCode => {
         handleError(errCode);
+        return Promise.reject(errCode);
       }) ?? {}
   );
 }
