@@ -36,7 +36,6 @@ type TodoAdderProps = {
 };
 
 export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
-  const dispatch = useDispatch();
   const { selectedTodo } = useContext(SelectedTodoContext);
 
   return (

@@ -104,8 +104,13 @@ const OptionsContainer = styled.div`
   }
 `;
 
+const TITLE_LENGTH_LIMIT = 100;
+
 const validator = (formState: FormStateType) => {
   if (!formState.title) throw "할일을 입력해주세요.😢";
+  if (formState.title.length > TITLE_LENGTH_LIMIT) {
+    throw `${TITLE_LENGTH_LIMIT}자 이하로 등록해주세요.😢`;
+  }
 };
 
 type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> & {
