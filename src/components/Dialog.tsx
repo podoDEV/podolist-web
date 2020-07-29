@@ -1,9 +1,6 @@
 import React, { ReactNode } from "react";
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
 import { Color } from "constants/Color";
 import styled from "@emotion/styled";
-import themeStyled, { Theme, ThemeColorTypes } from "utils/styled";
 
 const DialogBoxWrapper = styled.div`
   z-index: 20;

@@ -124,7 +124,7 @@ export default function TodoList(props: Props) {
                   <TodoItem
                     text={title}
                     priority={priority}
-                    selectedData={selectedDate}
+                    selectedDate={selectedDate}
                     date={formatted(endedAt)}
                     checked={isCompleted}
                     key={`todo-item-delayed-${id}`}
@@ -155,7 +155,7 @@ export default function TodoList(props: Props) {
                 text={title}
                 priority={priority}
                 date={formatted(endedAt)}
-                selectedData={selectedDate}
+                selectedDate={selectedDate}
                 checked={false}
                 key={`todo-item-${id}`}
                 id={id}

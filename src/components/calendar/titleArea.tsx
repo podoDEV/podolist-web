@@ -6,7 +6,7 @@ import { Dayjs } from "dayjs";
 
 interface Props {
   date: Dayjs;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+  setDate: (date: Dayjs) => void;
 }
 
 const TitleArea = styled("div")`
