@@ -50,6 +50,7 @@ export default function PriorityRadioGroup({ onChange, checkedPriority }: Priori
             css={css`
               flex: 1 1 0px;
             `}
+            key={`priority_${priority}`}
           >
             <Radio
               key={priority.label + priority.value}

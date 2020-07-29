@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import React from "react";
 import styled from "@emotion/styled";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 
-interface Props {}
+// interface Props {}
 
 const NavigationContainer = styled("div")`
   display: flex;
@@ -13,7 +13,7 @@ const NavigationContainer = styled("div")`
   background: linear-gradient(#a91efe, #9314fe);
 `;
 
-export default function Navigation(props: Props) {
+export default function Navigation() {
   return (
     <NavigationContainer>
       <img src="" />
