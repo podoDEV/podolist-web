@@ -8,7 +8,7 @@ import { updateTodoApi } from "components/todo-adder/TodoAdder";
 
 function getTodoById(state: TodoState, id: number) {
   return (
-    state.items.find(item => item.id === id) && state.delayedItems.find(item => item.id === id)
+    state.items.find(item => item.id === id) || state.delayedItems.find(item => item.id === id)
   );
 }
 
@@ -18,7 +18,7 @@ function* toggleTodoSaga(action: ReturnType<typeof toggleTodoItem>) {
     const todoState = yield select((state: IStore) => state.todo);
     const todo = getTodoById(todoState, id);
     if (todo) {
-      const response = yield call(updateTodoApi, id, { ...todo });
+      const response = yield call(updateTodoApi, id, { isCompleted: !todo.isCompleted });
     }
   } catch (err) {
     console.error(err);

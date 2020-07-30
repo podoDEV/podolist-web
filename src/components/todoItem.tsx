@@ -6,7 +6,7 @@ import { PriorityColor } from "constants/Color";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
-import { removeTodoItem } from "../redux/actions/todo";
+import { removeTodoItem, toggleTodoItem } from "../redux/actions/todo";
 import { SelectedTodoContext } from "pages";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
@@ -116,7 +116,8 @@ export default function TodoItem(props: Props) {
   };
 
   const handleClickCheckbox = () => {
-    console.log("handle click checkbox", id);
+    console.log("id: ", id);
+    dispatch(toggleTodoItem(id));
   };
 
   return (
