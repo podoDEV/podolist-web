@@ -5,7 +5,7 @@ import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post } from "common/fetch";
 import { items } from "common/apiUrl";
-import { Todo } from "redux/reducers/todo";
+import { ITodo } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
@@ -18,7 +18,7 @@ export type CreateTodoParams = {
   title: string;
 };
 
-async function createTodoApi(params: CreateTodoParams): Promise<Todo> {
+async function createTodoApi(params: CreateTodoParams): Promise<ITodo> {
   const response = await post(items(), JSON.stringify(params));
   return response;
 }

@@ -4,7 +4,7 @@ import { PriorityType } from "../../constants/Priority";
 
 type Nullable<T> = T | null;
 
-export interface Todo {
+export interface ITodo {
   id: number;
   title: string;
   isCompleted: boolean;
@@ -18,8 +18,8 @@ export interface Todo {
 }
 
 export interface TodoState {
-  delayedItems: Todo[];
-  items: Todo[];
+  delayedItems: ITodo[];
+  items: ITodo[];
 }
 
 const initialState = { delayedItems: [], items: [] } as TodoState;

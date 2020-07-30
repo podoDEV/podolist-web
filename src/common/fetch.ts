@@ -1,4 +1,5 @@
 import Router from "next/router";
+import { isServer } from "./util";
 
 const defaultOptions: RequestInit = {
   credentials: "include",
@@ -11,10 +12,12 @@ const defaultOptions: RequestInit = {
 };
 
 function handleError(errorCode: number) {
-  if (errorCode === 401) {
-    const { pathname } = Router;
-    if (pathname === "/") {
-      Router.push("/login");
+  if (!isServer) {
+    if (errorCode === 401) {
+      const { pathname } = Router;
+      if (pathname === "/") {
+        Router.push("/login");
+      }
     }
   }
 }
@@ -41,14 +44,15 @@ export async function post(url: string, body?: string) {
   );
 }
 
-export async function get(url: string) {
-  const options: RequestInit = {
+export async function get(url: string, options?: RequestInit) {
+  const finalOptions: RequestInit = {
     method: "GET",
-    ...defaultOptions
+    ...defaultOptions,
+    ...(options && { options })
   };
 
   return (
-    (await fetch(url, options)
+    (await fetch(url, finalOptions)
       .then(res => {
         if (res.status === 200) {
           return Promise.resolve(res.json());
@@ -58,6 +62,7 @@ export async function get(url: string) {
       })
       .catch(errCode => {
         handleError(errCode);
+        return Promise.reject(errCode);
       })) ?? {}
   );
 }
@@ -79,6 +84,7 @@ export async function put(url: string) {
       })
       .catch(errCode => {
         handleError(errCode);
+        return Promise.reject(errCode);
       })) ?? {}
   );
 }

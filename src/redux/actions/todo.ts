@@ -1,4 +1,4 @@
-import { Todo, TodoState } from "../reducers/todo";
+import { ITodo, TodoState } from "../reducers/todo";
 
 export const ADD_TODO = "ADD_TODO" as const;
 export const APPLY_TODO = "APPLY_TODO" as const;
@@ -11,19 +11,19 @@ export const applyTodo = (todo: TodoState) => ({
   todo
 });
 
-export const addTodo = (todo: Todo) => ({
+export const addTodo = (todo: ITodo) => ({
   type: ADD_TODO,
   todo
 });
 
 export type TodoActionTypes = ReturnType<typeof applyTodo | typeof addTodo>;
-export const applyTodoItem = (todo: Todo, id: number) => ({
+export const applyTodoItem = (todo: ITodo, id: number) => ({
   type: APPLY_TODO_ITEM,
   todo,
   id
 });
 
-export const updateTodoItem = (todo: Todo, id: number) => ({
+export const updateTodoItem = (todo: ITodo, id: number) => ({
   type: UPDATE_TODO,
   todo,
   id
