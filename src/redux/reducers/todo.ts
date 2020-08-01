@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { APPLY_TODO, ADD_TODO, TodoActionTypes } from "../actions/todo";
 import { PriorityType } from "../../constants/Priority";
+import { HYDRATE } from "next-redux-wrapper";
 
 type Nullable<T> = T | null;
 
@@ -26,7 +27,13 @@ const initialState = { delayedItems: [], items: [] } as TodoState;
 
 export default (state = initialState, action: TodoActionTypes) => {
   switch (action.type) {
+    case HYDRATE:
+      return {
+        ...state,
+        ...action.payload.todo
+      };
     case APPLY_TODO:
+      console.log("action.todo: ", action.todo);
       return action.todo;
     case ADD_TODO: {
       const { todo } = action;

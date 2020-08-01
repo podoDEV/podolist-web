@@ -49,7 +49,7 @@ export async function get(url: string, options?: RequestInit) {
   const finalOptions: RequestInit = {
     method: "GET",
     ...defaultOptions,
-    ...(options && { options })
+    ...(options && { ...options })
   };
 
   return (

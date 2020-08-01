@@ -2,7 +2,15 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import { useEffect, useState, createContext, SetStateAction, Dispatch, useMemo } from "react";
+import {
+  useEffect,
+  useState,
+  createContext,
+  SetStateAction,
+  Dispatch,
+  useMemo,
+  useRef
+} from "react";
 import { useDispatch } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import { get } from "../common/fetch";
@@ -14,9 +22,10 @@ import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styl
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { GetServerSidePropsContext } from "next";
 import { ITodo } from "redux/reducers/todo";
 import TodoList from "components/todoList";
+import { wrapper } from "./_app";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -41,7 +50,7 @@ function getInitDarkMode() {
 }
 
 export interface SelectedTodoContextType {
-  selectedTodo: Todo | undefined;
+  selectedTodo: ITodo | undefined;
   setSelectedTodo: Dispatch<SetStateAction<SelectedTodoContextType["selectedTodo"]>>;
 }
 
@@ -74,16 +83,22 @@ export default function TodoIndex() {
     });
   };
 
+  const isMountedOnce = useRef(false);
   useEffect(() => {
-    fetchData();
+    if (isMountedOnce.current) {
+      fetchData();
+    }
   }, [date]);
+
+  useEffect(() => {
+    isMountedOnce.current = true;
+  }, []);
 
   useEffect(() => {
     const darkMode = getInitDarkMode();
     dispatch(setDarkMode(darkMode));
     setLocalStorageDarkMode(darkMode);
 
-    fetchData();
     dispatch(fetchUserInfo());
   }, []);
 
@@ -100,15 +115,13 @@ export default function TodoIndex() {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { req, res } = context;
+export const getServerSideProps = wrapper.getServerSideProps(async context => {
+  const { store, req, res } = context;
   const cookie = req.headers.cookie;
   const numb = dayjs().format("YYYYMMDD");
-  console.log("cookie: ", cookie);
   // cookie에 값이 없거나
   // 응답값에 에러(401이라던가)가 있을 경우 login page로 리다이렉트
   if (!cookie) {
-    // go login page
     res.writeHead(301, {
       Location: "/login"
     });
@@ -117,17 +130,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   try {
-    const data = await get(apiUrl.fetchItems(numb), { headers: { cookie } });
-    console.log("data: ", data);
-    return {
-      props: {
-        data
-      }
-    };
+    const data = await get(apiUrl.fetchItems(numb), { headers: { Cookie: cookie } });
+    store.dispatch(applyTodo(data));
   } catch (error) {
     res.writeHead(301, {
       Location: "/login"
     });
     res.end();
   }
-}
+});

@@ -15,8 +15,6 @@ function* removeTodoSaga(action: AnyAction) {
     yield call(removeTodoItem, action.id);
     const res = yield call(fetchTodo, action.date);
     yield put(applyTodo(res));
-
-    console.log(res);
   } catch (err) {
     console.error(err);
   }
