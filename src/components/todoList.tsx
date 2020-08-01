@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { State } from "../pages/_app";
 import { TodoState } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
+import { SelectedTodoContext } from "pages";
 
 interface Props {
   date: Dayjs;
@@ -103,6 +104,7 @@ export default function TodoList(props: Props) {
   const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
+  const { setSelectedTodo } = useContext(SelectedTodoContext);
 
   return (
     <TodoListContainer css={mobileScreenWidth}>

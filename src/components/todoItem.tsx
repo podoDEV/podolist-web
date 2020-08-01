@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { PriorityColor } from "constants/Color";
@@ -7,6 +7,7 @@ import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
 import { removeTodoItem } from "../redux/actions/todo";
+import { SelectedTodoContext } from "pages";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -17,6 +18,7 @@ interface Props {
   date: string;
   checked: boolean;
   id: number;
+  onClickEdit: () => void;
 }
 
 const TodoContainer = styled("li")`
@@ -106,7 +108,7 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    console.log("edit", id);
+    props.onClickEdit();
   };
 
   const handelClickRemoveButton = () => {

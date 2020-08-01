@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useState, useRef, useMemo, ChangeEvent } from "react";
+import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect, useContext } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
@@ -15,6 +15,7 @@ import { CreateTodoParams } from "./TodoAdder";
 import { useImmer } from "use-immer";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../common/styles/Layout";
+import { SelectedTodoContext } from "pages";
 
 const Label = styled.label`
   display: block;
@@ -26,7 +27,7 @@ const FormsContainer = styled("form")`
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  max-width: 560px;
+  max-width: 750px;
   min-height: 70px;
   border-radius: 22px 22px 0 0;
   padding: 3px;
@@ -103,8 +104,13 @@ const OptionsContainer = styled.div`
   }
 `;
 
+const TITLE_LENGTH_LIMIT = 100;
+
 const validator = (formState: FormStateType) => {
   if (!formState.title) throw "할일을 입력해주세요.😢";
+  if (formState.title.length > TITLE_LENGTH_LIMIT) {
+    throw `${TITLE_LENGTH_LIMIT}자 이하로 등록해주세요.😢`;
+  }
 };
 
 type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> & {
@@ -112,11 +118,18 @@ type FormStateType = Omit<CreateTodoParams, "dueAt" | "endedAt" | "startedAt"> &
 };
 
 type TodoAdderFormProps = {
+  injectedFormState?: FormStateType;
   defaultIsOpen?: boolean;
+  onFoldOptions: () => void;
   onSubmit: (params: FormStateType) => void;
 };
 
-export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderFormProps) {
+export default function TodoAdderForm({
+  injectedFormState,
+  defaultIsOpen,
+  onFoldOptions,
+  onSubmit
+}: TodoAdderFormProps) {
   const initialFormState = useMemo(
     () => ({
       startedAt: dayjs(),
@@ -127,7 +140,24 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
   );
   const [formState, produceFormState] = useImmer<FormStateType>(initialFormState);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  useEffect(() => {
+    if (injectedFormState) {
+      produceFormState(() => {
+        return {
+          title: injectedFormState.title,
+          startedAt: injectedFormState.startedAt,
+          priority: injectedFormState.priority
+        };
+      });
+      setIsOpen(true);
+    }
+  }, [injectedFormState]);
   const { formsBG } = useTheme<Theme>();
+  const handleFoldOptions = () => {
+    onFoldOptions();
+    produceFormState(() => initialFormState);
+    setIsOpen(false);
+  };
 
   const handleClickOpenFormBtn = () => {
     setIsOpen(!isOpen);
@@ -143,38 +173,38 @@ export default function TodoAdderForm({ defaultIsOpen, onSubmit }: TodoAdderForm
       draft.startedAt = date;
     });
   };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     try {
-      validator(formState);
       event.preventDefault();
-      onSubmit(formState);
-      produceFormState(() => initialFormState);
+      validator(formState);
+      await onSubmit(formState);
+
+      handleFoldOptions();
     } catch (message) {
-      alert(message);
+      if (typeof message === "string") {
+        alert(message);
+      }
     }
   };
 
   const formContainerRef = useRef<HTMLFormElement | null>(null);
-
   useOutsideClick(formContainerRef, () => {
-    isOpen && setIsOpen(false);
+    if (isOpen) {
+      handleFoldOptions();
+    }
   });
 
   return (
     <>
-      {isOpen && (
-        <Dimmed
-          css={css`
-            top: 65px;
-          `}
-        />
-      )}
+      {isOpen && <Dimmed />}
       <div
         css={css`
-          max-width: 750px;
           width: 100%;
           position: fixed;
           bottom: 0;
+          max-width: 580px;
+          transform: translateX(-50%);
+          left: 50%;
         `}
       >
         <FormsContainer
