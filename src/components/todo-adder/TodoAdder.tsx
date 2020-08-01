@@ -3,9 +3,9 @@ import { css, jsx } from "@emotion/core";
 import React, { useState, useContext, useMemo, useCallback } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
-import { post, put } from "common/fetch";
-import { items, updateItem } from "common/apiUrl";
-import { Todo } from "redux/reducers/todo";
+import { post } from "common/fetch";
+import { items } from "common/apiUrl";
+import { ITodo } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
@@ -19,7 +19,7 @@ export type CreateTodoParams = {
   title: string;
 };
 
-async function createTodoApi(params: CreateTodoParams): Promise<Todo> {
+async function createTodoApi(params: CreateTodoParams): Promise<ITodo> {
   const response = await post(items(), JSON.stringify(params));
   return response;
 }

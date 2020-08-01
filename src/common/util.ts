@@ -7,3 +7,5 @@ export const range = (start: number, end: number) => {
   }
   return res;
 };
+
+export const isServer = typeof window === "undefined";

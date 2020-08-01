@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import { get } from "../common/fetch";
 import Navigation from "../components/navigation/navigation";
-import TodoList from "../components/todoList";
 import { applyTodo } from "../redux/actions/todo";
 import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
@@ -15,7 +14,9 @@ import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styl
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { Todo } from "redux/reducers/todo";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { ITodo } from "redux/reducers/todo";
+import TodoList from "components/todoList";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -97,4 +98,36 @@ export default function TodoIndex() {
       </SelectedTodoContext.Provider>
     </TodoPageContainer>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { req, res } = context;
+  const cookie = req.headers.cookie;
+  const numb = dayjs().format("YYYYMMDD");
+  console.log("cookie: ", cookie);
+  // cookie에 값이 없거나
+  // 응답값에 에러(401이라던가)가 있을 경우 login page로 리다이렉트
+  if (!cookie) {
+    // go login page
+    res.writeHead(301, {
+      Location: "/login"
+    });
+    res.end();
+    return;
+  }
+
+  try {
+    const data = await get(apiUrl.fetchItems(numb), { headers: { cookie } });
+    console.log("data: ", data);
+    return {
+      props: {
+        data
+      }
+    };
+  } catch (error) {
+    res.writeHead(301, {
+      Location: "/login"
+    });
+    res.end();
+  }
 }
