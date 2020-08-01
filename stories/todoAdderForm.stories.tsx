@@ -21,9 +21,12 @@ export default {
 };
 
 export const notOpen = () => {
+  // eslint-disable-next-line
+  const handler = (params: any) => {};
+
   return (
     <Container>
-      <TodoAdderForm onSubmit={() => {}} />
+      <TodoAdderForm onSubmit={handler} />
     </Container>
   );
 };

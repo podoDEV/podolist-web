@@ -28,12 +28,14 @@ export default (state = initialState, action: TodoActionTypes) => {
   switch (action.type) {
     case APPLY_TODO:
       return action.todo;
-    case ADD_TODO:
+    case ADD_TODO: {
       const { todo } = action;
+
       return {
         ...state,
         items: [...state.items, todo]
       };
+    }
     default:
       return state;
   }

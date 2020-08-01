@@ -122,21 +122,17 @@ export default function TodoList(props: Props) {
             </ListTitleContainer>
             <FoldableList folded={folded} len={numberOfDelayedItems}>
               {delayedItems &&
-                delayedItems.map(item => {
-                  const { title, priority, endedAt, isCompleted, id } = item;
-                  return (
-                    <TodoItem
-                      text={title}
-                      priority={priority}
-                      selectedData={selectedDate}
-                      date={formatted(endedAt)}
-                      checked={isCompleted}
-                      key={`todo-item-delayed-${id}`}
-                      id={id}
-                      onClickEdit={() => setSelectedTodo(item)}
-                    />
-                  );
-                })}
+                delayedItems.map(({ title, priority, endedAt, isCompleted, id }) => (
+                  <TodoItem
+                    text={title}
+                    priority={priority}
+                    selectedDate={selectedDate}
+                    date={formatted(endedAt)}
+                    checked={isCompleted}
+                    key={`todo-item-delayed-${id}`}
+                    id={id}
+                  />
+                ))}
             </FoldableList>
           </ListContainer>
           <BorderBottom />
@@ -156,21 +152,17 @@ export default function TodoList(props: Props) {
         </ListTitleContainer>
         <List>
           {items &&
-            items.map(item => {
-              const { title, priority, endedAt, id } = item;
-              return (
-                <TodoItem
-                  text={title}
-                  priority={priority}
-                  date={formatted(endedAt)}
-                  selectedData={selectedDate}
-                  checked={false}
-                  key={`todo-item-${id}`}
-                  id={id}
-                  onClickEdit={() => setSelectedTodo(item)}
-                />
-              );
-            })}
+            items.map(({ title, priority, endedAt, id }) => (
+              <TodoItem
+                text={title}
+                priority={priority}
+                date={formatted(endedAt)}
+                selectedDate={selectedDate}
+                checked={false}
+                key={`todo-item-${id}`}
+                id={id}
+              />
+            ))}
         </List>
       </ListContainer>
     </TodoListContainer>

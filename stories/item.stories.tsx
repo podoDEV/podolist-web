@@ -28,16 +28,41 @@ export const priorityItem = () => {
         text="엔씨 소프트 자소서 쓰기"
         date="2020.02.02"
         checked={false}
+        selectedDate="2020.02.02"
+        id={1}
       />
-      <TodoItem priority="high" text="엔씨 소프트 자소서 쓰기" date="2020.02.02" checked={false} />
+      <TodoItem
+        priority="high"
+        text="엔씨 소프트 자소서 쓰기"
+        date="2020.02.02"
+        checked={false}
+        selectedDate="2020.02.02"
+        id={2}
+      />
       <TodoItem
         priority="medium"
         text="엔씨 소프트 자소서 쓰기"
         date="2020.02.02"
         checked={false}
+        selectedDate="2020.02.02"
+        id={3}
       />
-      <TodoItem priority="low" text="엔씨 소프트 자소서 쓰기" date="2020.02.02" checked={false} />
-      <TodoItem priority="none" text="엔씨 소프트 자소서 쓰기" date="2020.02.02" checked={false} />
+      <TodoItem
+        priority="low"
+        text="엔씨 소프트 자소서 쓰기"
+        date="2020.02.02"
+        checked={false}
+        selectedDate="2020.02.02"
+        id={4}
+      />
+      <TodoItem
+        priority="none"
+        text="엔씨 소프트 자소서 쓰기"
+        date="2020.02.02"
+        checked={false}
+        selectedDate="2020.02.02"
+        id={5}
+      />
     </Container>
   );
 };
@@ -50,6 +75,8 @@ export const longTextItem = () => {
         text="기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트 기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트 기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트"
         date="2020.02.02"
         checked={false}
+        selectedDate="2020.02.02"
+        id={1}
       />
     </Container>
   );
@@ -58,7 +85,14 @@ export const longTextItem = () => {
 export const finishedItem = () => {
   return (
     <Container>
-      <TodoItem priority="medium" text="엔씨 소프트 자소서 쓰기" date="2020.02.02" checked={true} />
+      <TodoItem
+        priority="medium"
+        text="엔씨 소프트 자소서 쓰기"
+        date="2020.02.02"
+        checked={true}
+        selectedDate="2020.02.02"
+        id={1}
+      />
     </Container>
   );
 };

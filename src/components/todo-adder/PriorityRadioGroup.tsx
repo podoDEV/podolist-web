@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, InputHTMLAttributes, ChangeEvent } from "react";
+import React, { ReactNode, InputHTMLAttributes, ChangeEvent } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { PriorityType } from "constants/Priority";
@@ -50,6 +50,7 @@ export default function PriorityRadioGroup({ onChange, checkedPriority }: Priori
             css={css`
               flex: 1 1 0px;
             `}
+            key={`priority_${priority}`}
           >
             <Radio
               key={priority.label + priority.value}

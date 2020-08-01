@@ -9,7 +9,7 @@ import { Theme } from "../../common/styles/Layout";
 interface Props {
   date: Dayjs;
   week: (Dayjs | null)[];
-  setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+  setDate: (date: Dayjs) => void;
 }
 
 interface DayButtonProps {

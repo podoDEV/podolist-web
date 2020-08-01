@@ -15,6 +15,7 @@ type LayoutProps = {
 export interface Theme {
   buttonIcon: string;
   gradientBG: string;
+  formsBG: string;
   bg: string;
   itemTitleText: string;
   itemDateText: string;

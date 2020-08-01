@@ -25,11 +25,10 @@ export default {
 
 export const navigation = () => {
   const [date, setDate] = useState(dayjs());
-  const name = "hanjung";
 
   return (
     <Container>
-      <Navigation date={date} setDate={setDate} name={name} />
+      <Navigation date={date} setDate={setDate} />
     </Container>
   );
 };

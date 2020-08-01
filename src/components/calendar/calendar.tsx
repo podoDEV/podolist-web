@@ -10,9 +10,9 @@ import { Theme } from "../../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+  setDate: (date: Dayjs) => void;
 }
-// @TODO: Global 폰트 적용해야함!
+
 const CalendarContainer = styled("div")`
   display: flex;
   border-radius: 16px;

@@ -14,7 +14,7 @@ type Priority = "urgent" | "high" | "medium" | "low" | "none";
 interface Props {
   priority: Priority;
   text: string;
-  selectedData: string;
+  selectedDate: string;
   date: string;
   checked: boolean;
   id: number;
@@ -93,7 +93,7 @@ const img = css`
 
 export default function TodoItem(props: Props) {
   const [hovered, setHovered] = useState(false);
-  const { priority, text, date, checked, id, selectedData } = props;
+  const { priority, text, date, checked, id, selectedDate } = props;
   const { dateTextColor, titleTextColor } = useTheme<Theme>().item;
   const dispatch = useDispatch();
 
@@ -112,7 +112,7 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickRemoveButton = () => {
-    dispatch(removeTodoItem(id, selectedData));
+    dispatch(removeTodoItem(id, selectedDate));
   };
 
   const handleClickCheckbox = () => {

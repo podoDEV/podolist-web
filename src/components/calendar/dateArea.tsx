@@ -10,7 +10,7 @@ import { Theme } from "../../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+  setDate: (date: Dayjs) => void;
 }
 
 const DateArea = styled("div")`
