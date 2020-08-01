@@ -18,7 +18,7 @@ interface Props {
   date: string;
   checked: boolean;
   id: number;
-  onClickEdit: () => void;
+  // onClickEdit: () => void;
 }
 
 const TodoContainer = styled("li")`
@@ -108,7 +108,7 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    props.onClickEdit();
+    console.log("edit");
   };
 
   const handelClickRemoveButton = () => {

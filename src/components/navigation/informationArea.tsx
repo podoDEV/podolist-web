@@ -51,7 +51,6 @@ const ProfileImageArea = styled("button")`
 
 const profileImageCss = css`
   width: 30px;
-  height: 30px;
   border-radius: 15px;
 `;
 
@@ -144,7 +143,7 @@ export default function NavigationInformationArea(props: Props) {
       <RightArea>
         <DarkModeButton onClick={onClickDarkModeIcon} buttonIcon={buttonIcon} />
         <ProfileImageArea onClick={toggleProfileDropbox}>
-          {user && <img src={user.profileImageUrl} css={profileImageCss} />}
+          {user && <img src={user.profileImageUrl ?? "/images/person.png"} css={profileImageCss} />}
           {openDropbox && (
             <Dropbox
               css={css`

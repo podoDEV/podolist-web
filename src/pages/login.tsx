@@ -69,32 +69,34 @@ export default function Login() {
   };
 
   return (
-    <AnimationContainer
-      css={css`
-        animation: ${slide} 1.5s ease;
-      `}
-    >
-      {pageStatus === "SLIDE_FINISH" && (
-        <ButtonContainer>
-          <Title>생각보다 괜찮은 투두리스트</Title>
-          <img
-            src={"/images/logo.png"}
-            css={css`
-              height: 60px;
-              margin-bottom: 45px;
-            `}
-          />
-          <KakaoLoginBtn
-            jsKey="0888a2c569cd376400ea3dc50d925724"
-            onSuccess={success}
-            onFailure={failure}
-            buttonText=""
-            css={css`
-              animation: ${bounce} 5s ease infinite;
-            `}
-          />
-        </ButtonContainer>
-      )}
-    </AnimationContainer>
+    <div style={{ height: "100vh" }}>
+      <AnimationContainer
+        css={css`
+          animation: ${slide} 1.5s ease;
+        `}
+      >
+        {pageStatus === "SLIDE_FINISH" && (
+          <ButtonContainer>
+            <Title>생각보다 괜찮은 투두리스트</Title>
+            <img
+              src={"/images/logo.png"}
+              css={css`
+                height: 60px;
+                margin-bottom: 45px;
+              `}
+            />
+            <KakaoLoginBtn
+              jsKey="0888a2c569cd376400ea3dc50d925724"
+              onSuccess={success}
+              onFailure={failure}
+              buttonText=""
+              css={css`
+                animation: ${bounce} 5s ease infinite;
+              `}
+            />
+          </ButtonContainer>
+        )}
+      </AnimationContainer>
+    </div>
   );
 }

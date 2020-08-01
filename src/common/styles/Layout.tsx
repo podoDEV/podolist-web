@@ -27,7 +27,6 @@ export interface Theme {
     bg: string;
     textColor: string;
   };
-  preloader: string;
   dropbox: {
     bg: string;
     border: string;
@@ -59,7 +58,6 @@ const dark = {
     bg: "#252525",
     textColor: "#fff"
   },
-  preloader: "/images/loading-dark.gif",
   dropbox: {
     bg: "#414448",
     textColor: "#fff",
@@ -80,7 +78,6 @@ const light = {
     bg: "#fff",
     textColor: "#2c2c2c"
   },
-  preloader: "/images/loading-light.gif",
   dropbox: {
     bg: "#fff",
     textColor: "#000",

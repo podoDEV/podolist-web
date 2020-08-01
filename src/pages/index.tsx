@@ -12,8 +12,6 @@ import { applyTodo } from "../redux/actions/todo";
 import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
-import { useTheme } from "emotion-theming";
-import { Theme } from "../common/styles/Layout";
 import TodoAdder from "components/todo-adder/TodoAdder";
 import { Todo } from "redux/reducers/todo";
 
@@ -52,7 +50,6 @@ export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
   const [pageStatus, setPageStatus] = useState("NONE"); // NONE FETCHING
-  const { preloader } = useTheme<Theme>();
   const [selectedTodo, setSelectedTodo] = useState<Todo | undefined>(undefined);
 
   const selectedTodoContextValue = useMemo(
@@ -91,7 +88,7 @@ export default function TodoIndex() {
       <Navigation date={date} setDate={setDate} />
       <SelectedTodoContext.Provider value={selectedTodoContextValue}>
         <TodoContainer>
-          {pageStatus === "FETCHING" ? <img src={preloader} /> : <TodoList date={date} />}
+          <TodoList date={date} />
           <TodoAdder fetchTodo={fetchData} />
         </TodoContainer>
       </SelectedTodoContext.Provider>

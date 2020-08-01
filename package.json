@@ -38,6 +38,8 @@
     "start": "next -H local.podolist.com",
     "next:build": "next build",
     "next:start": "next start",
+    "next:export": "next export",
+    "deploy": "npm run next:build && npm run next:export",
     "storybook": "start-storybook -s ./public -p 6006 -c .storybook",
     "test": "start-server-and-test start http://localhost:3000 cy:open",
     "test:ci": "start-server-and-test start http://localhost:3000 cy:run",
