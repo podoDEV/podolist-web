@@ -68,7 +68,7 @@ const FoldButton = styled("button")<FoldButtonProps>(({ folded }: FoldButtonProp
 }));
 
 const BorderBottom = styled("div")`
-  border: 0.5px solid #ececec;
+  border: 0.5px solid #3a3a3a;
   margin: 15px 0;
 `;
 
@@ -104,7 +104,6 @@ export default function TodoList(props: Props) {
   const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
-  const { setSelectedTodo } = useContext(SelectedTodoContext);
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
@@ -112,7 +111,10 @@ export default function TodoList(props: Props) {
         <>
           <ListContainer>
             <ListTitleContainer>
-              <ListTitle today={false}>Delayed</ListTitle>
+              <ListTitle today={false}>
+                Delayed
+                <span style={{ marginLeft: "15px" }}>{delayedItems.length}</span>
+              </ListTitle>
               <FoldButton
                 folded={folded}
                 onClick={() => {
