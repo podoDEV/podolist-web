@@ -22,10 +22,10 @@ import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styl
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { GetServerSidePropsContext } from "next";
 import { ITodo } from "redux/reducers/todo";
 import TodoList from "components/todoList";
 import { wrapper } from "./_app";
+import SelectedTodoProvider, { SelectedTodoContext } from "context/selectedTodoContext";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -49,29 +49,11 @@ function getInitDarkMode() {
   return matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-export interface SelectedTodoContextType {
-  selectedTodo: ITodo | undefined;
-  setSelectedTodo: Dispatch<SetStateAction<SelectedTodoContextType["selectedTodo"]>>;
-}
-
-export const SelectedTodoContext = createContext<SelectedTodoContextType>(
-  {} as SelectedTodoContextType
-);
-
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
   const [pageStatus, setPageStatus] = useState("NONE"); // NONE FETCHING
   const { preloader } = useTheme<Theme>();
-  const [selectedTodo, setSelectedTodo] = useState<Todo | undefined>(undefined);
-
-  const selectedTodoContextValue = useMemo(
-    () => ({
-      selectedTodo,
-      setSelectedTodo
-    }),
-    [selectedTodo, setSelectedTodo]
-  );
 
   const fetchData = () => {
     setPageStatus("FETCHING");
@@ -105,12 +87,12 @@ export default function TodoIndex() {
   return (
     <TodoPageContainer>
       <Navigation date={date} setDate={setDate} />
-      <SelectedTodoContext.Provider value={selectedTodoContextValue}>
+      <SelectedTodoProvider>
         <TodoContainer>
           {pageStatus === "FETCHING" ? <img src={preloader} /> : <TodoList date={date} />}
           <TodoAdder fetchTodo={fetchData} />
         </TodoContainer>
-      </SelectedTodoContext.Provider>
+      </SelectedTodoProvider>
     </TodoPageContainer>
   );
 }
