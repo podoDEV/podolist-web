@@ -17,6 +17,7 @@ export const addTodo = (todo: ITodo) => ({
 });
 
 export type TodoActionTypes = ReturnType<typeof applyTodo | typeof addTodo>;
+
 export const applyTodoItem = (todo: ITodo, id: number) => ({
   type: APPLY_TODO_ITEM,
   todo,

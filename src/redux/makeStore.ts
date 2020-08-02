@@ -1,8 +1,14 @@
 import { applyMiddleware, compose, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
-import reducer from "./reducers";
+import reducer, { IStore } from "./reducers";
 import rootSaga from "./saga";
+import { HYDRATE } from "next-redux-wrapper";
+
+export type HydrateActionType = {
+  type: typeof HYDRATE;
+  payload: IStore;
+};
 
 export default function makeStore(initialState: any) {
   const sagaMiddleware = createSagaMiddleware();

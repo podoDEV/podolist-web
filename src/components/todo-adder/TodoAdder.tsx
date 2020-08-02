@@ -3,13 +3,13 @@ import { css, jsx } from "@emotion/core";
 import React, { useState, useContext, useMemo, useCallback } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
-import { post } from "common/fetch";
-import { items } from "common/apiUrl";
+import { post, put } from "common/fetch";
+import { items, updateItem } from "common/apiUrl";
 import { ITodo } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
-import { SelectedTodoContext } from "pages";
+import { useSelectedTodo } from "context/selectedTodoContext";
 
 export type CreateTodoParams = {
   dueAt: number;
@@ -36,7 +36,7 @@ type TodoAdderProps = {
 };
 
 export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
-  const { selectedTodo, setSelectedTodo } = useContext(SelectedTodoContext);
+  const { selectedTodo, setSelectedTodo } = useSelectedTodo();
 
   const injectedFormState = useMemo(() => {
     return selectedTodo
