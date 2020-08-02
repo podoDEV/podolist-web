@@ -55,7 +55,8 @@ const Text = styled("div")<TextProps>(({ checked, color }: TextProps) => ({
   fontSize: "18px",
   color: checked ? "rgb(151, 151, 151)" : color,
   textDecoration: checked ? "line-through" : "none",
-  textAlign: "left"
+  textAlign: "left",
+  wordBreak: "break-word"
 }));
 
 const Date = styled("span")`
