@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import todo, { ITodo } from "./todo";
+import todo, { ITodo, TodoState } from "./todo";
 import user, { IUser } from "./user";
 import style, { StyleState } from "./style";
 
@@ -10,7 +10,7 @@ export default combineReducers({
 });
 
 export type IStore = {
-  todo: ITodo;
+  todo: TodoState;
   user: IUser;
   style: StyleState;
 };

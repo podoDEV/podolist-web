@@ -1,14 +1,29 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, fork, all, select } from "redux-saga/effects";
 import { AnyAction } from "redux";
-import { UPDATE_TODO, REMOVE_TODO, applyTodo } from "../actions/todo";
+import { UPDATE_TODO, REMOVE_TODO, applyTodo, TOGGLE_TODO, toggleTodoItem } from "../actions/todo";
 import { removeTodoItem, fetchTodo } from "../../service/todo";
+import { IStore } from "redux/reducers";
+import { TodoState } from "redux/reducers/todo";
+import { updateTodoApi } from "components/todo-adder/TodoAdder";
 
-// function* updateTodoSaga(action: AnyAction) {
-//   try {
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
+function getTodoById(state: TodoState, id: number) {
+  return (
+    state.items.find(item => item.id === id) && state.delayedItems.find(item => item.id === id)
+  );
+}
+
+function* toggleTodoSaga(action: ReturnType<typeof toggleTodoItem>) {
+  try {
+    const { id } = action;
+    const todoState = yield select((state: IStore) => state.todo);
+    const todo = getTodoById(todoState, id);
+    if (todo) {
+      const response = yield call(updateTodoApi, id, { ...todo });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 function* removeTodoSaga(action: AnyAction) {
   try {
@@ -22,5 +37,8 @@ function* removeTodoSaga(action: AnyAction) {
 
 export default function*() {
   // yield takeLatest(UPDATE_TODO, updateTodoSaga);
-  yield takeLatest(REMOVE_TODO, removeTodoSaga);
+  all([
+    yield takeLatest(TOGGLE_TODO, toggleTodoSaga),
+    yield takeLatest(REMOVE_TODO, removeTodoSaga)
+  ]);
 }

@@ -26,7 +26,7 @@ async function createTodoApi(params: CreateTodoParams): Promise<ITodo> {
 
 export type UpdateTodoParams = CreateTodoParams;
 
-async function updateTodoApi(todoId: number, params: UpdateTodoParams) {
+export async function updateTodoApi(todoId: number, params: UpdateTodoParams) {
   const response = await put(updateItem(todoId), JSON.stringify(params));
   return response;
 }
