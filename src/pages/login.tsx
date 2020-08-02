@@ -49,6 +49,18 @@ const KakaoLoginBtn = styled(KakaoLogin)`
   transition-delay: 2s;
 `;
 
+const ElementContainer = styled("div")`
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: absolute;
+  top: 0;
+`;
+
 export default function Login() {
   const dispatch = useDispatch();
   const [pageStatus, setPageStatus] = useState("SLICE_START");
@@ -56,7 +68,7 @@ export default function Login() {
   useEffect(() => {
     setTimeout(() => {
       setPageStatus("SLIDE_FINISH");
-    }, 1300);
+    }, 0);
   }, []);
 
   const success = (res: KakaoLoginResponseV2) => {
@@ -72,31 +84,31 @@ export default function Login() {
     <div style={{ height: "100vh" }}>
       <AnimationContainer
         css={css`
-          animation: ${slide} 1.5s ease;
+          animation: ${slide} 1.3s ease;
         `}
-      >
-        {pageStatus === "SLIDE_FINISH" && (
-          <ButtonContainer>
-            <Title>생각보다 괜찮은 투두리스트</Title>
-            <img
-              src={"/images/logo.png"}
-              css={css`
-                height: 60px;
-                margin-bottom: 45px;
-              `}
-            />
-            <KakaoLoginBtn
-              jsKey="0888a2c569cd376400ea3dc50d925724"
-              onSuccess={success}
-              onFailure={failure}
-              buttonText=""
-              css={css`
-                animation: ${bounce} 5s ease infinite;
-              `}
-            />
-          </ButtonContainer>
-        )}
-      </AnimationContainer>
+      />
+      <ElementContainer>
+        <ButtonContainer>
+          <Title>생각보다 괜찮은 투두리스트</Title>
+          <img
+            src={"/images/logo.png"}
+            css={css`
+              height: 60px;
+              margin-bottom: 45px;
+            `}
+          />
+          <KakaoLoginBtn
+            jsKey="0888a2c569cd376400ea3dc50d925724"
+            onSuccess={success}
+            onFailure={failure}
+            buttonText=""
+            css={css`
+              animation: ${bounce} 3s ease infinite;
+              visibility: ${pageStatus === "SLIDE_FINISH" ? "visible" : "hidden"};
+            `}
+          />
+        </ButtonContainer>
+      </ElementContainer>
     </div>
   );
 }
