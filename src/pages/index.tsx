@@ -101,13 +101,14 @@ export const getServerSideProps = wrapper.getServerSideProps(async context => {
   const { store, req, res } = context;
   const cookie = req.headers.cookie;
   const numb = dayjs().format("YYYYMMDD");
-  // cookie에 값이 없거나
-  // 응답값에 에러(401이라던가)가 있을 경우 login page로 리다이렉트
-  if (!cookie) {
+  const goLoginPage = () => {
     res.writeHead(301, {
       Location: "/login"
     });
     res.end();
+  };
+  if (!cookie) {
+    goLoginPage();
     return;
   }
 
@@ -115,9 +116,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async context => {
     const data = await get(apiUrl.fetchItems(numb), { headers: { Cookie: cookie } });
     store.dispatch(applyTodo(data));
   } catch (error) {
-    res.writeHead(301, {
-      Location: "/login"
-    });
-    res.end();
+    goLoginPage();
   }
 });
