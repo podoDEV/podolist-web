@@ -26,6 +26,7 @@ import { ITodo } from "redux/reducers/todo";
 import TodoList from "components/todoList";
 import { wrapper } from "./_app";
 import SelectedTodoProvider, { SelectedTodoContext } from "context/selectedTodoContext";
+import useMountedState from "hooks/useMountedState";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -65,16 +66,12 @@ export default function TodoIndex() {
     });
   };
 
-  const isMountedOnce = useRef(false);
+  const isMount = useMountedState();
   useEffect(() => {
-    if (isMountedOnce.current) {
+    if (isMount) {
       fetchData();
     }
   }, [date]);
-
-  useEffect(() => {
-    isMountedOnce.current = true;
-  }, []);
 
   useEffect(() => {
     const darkMode = getInitDarkMode();
