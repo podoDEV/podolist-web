@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/core";
 import { useSelector } from "react-redux";
 import dayjs, { Dayjs } from "dayjs";
 import { State } from "../pages/_app";
-import { TodoState } from "../redux/reducers/todo";
+import { TodoState, ITodo } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 import { useSelectedTodo } from "context/selectedTodoContext";
 
@@ -104,6 +104,11 @@ export default function TodoList(props: Props) {
   const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
+  const { setSelectedTodo } = useSelectedTodo();
+
+  const handleClickEdit = (todo: ITodo) => {
+    setSelectedTodo(todo);
+  };
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
@@ -121,17 +126,21 @@ export default function TodoList(props: Props) {
             </ListTitleContainer>
             <FoldableList folded={folded} len={numberOfDelayedItems}>
               {delayedItems &&
-                delayedItems.map(({ title, priority, endedAt, isCompleted, id }) => (
-                  <TodoItem
-                    text={title}
-                    priority={priority}
-                    selectedDate={selectedDate}
-                    date={formatted(endedAt)}
-                    checked={isCompleted}
-                    key={`todo-item-delayed-${id}`}
-                    id={id}
-                  />
-                ))}
+                delayedItems.map(item => {
+                  const { title, priority, endedAt, isCompleted, id } = item;
+                  return (
+                    <TodoItem
+                      text={title}
+                      priority={priority}
+                      selectedDate={selectedDate}
+                      date={formatted(endedAt)}
+                      checked={isCompleted}
+                      key={`todo-item-delayed-${id}`}
+                      id={id}
+                      onClickEdit={() => handleClickEdit(item)}
+                    />
+                  );
+                })}
             </FoldableList>
           </ListContainer>
           <BorderBottom />
@@ -151,17 +160,21 @@ export default function TodoList(props: Props) {
         </ListTitleContainer>
         <List>
           {items &&
-            items.map(({ title, priority, endedAt, id }) => (
-              <TodoItem
-                text={title}
-                priority={priority}
-                date={formatted(endedAt)}
-                selectedDate={selectedDate}
-                checked={false}
-                key={`todo-item-${id}`}
-                id={id}
-              />
-            ))}
+            items.map(item => {
+              const { title, priority, endedAt, id } = item;
+              return (
+                <TodoItem
+                  text={title}
+                  priority={priority}
+                  date={formatted(endedAt)}
+                  selectedDate={selectedDate}
+                  checked={false}
+                  key={`todo-item-${id}`}
+                  id={id}
+                  onClickEdit={() => handleClickEdit(item)}
+                />
+              );
+            })}
         </List>
       </ListContainer>
     </TodoListContainer>
