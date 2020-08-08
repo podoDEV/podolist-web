@@ -43,7 +43,7 @@ export default produce((draft: TodoState, action: TodoActionTypes | HydrateActio
       draft.items.push(todo);
       break;
     }
-    case UPDATE_TODO:
+    case UPDATE_TODO: {
       const { todo, id, isDelayed } = action;
       if (isDelayed) {
         const index = draft.delayedItems.findIndex(item => item.id === id);
@@ -53,6 +53,7 @@ export default produce((draft: TodoState, action: TodoActionTypes | HydrateActio
         draft.items[index] = todo;
       }
       break;
+    }
     case TOGGLE_TODO_SUCCESS: {
       const { todo, id, isDelayed } = action;
       if (isDelayed) {
@@ -68,19 +69,5 @@ export default produce((draft: TodoState, action: TodoActionTypes | HydrateActio
         }
       }
     }
-    default:
   }
 }, initialState);
-
-// if (todo.isCompleted) {
-//   const index = draft.items.findIndex(item => todo.id === item.id);
-//   if (index !== -1) {
-//     draft.items[index] = todo;
-//   } else {
-//     draft.items.push(todo);
-//     draft.delayedItems = draft.delayedItems.filter(item => item.id !== todo.id);
-//   }
-// } else {
-//   draft.delayedItems.push(todo);
-//   draft.items = draft.items.filter(item => item.id !== todo.id);
-// }
