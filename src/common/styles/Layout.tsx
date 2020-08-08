@@ -7,6 +7,7 @@ import { State } from "../../pages/_app";
 import { StyleState } from "../../redux/reducers/style";
 import { GlobalStyle } from "../../globalStyle";
 import styled from "@emotion/styled";
+import { imageMap } from "./imageMap";
 
 type LayoutProps = {
   children: ReactNode;
@@ -32,6 +33,7 @@ export interface Theme {
     border: string;
     textColor: string;
   };
+  borderBottom: string;
 }
 
 const mobileLayout = css`
@@ -46,7 +48,7 @@ const MainLayout = styled("main")<MainLayoutTheme>(({ bg }: MainLayoutTheme) => 
 }));
 
 const dark = {
-  buttonIcon: 'url("/images/moon.png") 50% 50%/ 16px 16px no-repeat',
+  buttonIcon: `url(${imageMap.MOON}) 50% 50%/ 16px 16px no-repeat`,
   gradientBG: "linear-gradient(#101010,#2b2b2b)",
   bg: "#121212",
   formsBG: "#2d2d2d",
@@ -62,11 +64,12 @@ const dark = {
     bg: "#414448",
     textColor: "#fff",
     border: "1px solid #111"
-  }
+  },
+  borderBottom: "0.5px solid #3a3a3a"
 };
 
 const light = {
-  buttonIcon: 'url("/images/sun.png") 50% 50%/ 16px 16px no-repeat',
+  buttonIcon: `url(${imageMap.SUN}) 50% 50%/ 16px 16px no-repeat`,
   gradientBG: "linear-gradient(#a91efe, #9314fe)",
   bg: "#fff",
   formsBG: "rgb(244, 244, 244)",
@@ -82,7 +85,8 @@ const light = {
     bg: "#fff",
     textColor: "#000",
     border: "1px solid #fff"
-  }
+  },
+  borderBottom: "0.5px solid #ececec"
 };
 
 function Layout({ children }: LayoutProps) {

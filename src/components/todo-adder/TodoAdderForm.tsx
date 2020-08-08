@@ -16,6 +16,7 @@ import { useImmer } from "use-immer";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../common/styles/Layout";
 import { SelectedTodoContext } from "pages";
+import { imageMap } from "../../common/styles/imageMap";
 
 const Label = styled.label`
   display: block;
@@ -69,7 +70,7 @@ const OpenFormsBtn = styled("button")`
   height: 44px;
   border-radius: 44px;
   border: none;
-  background: url("/images/add-btn.png") 50% 50%/ 16px 16px no-repeat;
+  background: url(${imageMap.ADD_BTN}) 50% 50%/ 16px 16px no-repeat;
   &.open {
     transform: rotate(0);
   }
@@ -85,7 +86,7 @@ const AddFormsBtn = styled("button")`
   height: 44px;
   border-radius: 44px;
   border: none;
-  background: rgb(158, 48, 254) url("/images/enter.png") 50% 50%/ 16px 16px no-repeat;
+  background: rgb(158, 48, 254) url(${imageMap.ENTER}) 50% 50%/ 16px 16px no-repeat;
   cursor: pointer;
   overflow: hidden;
 `;

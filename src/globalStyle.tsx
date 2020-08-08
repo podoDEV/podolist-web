@@ -4,26 +4,9 @@ import { Global, css, jsx } from "@emotion/core";
 export const GlobalStyle = () => (
   <Global
     styles={css`
-      @font-face {
-        font-family: "NotoSans";
-        src: url(\'fonts/NotoSansKR-bold.otf\');
-        font-weight: bold;
-      }
-
-      @font-face {
-        font-family: "NotoSans";
-        src: url(\'fonts/NotoSansKR-Thin.otf\');
-        font-weight: lighter;
-      }
-
-      @font-face {
-        font-family: "NotoSans";
-        src: url(\'fonts/NotoSansKR-Regular.otf\');
-      }
-
       * {
         box-sizing: border-box;
-        font-family: NotoSans;
+        font-family: "Noto Sans KR", sans-serif;
       }
 
       button:active,
