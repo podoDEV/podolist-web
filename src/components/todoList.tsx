@@ -8,6 +8,10 @@ import { State } from "../pages/_app";
 import { TodoState, ITodo } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 import { useSelectedTodo } from "context/selectedTodoContext";
+import { SelectedTodoContext } from "pages";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../common/styles/Layout";
+import { imageMap } from "../common/styles/imageMap";
 
 interface Props {
   date: Dayjs;
@@ -63,18 +67,16 @@ const FoldButton = styled("button")<FoldButtonProps>(({ folded }: FoldButtonProp
   width: "20px",
   height: "20px",
   background: folded
-    ? 'url("/images/down-btn.png") 50% 50%/ 20px 20px no-repeat'
-    : 'url("/images/up-btn.png") 50% 50%/ 20px 20px no-repeat'
+    ? `url(${imageMap.DOWN_BTN}) 50% 50%/ 20px 20px no-repeat`
+    : `url(${imageMap.UP_BTN}) 50% 50%/ 20px 20px no-repeat`
 }));
 
 const BorderBottom = styled("div")`
-  border: 0.5px solid #ececec;
   margin: 15px 0;
 `;
 
 interface ListProps {
   folded: boolean;
-  len: number;
 }
 
 const List = styled("ul")`
@@ -84,10 +86,10 @@ const List = styled("ul")`
   background: "none";
 `;
 
-const FoldableList = styled("ul")<ListProps>(({ folded, len }: ListProps) => ({
-  transition: "height 0.4s",
-  WebkitTransition: "height 0.4s",
-  height: folded ? "0px" : `${61 * len}px`,
+const FoldableList = styled("ul")<ListProps>(({ folded }: ListProps) => ({
+  transition: "max-height 0.4s",
+  WebkitTransition: "max-height 0.4s",
+  maxHeight: folded ? "0px" : "10000px",
   overflow: "hidden",
   border: "none",
   background: "none"
@@ -100,7 +102,6 @@ function formatted(numb: number) {
 export default function TodoList(props: Props) {
   const { delayedItems, items } = useSelector<State, TodoState>(state => state.todo);
   const [folded, setFolded] = useState(false);
-  const numberOfDelayedItems = delayedItems ? delayedItems.length : 0;
   const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
@@ -109,6 +110,7 @@ export default function TodoList(props: Props) {
   const handleClickEdit = (todo: ITodo) => {
     setSelectedTodo(todo);
   };
+  const { borderBottom } = useTheme<Theme>();
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
@@ -116,7 +118,10 @@ export default function TodoList(props: Props) {
         <>
           <ListContainer>
             <ListTitleContainer>
-              <ListTitle today={false}>Delayed</ListTitle>
+              <ListTitle today={false}>
+                Delayed
+                <span style={{ marginLeft: "15px" }}>{delayedItems.length}</span>
+              </ListTitle>
               <FoldButton
                 folded={folded}
                 onClick={() => {
@@ -124,7 +129,7 @@ export default function TodoList(props: Props) {
                 }}
               />
             </ListTitleContainer>
-            <FoldableList folded={folded} len={numberOfDelayedItems}>
+            <FoldableList folded={folded}>
               {delayedItems &&
                 delayedItems.map(item => {
                   const { title, priority, endedAt, isCompleted, id } = item;
@@ -143,7 +148,7 @@ export default function TodoList(props: Props) {
                 })}
             </FoldableList>
           </ListContainer>
-          <BorderBottom />
+          <BorderBottom style={{ border: borderBottom }} />
         </>
       )}
       <ListContainer>

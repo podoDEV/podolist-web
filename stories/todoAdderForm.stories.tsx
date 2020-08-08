@@ -24,17 +24,13 @@ export const notOpen = () => {
   // eslint-disable-next-line
   const handler = (params: any) => {};
 
-  return (
-    <Container>
-      <TodoAdderForm onSubmit={handler} />
-    </Container>
-  );
+  return <Container>{/*<TodoAdderForm onSubmit={handler} />*/}</Container>;
 };
 
 export const open = () => {
   return (
     <Container>
-      <TodoAdderForm defaultIsOpen={true} onSubmit={() => console.log("onsubmit")} />
+      {/*<TodoAdderForm defaultIsOpen={true} onSubmit={() => console.log("onsubmit")} />*/}
     </Container>
   );
 };

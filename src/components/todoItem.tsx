@@ -8,6 +8,7 @@ import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
 import { removeTodoItem, toggleTodoItem } from "../redux/actions/todo";
 import { SelectedTodoContext } from "pages";
+import { imageMap } from "../common/styles/imageMap";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -18,7 +19,7 @@ interface Props {
   date: string;
   checked: boolean;
   id: number;
-  onClickEdit: () => void;
+  // onClickEdit: () => void;
 }
 
 const TodoContainer = styled("li")`
@@ -55,7 +56,8 @@ const Text = styled("div")<TextProps>(({ checked, color }: TextProps) => ({
   fontSize: "18px",
   color: checked ? "rgb(151, 151, 151)" : color,
   textDecoration: checked ? "line-through" : "none",
-  textAlign: "left"
+  textAlign: "left",
+  wordBreak: "break-word"
 }));
 
 const Date = styled("span")`
@@ -108,7 +110,7 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    props.onClickEdit();
+    console.log("edit");
   };
 
   const handelClickRemoveButton = () => {
@@ -124,7 +126,7 @@ export default function TodoItem(props: Props) {
       <Content>
         <CheckboxContainer onClick={() => handleClickCheckbox(!checked)}>
           <Checkbox priority={priority} checked={checked} />
-          {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
+          {checked && <img src={imageMap.FINISHED} css={checkImgCss} />}
         </CheckboxContainer>
         <TextContainer>
           <Text checked={checked} color={titleTextColor}>
@@ -142,10 +144,10 @@ export default function TodoItem(props: Props) {
       {hovered && (
         <HoveredContent>
           <Button onClick={handelClickEditButton}>
-            <img src={"/images/edit.png"} css={img} />
+            <img src={imageMap.EDIT} css={img} />
           </Button>
           <Button onClick={handelClickRemoveButton}>
-            <img src={"/images/delete.png"} css={img} />
+            <img src={imageMap.DELETE} css={img} />
           </Button>
         </HoveredContent>
       )}

@@ -6,6 +6,7 @@ import KakaoLogin from "react-kakao-login";
 import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../redux/actions/user";
+import { imageMap } from "../common/styles/imageMap";
 
 const slide = keyframes`
   0% { height: 0% }
@@ -43,10 +44,22 @@ const Title = styled("p")`
 
 const KakaoLoginBtn = styled(KakaoLogin)`
   border: none;
-  background: no-repeat center url(/images/kakao-login.png);
+  background: no-repeat center url(${imageMap.KAKAO_LOGIN});
   height: 65px;
   width: 183px;
   transition-delay: 2s;
+`;
+
+const ElementContainer = styled("div")`
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: absolute;
+  top: 0;
 `;
 
 export default function Login() {
@@ -56,7 +69,7 @@ export default function Login() {
   useEffect(() => {
     setTimeout(() => {
       setPageStatus("SLIDE_FINISH");
-    }, 1300);
+    }, 0);
   }, []);
 
   const success = (res: KakaoLoginResponseV2) => {
@@ -69,16 +82,17 @@ export default function Login() {
   };
 
   return (
-    <AnimationContainer
-      css={css`
-        animation: ${slide} 1.5s ease;
-      `}
-    >
-      {pageStatus === "SLIDE_FINISH" && (
+    <div style={{ height: "100vh" }}>
+      <AnimationContainer
+        css={css`
+          animation: ${slide} 1.3s ease;
+        `}
+      />
+      <ElementContainer>
         <ButtonContainer>
           <Title>생각보다 괜찮은 투두리스트</Title>
           <img
-            src={"/images/logo.png"}
+            src={imageMap.LOGO}
             css={css`
               height: 60px;
               margin-bottom: 45px;
@@ -90,11 +104,12 @@ export default function Login() {
             onFailure={failure}
             buttonText=""
             css={css`
-              animation: ${bounce} 5s ease infinite;
+              animation: ${bounce} 3s ease infinite;
+              visibility: ${pageStatus === "SLIDE_FINISH" ? "visible" : "hidden"};
             `}
           />
         </ButtonContainer>
-      )}
-    </AnimationContainer>
+      </ElementContainer>
+    </div>
   );
 }

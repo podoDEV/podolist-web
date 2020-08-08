@@ -1,0 +1,34 @@
+export const imageMap = {
+  ADD_BTN:
+    "https://user-images.githubusercontent.com/35371660/89701137-33178c80-d96f-11ea-9aba-b671accd8a86.png",
+  ARROW_LEFT:
+    "https://user-images.githubusercontent.com/35371660/89701140-3448b980-d96f-11ea-86be-680b4b071a6e.png",
+  ARROW_RIGHT:
+    "https://user-images.githubusercontent.com/35371660/89701142-34e15000-d96f-11ea-8ae5-53273e4e7cde.png",
+  CALENDAR_ARROW_LEFT:
+    "https://user-images.githubusercontent.com/35371660/89701143-36127d00-d96f-11ea-92d0-ea64318ec782.png",
+  CALENDAR_ARROW_RIGHT:
+    "https://user-images.githubusercontent.com/35371660/89701144-36127d00-d96f-11ea-9937-8cb42602f084.png",
+  DELETE:
+    "https://user-images.githubusercontent.com/35371660/89701145-36ab1380-d96f-11ea-8025-e72b5848b08a.png",
+  DOWN_BTN:
+    "https://user-images.githubusercontent.com/35371660/89701146-3743aa00-d96f-11ea-8276-f4403df61098.png",
+  EDIT:
+    "https://user-images.githubusercontent.com/35371660/89701147-37dc4080-d96f-11ea-93d6-3293712b797f.png",
+  ENTER:
+    "https://user-images.githubusercontent.com/35371660/89701148-37dc4080-d96f-11ea-87bd-06d4a47e656f.png",
+  FINISHED:
+    "https://user-images.githubusercontent.com/35371660/89701149-3874d700-d96f-11ea-8c61-b2824bd85bb1.png",
+  KAKAO_LOGIN:
+    "https://user-images.githubusercontent.com/35371660/89701150-3874d700-d96f-11ea-8a39-5a067b308b16.png",
+  LOGO:
+    "https://user-images.githubusercontent.com/35371660/89701151-390d6d80-d96f-11ea-9412-7e029a862772.png",
+  MOON:
+    "https://user-images.githubusercontent.com/35371660/89701152-39a60400-d96f-11ea-9b87-e225cc12b867.png",
+  PERSON:
+    "https://user-images.githubusercontent.com/35371660/89701153-39a60400-d96f-11ea-80a8-e5400850ab9a.png",
+  SUN:
+    "https://user-images.githubusercontent.com/35371660/89701154-3a3e9a80-d96f-11ea-8b02-b2f21dc036a1.png",
+  UP_BTN:
+    "https://user-images.githubusercontent.com/35371660/89701155-3a3e9a80-d96f-11ea-8f19-cb6bf3346341.png"
+};

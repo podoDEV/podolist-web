@@ -33,10 +33,13 @@ export async function post(url: string, body?: string) {
     fetch(url, options)
       .then(res => {
         if (res.status >= 200 && res.status < 300) {
-          return Promise.resolve(res.json());
+          return res.text();
         }
 
         throw res.status;
+      })
+      .then(data => {
+        return Promise.resolve(data ? JSON.parse(data) : {});
       })
       .catch(errCode => {
         handleError(errCode);
@@ -56,10 +59,13 @@ export async function get(url: string, options?: RequestInit) {
     (await fetch(url, finalOptions)
       .then(res => {
         if (res.status === 200) {
-          return Promise.resolve(res.json());
+          return res.text();
         }
 
         throw res.status;
+      })
+      .then(data => {
+        return Promise.resolve(data ? JSON.parse(data) : {});
       })
       .catch(errCode => {
         handleError(errCode);
@@ -79,10 +85,13 @@ export async function put(url: string, body?: string) {
     (await fetch(url, options)
       .then(res => {
         if (res.status === 200) {
-          return Promise.resolve(res.json());
+          return res.text();
         }
 
         throw res.status;
+      })
+      .then(data => {
+        return Promise.resolve(data ? JSON.parse(data) : {});
       })
       .catch(errCode => {
         handleError(errCode);
@@ -101,10 +110,13 @@ export async function deleteFetch(url: string) {
     (await fetch(url, options)
       .then(res => {
         if (res.status === 204) {
-          return Promise.resolve(res.json());
+          return res.text();
         }
 
         throw res.status;
+      })
+      .then(data => {
+        return Promise.resolve(data ? JSON.parse(data) : {});
       })
       .catch(errCode => {
         handleError(errCode);
