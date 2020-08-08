@@ -2,15 +2,7 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import {
-  useEffect,
-  useState,
-  createContext,
-  SetStateAction,
-  Dispatch,
-  useMemo,
-  useRef
-} from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import { get } from "../common/fetch";
@@ -99,11 +91,8 @@ export default function TodoIndex() {
     });
   };
 
-  const isMount = useMountedState();
   useEffect(() => {
-    if (isMount) {
-      fetchData();
-    }
+    fetchData();
   }, [date]);
 
   useEffect(() => {
@@ -136,26 +125,3 @@ export default function TodoIndex() {
     </TodoPageContainer>
   );
 }
-
-export const getServerSideProps = wrapper.getServerSideProps(async context => {
-  const { store, req, res } = context;
-  const cookie = req.headers.cookie;
-  const numb = dayjs().format("YYYYMMDD");
-  const goLoginPage = () => {
-    res.writeHead(301, {
-      Location: "/login"
-    });
-    res.end();
-  };
-  if (!cookie) {
-    goLoginPage();
-    return;
-  }
-
-  try {
-    const data = await get(apiUrl.fetchItems(numb), { headers: { Cookie: cookie } });
-    store.dispatch(applyTodo(data));
-  } catch (error) {
-    goLoginPage();
-  }
-});
