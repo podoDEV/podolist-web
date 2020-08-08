@@ -109,7 +109,7 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    console.log("edit");
+    props.onClickEdit();
   };
 
   const handelClickRemoveButton = () => {
