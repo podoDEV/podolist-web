@@ -5,7 +5,7 @@ import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post, put } from "common/fetch";
 import { items, updateItem } from "common/apiUrl";
-import { ITodo } from "redux/reducers/todo";
+import { TodoType } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
@@ -19,12 +19,12 @@ export type CreateTodoParams = {
   title: string;
 };
 
-async function createTodoApi(params: CreateTodoParams): Promise<ITodo> {
+async function createTodoApi(params: CreateTodoParams): Promise<TodoType> {
   const response = await post(items(), JSON.stringify(params));
   return response;
 }
 
-export type UpdateTodoParams = CreateTodoParams & Pick<ITodo, "isCompleted">;
+export type UpdateTodoParams = CreateTodoParams & Pick<TodoType, "isCompleted">;
 
 export async function updateTodoApi(todoId: number, params: Partial<UpdateTodoParams>) {
   const response = await put(updateItem(todoId), JSON.stringify(params));

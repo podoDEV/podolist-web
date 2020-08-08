@@ -12,7 +12,7 @@ import produce from "immer";
 
 type Nullable<T> = T | null;
 
-export interface ITodo {
+export interface TodoType {
   id: number;
   title: string;
   isCompleted: boolean;
@@ -26,8 +26,8 @@ export interface ITodo {
 }
 
 export interface TodoState {
-  delayedItems: ITodo[];
-  items: ITodo[];
+  delayedItems: TodoType[];
+  items: TodoType[];
 }
 
 const initialState = { delayedItems: [], items: [] } as TodoState;

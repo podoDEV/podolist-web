@@ -12,7 +12,7 @@ import {
 } from "../actions/todo";
 import { removeTodoItem, fetchTodo } from "../../service/todo";
 import { IStore } from "redux/reducers";
-import { TodoState, ITodo } from "redux/reducers/todo";
+import { TodoState, TodoType } from "redux/reducers/todo";
 import { updateTodoApi } from "components/todo-adder/TodoAdder";
 import dayjs from "dayjs";
 
@@ -25,7 +25,7 @@ function getTodoById(state: TodoState, id: number) {
 function* toggleTodoSaga(action: ReturnType<typeof toggleTodoItem>) {
   try {
     const { id, isCompleted } = action;
-    const todo: ITodo = yield call(updateTodoApi, id, { isCompleted });
+    const todo: TodoType = yield call(updateTodoApi, id, { isCompleted });
 
     const todoEndedAt = dayjs(todo.endedAt * 1000);
     const isToday = dayjs().isSame(todoEndedAt, "date");

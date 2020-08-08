@@ -7,10 +7,10 @@ import {
   useMemo,
   ReactNode
 } from "react";
-import { ITodo } from "redux/reducers/todo";
+import { TodoType } from "redux/reducers/todo";
 
 export interface SelectedTodoContextType {
-  selectedTodo: ITodo | undefined;
+  selectedTodo: TodoType | undefined;
   setSelectedTodo: Dispatch<SetStateAction<SelectedTodoContextType["selectedTodo"]>>;
 }
 
@@ -23,7 +23,7 @@ type SelectedTodoProviderProps = {
 };
 
 export default function SelectedTodoProvider({ children }: SelectedTodoProviderProps) {
-  const [selectedTodo, setSelectedTodo] = useState<ITodo | undefined>(undefined);
+  const [selectedTodo, setSelectedTodo] = useState<TodoType | undefined>(undefined);
 
   const selectedTodoContextValue = useMemo(
     () => ({

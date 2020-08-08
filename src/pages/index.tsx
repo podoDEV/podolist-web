@@ -20,7 +20,7 @@ import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { ITodo } from "redux/reducers/todo";
+import { TodoType } from "redux/reducers/todo";
 import TodoList from "components/todoList";
 import { wrapper } from "./_app";
 import SelectedTodoProvider, { SelectedTodoContext } from "context/selectedTodoContext";
@@ -72,7 +72,7 @@ function getInitDarkMode() {
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
-  const [selectedTodo, setSelectedTodo] = useState<ITodo | undefined>(undefined);
+  const [selectedTodo, setSelectedTodo] = useState<TodoType | undefined>(undefined);
   const [showAppDownload, setShowAppDownload] = useState(false);
 
   useEffect(() => {

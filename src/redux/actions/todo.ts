@@ -1,4 +1,4 @@
-import { ITodo, TodoState } from "../reducers/todo";
+import { TodoType, TodoState } from "../reducers/todo";
 
 export const ADD_TODO = "ADD_TODO" as const;
 export const APPLY_TODO = "APPLY_TODO" as const;
@@ -15,7 +15,7 @@ export const applyTodo = (todo: TodoState) => ({
   todo
 });
 
-export const addTodo = (todo: ITodo) => ({
+export const addTodo = (todo: TodoType) => ({
   type: ADD_TODO,
   todo
 });
@@ -28,13 +28,13 @@ export type TodoActionTypes = ReturnType<
   | typeof toggleTodoSuccess
 >;
 
-export const applyTodoItem = (todo: ITodo, id: number) => ({
+export const applyTodoItem = (todo: TodoType, id: number) => ({
   type: APPLY_TODO_ITEM,
   todo,
   id
 });
 
-export const updateTodoItem = (todo: ITodo, id: number, isDelayed?: boolean) => ({
+export const updateTodoItem = (todo: TodoType, id: number, isDelayed?: boolean) => ({
   type: UPDATE_TODO,
   todo,
   id,
@@ -53,7 +53,7 @@ export const removeTodoItem = (id: number, date: string) => ({
   date
 });
 
-export const toggleTodoSuccess = (id: number, todo: ITodo, isDelayed?: boolean) => ({
+export const toggleTodoSuccess = (id: number, todo: TodoType, isDelayed?: boolean) => ({
   type: TOGGLE_TODO_SUCCESS,
   todo,
   id,

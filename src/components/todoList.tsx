@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/core";
 import { useSelector } from "react-redux";
 import dayjs, { Dayjs } from "dayjs";
 import { State } from "../pages/_app";
-import { TodoState, ITodo } from "../redux/reducers/todo";
+import { TodoState, TodoType } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 import { useSelectedTodo } from "context/selectedTodoContext";
 import { useTheme } from "emotion-theming";
@@ -106,7 +106,7 @@ export default function TodoList(props: Props) {
   const today = date === dayjs().format("YYYY.MM.DD");
   const { setSelectedTodo } = useSelectedTodo();
 
-  const handleClickEdit = (todo: ITodo) => {
+  const handleClickEdit = (todo: TodoType) => {
     setSelectedTodo(todo);
   };
   const { borderBottom } = useTheme<Theme>();
