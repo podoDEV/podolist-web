@@ -1,6 +1,7 @@
-const apiDomain = `${
-  process.env.NODE_ENV === "development" ? "http" : "https"
-}://api.dev.podolist.com:8000`;
+const apiDomain =
+  process.env.NODE_ENV === "development"
+    ? "http//api.dev.podolist.com:8000"
+    : "https://api.podolist.com";
 
 export const items = () => `${apiDomain}/items`;
 export const fetchItems = (date: string) => `${apiDomain}/items?date=${date}`;
