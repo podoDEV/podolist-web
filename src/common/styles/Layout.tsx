@@ -32,6 +32,7 @@ export interface Theme {
     border: string;
     textColor: string;
   };
+  borderBottom: string;
 }
 
 const mobileLayout = css`
@@ -62,7 +63,8 @@ const dark = {
     bg: "#414448",
     textColor: "#fff",
     border: "1px solid #111"
-  }
+  },
+  borderBottom: "0.5px solid #3a3a3a"
 };
 
 const light = {
@@ -82,7 +84,8 @@ const light = {
     bg: "#fff",
     textColor: "#000",
     border: "1px solid #fff"
-  }
+  },
+  borderBottom: "0.5px solid #ececec"
 };
 
 function Layout({ children }: LayoutProps) {

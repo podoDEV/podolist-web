@@ -8,6 +8,8 @@ import { State } from "../pages/_app";
 import { TodoState } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 import { SelectedTodoContext } from "pages";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../common/styles/Layout";
 
 interface Props {
   date: Dayjs;
@@ -68,7 +70,7 @@ const FoldButton = styled("button")<FoldButtonProps>(({ folded }: FoldButtonProp
 }));
 
 const BorderBottom = styled("div")`
-  border: 0.5px solid #3a3a3a;
+  // border: 0.5px solid #3a3a3a;
   margin: 15px 0;
 `;
 
@@ -99,10 +101,10 @@ function formatted(numb: number) {
 export default function TodoList(props: Props) {
   const { delayedItems, items } = useSelector<State, TodoState>(state => state.todo);
   const [folded, setFolded] = useState(false);
-  const numberOfDelayedItems = delayedItems ? delayedItems.length : 0;
   const selectedDate = dayjs(props.date).format("YYYYMMDD");
   const date = dayjs(props.date).format("YYYY.MM.DD");
   const today = date === dayjs().format("YYYY.MM.DD");
+  const { borderBottom } = useTheme<Theme>();
 
   return (
     <TodoListContainer css={mobileScreenWidth}>
@@ -136,7 +138,7 @@ export default function TodoList(props: Props) {
                 ))}
             </FoldableList>
           </ListContainer>
-          <BorderBottom />
+          <BorderBottom style={{ border: borderBottom }} />
         </>
       )}
       <ListContainer>
