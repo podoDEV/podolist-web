@@ -5,11 +5,11 @@ import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post, put } from "common/fetch";
 import { items, updateItem } from "common/apiUrl";
-import { Todo } from "redux/reducers/todo";
+import { TodoType } from "redux/reducers/todo";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { addTodo } from "redux/actions/todo";
-import { SelectedTodoContext } from "pages";
+import { useSelectedTodo } from "context/selectedTodoContext";
 
 export type CreateTodoParams = {
   dueAt: number;
@@ -19,14 +19,14 @@ export type CreateTodoParams = {
   title: string;
 };
 
-async function createTodoApi(params: CreateTodoParams): Promise<Todo> {
+async function createTodoApi(params: CreateTodoParams): Promise<TodoType> {
   const response = await post(items(), JSON.stringify(params));
   return response;
 }
 
-export type UpdateTodoParams = CreateTodoParams;
+export type UpdateTodoParams = CreateTodoParams & Pick<TodoType, "isCompleted">;
 
-async function updateTodoApi(todoId: number, params: UpdateTodoParams) {
+export async function updateTodoApi(todoId: number, params: Partial<UpdateTodoParams>) {
   const response = await put(updateItem(todoId), JSON.stringify(params));
   return response;
 }
@@ -36,7 +36,7 @@ type TodoAdderProps = {
 };
 
 export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
-  const { selectedTodo, setSelectedTodo } = useContext(SelectedTodoContext);
+  const { selectedTodo, setSelectedTodo } = useSelectedTodo();
 
   const injectedFormState = useMemo(() => {
     return selectedTodo

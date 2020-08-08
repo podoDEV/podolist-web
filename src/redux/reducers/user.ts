@@ -8,8 +8,9 @@ export interface UserState {
   profileImageUrl: string;
 }
 
-type InitialStateType = UserState | null;
-const initialState: InitialStateType = null;
+export type IUser = UserState | null;
+
+const initialState: IUser = null;
 
 export default (state: UserState | null = initialState, action: AnyAction) => {
   switch (action.type) {

@@ -2,19 +2,32 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import { useEffect, useState, createContext, SetStateAction, Dispatch, useMemo } from "react";
+import {
+  useEffect,
+  useState,
+  createContext,
+  SetStateAction,
+  Dispatch,
+  useMemo,
+  useRef
+} from "react";
 import { useDispatch } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import { get } from "../common/fetch";
 import Navigation from "../components/navigation/navigation";
-import TodoList from "../components/todoList";
 import { applyTodo } from "../redux/actions/todo";
 import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { Todo } from "redux/reducers/todo";
-import { isIOSBrowser } from "../common/util";
+import { TodoType } from "redux/reducers/todo";
+import TodoList from "components/todoList";
+import { wrapper } from "./_app";
+import SelectedTodoProvider, { SelectedTodoContext } from "context/selectedTodoContext";
+import useMountedState from "hooks/useMountedState";
+import { isIOSBrowser } from "common/util";
+import { useTheme } from "emotion-theming";
+import { Theme } from "common/styles/Layout";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -36,7 +49,7 @@ const DownloadNotice = styled("div")`
   width: 100%;
   justify-content: center;
   background-color: #e0e0e0;
-}`;
+`;
 
 const CloseBtn = styled("button")`
   border: none;
@@ -56,19 +69,10 @@ function getInitDarkMode() {
   return matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-export interface SelectedTodoContextType {
-  selectedTodo: Todo | undefined;
-  setSelectedTodo: Dispatch<SetStateAction<SelectedTodoContextType["selectedTodo"]>>;
-}
-
-export const SelectedTodoContext = createContext<SelectedTodoContextType>(
-  {} as SelectedTodoContextType
-);
-
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
-  const [selectedTodo, setSelectedTodo] = useState<Todo | undefined>(undefined);
+  const [selectedTodo, setSelectedTodo] = useState<TodoType | undefined>(undefined);
   const [showAppDownload, setShowAppDownload] = useState(false);
 
   useEffect(() => {
@@ -95,8 +99,11 @@ export default function TodoIndex() {
     });
   };
 
+  const isMount = useMountedState();
   useEffect(() => {
-    fetchData();
+    if (isMount) {
+      fetchData();
+    }
   }, [date]);
 
   useEffect(() => {
@@ -104,7 +111,6 @@ export default function TodoIndex() {
     dispatch(setDarkMode(darkMode));
     setLocalStorageDarkMode(darkMode);
 
-    fetchData();
     dispatch(fetchUserInfo());
   }, []);
 
@@ -121,12 +127,35 @@ export default function TodoIndex() {
         </DownloadNotice>
       )}
       <Navigation date={date} setDate={setDate} />
-      <SelectedTodoContext.Provider value={selectedTodoContextValue}>
+      <SelectedTodoProvider>
         <TodoContainer>
           <TodoList date={date} />
           <TodoAdder fetchTodo={fetchData} />
         </TodoContainer>
-      </SelectedTodoContext.Provider>
+      </SelectedTodoProvider>
     </TodoPageContainer>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async context => {
+  const { store, req, res } = context;
+  const cookie = req.headers.cookie;
+  const numb = dayjs().format("YYYYMMDD");
+  const goLoginPage = () => {
+    res.writeHead(301, {
+      Location: "/login"
+    });
+    res.end();
+  };
+  if (!cookie) {
+    goLoginPage();
+    return;
+  }
+
+  try {
+    const data = await get(apiUrl.fetchItems(numb), { headers: { Cookie: cookie } });
+    store.dispatch(applyTodo(data));
+  } catch (error) {
+    goLoginPage();
+  }
+});

@@ -1,10 +1,18 @@
-import { AnyAction } from "redux";
-import { APPLY_TODO, ADD_TODO, TodoActionTypes } from "../actions/todo";
+import {
+  APPLY_TODO,
+  ADD_TODO,
+  TodoActionTypes,
+  UPDATE_TODO,
+  TOGGLE_TODO_SUCCESS
+} from "../actions/todo";
 import { PriorityType } from "../../constants/Priority";
+import { HYDRATE } from "next-redux-wrapper";
+import { HydrateActionType } from "redux/makeStore";
+import produce from "immer";
 
 type Nullable<T> = T | null;
 
-export interface Todo {
+export interface TodoType {
   id: number;
   title: string;
   isCompleted: boolean;
@@ -18,25 +26,48 @@ export interface Todo {
 }
 
 export interface TodoState {
-  delayedItems: Todo[];
-  items: Todo[];
+  delayedItems: TodoType[];
+  items: TodoType[];
 }
 
 const initialState = { delayedItems: [], items: [] } as TodoState;
 
-export default (state = initialState, action: TodoActionTypes) => {
+export default produce((draft: TodoState, action: TodoActionTypes | HydrateActionType) => {
   switch (action.type) {
+    case HYDRATE:
+      return action.payload.todo;
     case APPLY_TODO:
       return action.todo;
     case ADD_TODO: {
       const { todo } = action;
-
-      return {
-        ...state,
-        items: [...state.items, todo]
-      };
+      draft.items.push(todo);
+      break;
     }
-    default:
-      return state;
+    case UPDATE_TODO: {
+      const { todo, id, isDelayed } = action;
+      if (isDelayed) {
+        const index = draft.delayedItems.findIndex(item => item.id === id);
+        draft.delayedItems[index] = todo;
+      } else {
+        const index = draft.items.findIndex(item => item.id === id);
+        draft.items[index] = todo;
+      }
+      break;
+    }
+    case TOGGLE_TODO_SUCCESS: {
+      const { todo, id, isDelayed } = action;
+      if (isDelayed) {
+        if (todo.isCompleted) {
+          const index = draft.delayedItems.findIndex(item => item.id === id);
+          draft.delayedItems.splice(index, 1);
+          draft.items.push(todo);
+        } else {
+          const index = draft.items.findIndex(item => item.id === id);
+          draft.items.splice(index, 1);
+          draft.delayedItems.push(todo);
+          return;
+        }
+      }
+    }
   }
-};
+}, initialState);

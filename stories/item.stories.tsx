@@ -19,7 +19,9 @@ const Container = styled.div<ContainerProps>(
 export default {
   title: "Todo Item"
 };
-
+const onClickEdit = () => {
+  alert("click edit");
+};
 export const priorityItem = () => {
   return (
     <Container>
@@ -29,6 +31,7 @@ export const priorityItem = () => {
         date="2020.02.02"
         checked={false}
         selectedDate="2020.02.02"
+        onClickEdit={onClickEdit}
         id={1}
       />
       <TodoItem
@@ -37,6 +40,7 @@ export const priorityItem = () => {
         date="2020.02.02"
         checked={false}
         selectedDate="2020.02.02"
+        onClickEdit={onClickEdit}
         id={2}
       />
       <TodoItem
@@ -45,6 +49,7 @@ export const priorityItem = () => {
         date="2020.02.02"
         checked={false}
         selectedDate="2020.02.02"
+        onClickEdit={onClickEdit}
         id={3}
       />
       <TodoItem
@@ -53,11 +58,13 @@ export const priorityItem = () => {
         date="2020.02.02"
         checked={false}
         selectedDate="2020.02.02"
+        onClickEdit={onClickEdit}
         id={4}
       />
       <TodoItem
         priority="none"
         text="엔씨 소프트 자소서 쓰기"
+        onClickEdit={onClickEdit}
         date="2020.02.02"
         checked={false}
         selectedDate="2020.02.02"
@@ -71,6 +78,7 @@ export const longTextItem = () => {
   return (
     <Container>
       <TodoItem
+        onClickEdit={onClickEdit}
         priority="medium"
         text="기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트 기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트 기이이이이이이이이이이이이이이이이이이이이이이이이인 텍스으으으으으으으으으트"
         date="2020.02.02"
@@ -86,6 +94,7 @@ export const finishedItem = () => {
   return (
     <Container>
       <TodoItem
+        onClickEdit={onClickEdit}
         priority="medium"
         text="엔씨 소프트 자소서 쓰기"
         date="2020.02.02"

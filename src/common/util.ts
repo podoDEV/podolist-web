@@ -8,6 +8,7 @@ export const range = (start: number, end: number) => {
   return res;
 };
 
+export const isServer = typeof window === "undefined";
 export const isIOSBrowser = () => {
   return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);
 };

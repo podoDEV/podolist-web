@@ -6,8 +6,7 @@ import { PriorityColor } from "constants/Color";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
-import { removeTodoItem } from "../redux/actions/todo";
-import { SelectedTodoContext } from "pages";
+import { removeTodoItem, toggleTodoItem } from "../redux/actions/todo";
 import { imageMap } from "../common/styles/imageMap";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
@@ -19,7 +18,7 @@ interface Props {
   date: string;
   checked: boolean;
   id: number;
-  // onClickEdit: () => void;
+  onClickEdit: () => void;
 }
 
 const TodoContainer = styled("li")`
@@ -110,21 +109,21 @@ export default function TodoItem(props: Props) {
   };
 
   const handelClickEditButton = () => {
-    console.log("edit");
+    props.onClickEdit();
   };
 
   const handelClickRemoveButton = () => {
     dispatch(removeTodoItem(id, selectedDate));
   };
 
-  const handleClickCheckbox = () => {
-    console.log("handle click checkbox", id);
+  const handleClickCheckbox = (isCompleted: boolean) => {
+    dispatch(toggleTodoItem(id, isCompleted));
   };
 
   return (
     <TodoContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
       <Content>
-        <CheckboxContainer onClick={handleClickCheckbox}>
+        <CheckboxContainer onClick={() => handleClickCheckbox(!checked)}>
           <Checkbox priority={priority} checked={checked} />
           {checked && <img src={imageMap.FINISHED} css={checkImgCss} />}
         </CheckboxContainer>
