@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { css, jsx } from "@emotion/core";
 import { useTheme } from "emotion-theming";
 import { Dayjs } from "dayjs";
@@ -96,9 +96,8 @@ const DarkModeButton = styled("div")<DarkModeButtonProps>(
 const Dropbox = styled("div")`
   display: flex;
   padding: 5px 10px;
-  position: relative;
-  top: 45px;
-  right: 120px;
+  position: absolute;
+  top: 50px;
   border-radius: 5px;
 `;
 
@@ -114,6 +113,7 @@ export default function NavigationInformationArea(props: Props) {
   const dispatch = useDispatch();
   const { buttonIcon, dropbox } = useTheme<Theme>();
 
+  const profileImageRef = useRef<HTMLImageElement>(null);
   const month = date.format("M");
   const year = date.format("YYYY");
   const user = useSelector<State, UserState | null>(state => state.user);
@@ -143,13 +143,22 @@ export default function NavigationInformationArea(props: Props) {
       <RightArea>
         <DarkModeButton onClick={onClickDarkModeIcon} buttonIcon={buttonIcon} />
         <ProfileImageArea onClick={toggleProfileDropbox}>
-          {user && <img src={user.profileImageUrl ?? "/images/person.png"} css={profileImageCss} />}
+          {user && (
+            <img
+              src={user.profileImageUrl ?? "/images/person.png"}
+              css={profileImageCss}
+              ref={profileImageRef}
+            />
+          )}
           {openDropbox && (
             <Dropbox
               css={css`
                 background-color: ${dropbox.bg};
                 border: ${dropbox.border};
                 color: ${dropbox.textColor};
+                left: ${profileImageRef?.current
+                  ? profileImageRef.current.getBoundingClientRect().left - 90 + "px"
+                  : "0px"};
               `}
             >
               <DropboxContent>

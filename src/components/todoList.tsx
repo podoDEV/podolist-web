@@ -74,7 +74,6 @@ const BorderBottom = styled("div")`
 
 interface ListProps {
   folded: boolean;
-  len: number;
 }
 
 const List = styled("ul")`
@@ -84,10 +83,10 @@ const List = styled("ul")`
   background: "none";
 `;
 
-const FoldableList = styled("ul")<ListProps>(({ folded, len }: ListProps) => ({
-  transition: "height 0.4s",
-  WebkitTransition: "height 0.4s",
-  height: folded ? "0px" : `${61 * len}px`,
+const FoldableList = styled("ul")<ListProps>(({ folded }: ListProps) => ({
+  transition: "max-height 0.4s",
+  WebkitTransition: "max-height 0.4s",
+  maxHeight: folded ? "0px" : "10000px",
   overflow: "hidden",
   border: "none",
   background: "none"
@@ -122,7 +121,7 @@ export default function TodoList(props: Props) {
                 }}
               />
             </ListTitleContainer>
-            <FoldableList folded={folded} len={numberOfDelayedItems}>
+            <FoldableList folded={folded}>
               {delayedItems &&
                 delayedItems.map(({ title, priority, endedAt, isCompleted, id }) => (
                   <TodoItem
