@@ -6,7 +6,7 @@ import PriorityCircle from "components/priority-circle/PriorityCircle";
 import { Color } from "constants/Color";
 import { PriorityType } from "constants/Priority";
 import dayjs, { Dayjs } from "dayjs";
-import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect, useContext } from "react";
+import { FormEvent, useState, useRef, useMemo, ChangeEvent, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import PriorityRadioGroup from "./PriorityRadioGroup";
 import Dimmed from "components/common/Dimmed";
@@ -15,7 +15,6 @@ import { CreateTodoParams } from "./TodoAdder";
 import { useImmer } from "use-immer";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../common/styles/Layout";
-import { SelectedTodoContext } from "pages";
 import { imageMap } from "../../common/styles/imageMap";
 
 const Label = styled.label`
