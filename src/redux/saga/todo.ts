@@ -1,10 +1,20 @@
 import { call, put, takeLatest, fork, all, select } from "redux-saga/effects";
 import { AnyAction } from "redux";
-import { UPDATE_TODO, REMOVE_TODO, applyTodo, TOGGLE_TODO, toggleTodoItem } from "../actions/todo";
+import {
+  UPDATE_TODO,
+  REMOVE_TODO,
+  applyTodo,
+  TOGGLE_TODO,
+  toggleTodoItem,
+  addTodo,
+  updateTodoItem,
+  toggleTodoSuccess
+} from "../actions/todo";
 import { removeTodoItem, fetchTodo } from "../../service/todo";
 import { IStore } from "redux/reducers";
-import { TodoState } from "redux/reducers/todo";
+import { TodoState, ITodo } from "redux/reducers/todo";
 import { updateTodoApi } from "components/todo-adder/TodoAdder";
+import dayjs from "dayjs";
 
 function getTodoById(state: TodoState, id: number) {
   return (
@@ -14,11 +24,16 @@ function getTodoById(state: TodoState, id: number) {
 
 function* toggleTodoSaga(action: ReturnType<typeof toggleTodoItem>) {
   try {
-    const { id } = action;
-    const todoState = yield select((state: IStore) => state.todo);
-    const todo = getTodoById(todoState, id);
-    if (todo) {
-      const response = yield call(updateTodoApi, id, { isCompleted: !todo.isCompleted });
+    const { id, isCompleted } = action;
+    const todo: ITodo = yield call(updateTodoApi, id, { isCompleted });
+
+    const todoEndedAt = dayjs(todo.endedAt * 1000);
+    const isToday = dayjs().isSame(todoEndedAt, "date");
+
+    if (isToday) {
+      yield put(updateTodoItem(todo, id, false));
+    } else {
+      yield put(toggleTodoSuccess(id, todo, true));
     }
   } catch (err) {
     console.error(err);

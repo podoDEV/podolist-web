@@ -161,14 +161,14 @@ export default function TodoList(props: Props) {
         <List>
           {items &&
             items.map(item => {
-              const { title, priority, endedAt, id } = item;
+              const { title, priority, endedAt, id, isCompleted } = item;
               return (
                 <TodoItem
                   text={title}
                   priority={priority}
                   date={formatted(endedAt)}
                   selectedDate={selectedDate}
-                  checked={false}
+                  checked={isCompleted}
                   key={`todo-item-${id}`}
                   id={id}
                   onClickEdit={() => handleClickEdit(item)}

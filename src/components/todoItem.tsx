@@ -115,15 +115,14 @@ export default function TodoItem(props: Props) {
     dispatch(removeTodoItem(id, selectedDate));
   };
 
-  const handleClickCheckbox = () => {
-    console.log("id: ", id);
-    dispatch(toggleTodoItem(id));
+  const handleClickCheckbox = (isCompleted: boolean) => {
+    dispatch(toggleTodoItem(id, isCompleted));
   };
 
   return (
     <TodoContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
       <Content>
-        <CheckboxContainer onClick={handleClickCheckbox}>
+        <CheckboxContainer onClick={() => handleClickCheckbox(!checked)}>
           <Checkbox priority={priority} checked={checked} />
           {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
         </CheckboxContainer>

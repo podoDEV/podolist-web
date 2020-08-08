@@ -27,7 +27,6 @@ async function createTodoApi(params: CreateTodoParams): Promise<ITodo> {
 export type UpdateTodoParams = CreateTodoParams & Pick<ITodo, "isCompleted">;
 
 export async function updateTodoApi(todoId: number, params: Partial<UpdateTodoParams>) {
-  console.log("todoId: ", todoId);
   const response = await put(updateItem(todoId), JSON.stringify(params));
   return response;
 }
