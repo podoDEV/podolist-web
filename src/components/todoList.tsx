@@ -8,7 +8,6 @@ import { State } from "../pages/_app";
 import { TodoState, ITodo } from "../redux/reducers/todo";
 import TodoItem from "../components/todoItem";
 import { useSelectedTodo } from "context/selectedTodoContext";
-import { SelectedTodoContext } from "pages";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import { imageMap } from "../common/styles/imageMap";

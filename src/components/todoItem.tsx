@@ -7,7 +7,6 @@ import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
 import { removeTodoItem, toggleTodoItem } from "../redux/actions/todo";
-import { SelectedTodoContext } from "pages";
 import { imageMap } from "../common/styles/imageMap";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
@@ -19,7 +18,7 @@ interface Props {
   date: string;
   checked: boolean;
   id: number;
-  // onClickEdit: () => void;
+  onClickEdit: () => void;
 }
 
 const TodoContainer = styled("li")`
