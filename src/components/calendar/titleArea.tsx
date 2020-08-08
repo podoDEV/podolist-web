@@ -3,6 +3,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
+import { imageMap } from "../../common/styles/imageMap";
 
 interface Props {
   date: Dayjs;
@@ -64,13 +65,13 @@ export default function CalendarTitleArea(props: Props) {
       <YearTitle>{year}</YearTitle>
       <MonthArea>
         <MonthButton onClick={() => changeMonth(true)}>
-          <img src={"/images/calendar-arrow-left.png"} css={arrowImgStyle} />
+          <img src={imageMap.CALENDAR_ARROW_LEFT} css={arrowImgStyle} />
           {prevMonth}
         </MonthButton>
         <MonthTitle>{month}</MonthTitle>
         <MonthButton onClick={() => changeMonth(false)}>
           {nextMonth}
-          <img src={"/images/calendar-arrow-right.png"} css={arrowImgStyle} />
+          <img src={imageMap.CALENDAR_ARROW_RIGHT} css={arrowImgStyle} />
         </MonthButton>
       </MonthArea>
     </TitleArea>

@@ -7,6 +7,7 @@ import { State } from "../../pages/_app";
 import { StyleState } from "../../redux/reducers/style";
 import { GlobalStyle } from "../../globalStyle";
 import styled from "@emotion/styled";
+import { imageMap } from "./imageMap";
 
 type LayoutProps = {
   children: ReactNode;
@@ -47,7 +48,7 @@ const MainLayout = styled("main")<MainLayoutTheme>(({ bg }: MainLayoutTheme) => 
 }));
 
 const dark = {
-  buttonIcon: 'url("/images/moon.png") 50% 50%/ 16px 16px no-repeat',
+  buttonIcon: `url(${imageMap.MOON}) 50% 50%/ 16px 16px no-repeat`,
   gradientBG: "linear-gradient(#101010,#2b2b2b)",
   bg: "#121212",
   formsBG: "#2d2d2d",
@@ -68,7 +69,7 @@ const dark = {
 };
 
 const light = {
-  buttonIcon: 'url("/images/sun.png") 50% 50%/ 16px 16px no-repeat',
+  buttonIcon: `url(${imageMap.SUN}) 50% 50%/ 16px 16px no-repeat`,
   gradientBG: "linear-gradient(#a91efe, #9314fe)",
   bg: "#fff",
   formsBG: "rgb(244, 244, 244)",

@@ -10,6 +10,7 @@ import TodoItem from "../components/todoItem";
 import { SelectedTodoContext } from "pages";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../common/styles/Layout";
+import { imageMap } from "../common/styles/imageMap";
 
 interface Props {
   date: Dayjs;
@@ -65,12 +66,11 @@ const FoldButton = styled("button")<FoldButtonProps>(({ folded }: FoldButtonProp
   width: "20px",
   height: "20px",
   background: folded
-    ? 'url("/images/down-btn.png") 50% 50%/ 20px 20px no-repeat'
-    : 'url("/images/up-btn.png") 50% 50%/ 20px 20px no-repeat'
+    ? `url(${imageMap.DOWN_BTN}) 50% 50%/ 20px 20px no-repeat`
+    : `url(${imageMap.UP_BTN}) 50% 50%/ 20px 20px no-repeat`
 }));
 
 const BorderBottom = styled("div")`
-  // border: 0.5px solid #3a3a3a;
   margin: 15px 0;
 `;
 

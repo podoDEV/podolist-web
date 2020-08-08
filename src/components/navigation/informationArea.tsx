@@ -15,6 +15,7 @@ import { setDarkMode } from "../../redux/actions/style";
 import { Theme } from "../../common/styles/Layout";
 import { setLocalStorageDarkMode } from "../../common/styles/darkMode";
 import { post } from "../../common/fetch";
+import { imageMap } from "../../common/styles/imageMap";
 
 interface Props {
   date: Dayjs;
@@ -145,7 +146,7 @@ export default function NavigationInformationArea(props: Props) {
         <ProfileImageArea onClick={toggleProfileDropbox}>
           {user && (
             <img
-              src={user.profileImageUrl ?? "/images/person.png"}
+              src={user.profileImageUrl ?? imageMap.PERSON}
               css={profileImageCss}
               ref={profileImageRef}
             />

@@ -4,6 +4,7 @@ import { css, jsx } from "@emotion/core";
 import { Dayjs } from "dayjs";
 import styled from "@emotion/styled";
 import { dayOfWeek } from "../calendar/dateArea";
+import { imageMap } from "../../common/styles/imageMap";
 
 interface Props {
   date: Dayjs;
@@ -82,7 +83,7 @@ export default function NavigationDateArea(props: Props) {
   return (
     <DateArea>
       <ArrowButton onClick={() => onClickArrowIcon(false)}>
-        <img src="/images/arrow-left.png" css={arrowImgStyle} />
+        <img src={imageMap.ARROW_LEFT} css={arrowImgStyle} />
       </ArrowButton>
       {dayOfWeek.map((day, idx) => {
         const dd = sundayDate.add(idx, "day");
@@ -98,7 +99,7 @@ export default function NavigationDateArea(props: Props) {
         );
       })}
       <ArrowButton onClick={() => onClickArrowIcon(true)}>
-        <img src="/images/arrow-right.png" css={arrowImgStyle} />
+        <img src={imageMap.ARROW_RIGHT} css={arrowImgStyle} />
       </ArrowButton>
     </DateArea>
   );

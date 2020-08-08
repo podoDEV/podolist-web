@@ -8,6 +8,7 @@ import { Theme } from "../common/styles/Layout";
 import { useDispatch } from "react-redux";
 import { removeTodoItem } from "../redux/actions/todo";
 import { SelectedTodoContext } from "pages";
+import { imageMap } from "../common/styles/imageMap";
 
 type Priority = "urgent" | "high" | "medium" | "low" | "none";
 
@@ -125,7 +126,7 @@ export default function TodoItem(props: Props) {
       <Content>
         <CheckboxContainer onClick={handleClickCheckbox}>
           <Checkbox priority={priority} checked={checked} />
-          {checked && <img src={"/images/finished.png"} css={checkImgCss} />}
+          {checked && <img src={imageMap.FINISHED} css={checkImgCss} />}
         </CheckboxContainer>
         <TextContainer>
           <Text checked={checked} color={titleTextColor}>
@@ -143,10 +144,10 @@ export default function TodoItem(props: Props) {
       {hovered && (
         <HoveredContent>
           <Button onClick={handelClickEditButton}>
-            <img src={"/images/edit.png"} css={img} />
+            <img src={imageMap.EDIT} css={img} />
           </Button>
           <Button onClick={handelClickRemoveButton}>
-            <img src={"/images/delete.png"} css={img} />
+            <img src={imageMap.DELETE} css={img} />
           </Button>
         </HoveredContent>
       )}

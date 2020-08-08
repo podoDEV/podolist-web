@@ -6,6 +6,7 @@ import KakaoLogin from "react-kakao-login";
 import { KakaoLoginResponseV2 } from "react-kakao-login/dist/types";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../redux/actions/user";
+import { imageMap } from "../common/styles/imageMap";
 
 const slide = keyframes`
   0% { height: 0% }
@@ -43,7 +44,7 @@ const Title = styled("p")`
 
 const KakaoLoginBtn = styled(KakaoLogin)`
   border: none;
-  background: no-repeat center url(/images/kakao-login.png);
+  background: no-repeat center url(${imageMap.KAKAO_LOGIN});
   height: 65px;
   width: 183px;
   transition-delay: 2s;
@@ -91,7 +92,7 @@ export default function Login() {
         <ButtonContainer>
           <Title>생각보다 괜찮은 투두리스트</Title>
           <img
-            src={"/images/logo.png"}
+            src={imageMap.LOGO}
             css={css`
               height: 60px;
               margin-bottom: 45px;
