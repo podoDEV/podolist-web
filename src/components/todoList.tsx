@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css, jsx } from "@emotion/core";
 import { useSelector } from "react-redux";

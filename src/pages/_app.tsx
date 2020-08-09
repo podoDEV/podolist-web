@@ -1,7 +1,7 @@
 import { createWrapper } from "next-redux-wrapper";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import ReactGA from "react-ga";
 import makeStore from "redux/makeStore";
 import Layout from "../common/styles/Layout";
@@ -22,6 +22,11 @@ ReactGA.initialize("UA-91279503-3", {
 });
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
+  });
+
   return (
     <Layout>
       <Head>
@@ -32,7 +37,10 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           rel="stylesheet"
         />
         <meta name="description" content="생각보다 괜찮은 투두리스트::포도리스트" />
-        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <meta
           name="keywords"
           content="todo list, todo, podolist, podo list, 투두리스트, 일정, 일정관리, 포도리스트"

@@ -52,6 +52,7 @@ const ProfileImageArea = styled("button")`
 
 const profileImageCss = css`
   width: 30px;
+  height: 30px;
   border-radius: 15px;
 `;
 

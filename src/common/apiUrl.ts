@@ -1,6 +1,6 @@
 const apiDomain =
   process.env.NODE_ENV === "development"
-    ? "http//api.dev.podolist.com:8000"
+    ? "http://api.dev.podolist.com:8000"
     : "https://api.podolist.com";
 
 export const items = () => `${apiDomain}/items`;
