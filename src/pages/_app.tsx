@@ -1,7 +1,7 @@
 import { createWrapper } from "next-redux-wrapper";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import ReactGA from "react-ga";
 import makeStore from "redux/makeStore";
 import Layout from "../common/styles/Layout";
@@ -22,6 +22,11 @@ ReactGA.initialize("UA-91279503-3", {
 });
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
+  });
+
   return (
     <Layout>
       <Head>

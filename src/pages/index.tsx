@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import * as apiUrl from "../common/apiUrl";
 import { get } from "../common/fetch";
@@ -12,14 +12,9 @@ import { fetchUserInfo } from "../redux/actions/user";
 import { setDarkMode } from "../redux/actions/style";
 import { setLocalStorageDarkMode, getLocalStorageDarkMode } from "../common/styles/darkMode";
 import TodoAdder from "components/todo-adder/TodoAdder";
-import { TodoType } from "redux/reducers/todo";
 import TodoList from "components/todoList";
-import { wrapper } from "./_app";
-import SelectedTodoProvider, { SelectedTodoContext } from "context/selectedTodoContext";
-import useMountedState from "hooks/useMountedState";
+import SelectedTodoProvider from "context/selectedTodoContext";
 import { isIOSBrowser } from "common/util";
-import { useTheme } from "emotion-theming";
-import { Theme } from "common/styles/Layout";
 
 const TodoPageContainer = styled("div")`
   display: flex;
@@ -64,20 +59,11 @@ function getInitDarkMode() {
 export default function TodoIndex() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(dayjs());
-  const [selectedTodo, setSelectedTodo] = useState<TodoType | undefined>(undefined);
   const [showAppDownload, setShowAppDownload] = useState(false);
 
   useEffect(() => {
     setShowAppDownload(isIOSBrowser());
   }, []);
-
-  const selectedTodoContextValue = useMemo(
-    () => ({
-      selectedTodo,
-      setSelectedTodo
-    }),
-    [selectedTodo, setSelectedTodo]
-  );
 
   const closeNoticeArea = () => {
     setShowAppDownload(false);
