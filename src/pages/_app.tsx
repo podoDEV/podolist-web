@@ -37,7 +37,10 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           rel="stylesheet"
         />
         <meta name="description" content="생각보다 괜찮은 투두리스트::포도리스트" />
-        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <meta
           name="keywords"
           content="todo list, todo, podolist, podo list, 투두리스트, 일정, 일정관리, 포도리스트"
