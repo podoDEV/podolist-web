@@ -50,7 +50,7 @@ export default function CalendarWeekArea(props: Props) {
       {week.map((day, dayIndex) => {
         return day ? (
           <DayButton
-            key={`weekDay_${day}`}
+            key={`weekDay_${day?.format("D")}`}
             selectable={true}
             selected={day.isSame(date, "date")}
             sunday={dayIndex === 0}

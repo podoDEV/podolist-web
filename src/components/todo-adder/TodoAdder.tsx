@@ -1,14 +1,12 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import React, { useState, useContext, useMemo, useCallback } from "react";
+import { jsx } from "@emotion/core";
+import React, { useMemo, useCallback } from "react";
 import TodoAdderForm from "./TodoAdderForm";
 import { PriorityType } from "constants/Priority";
 import { post, put } from "common/fetch";
 import { items, updateItem } from "common/apiUrl";
 import { TodoType } from "redux/reducers/todo";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { addTodo } from "redux/actions/todo";
 import { useSelectedTodo } from "context/selectedTodoContext";
 
 export type CreateTodoParams = {
@@ -65,7 +63,7 @@ export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
         };
         try {
           const response = selectedTodo
-            ? await updateTodoApi(selectedTodo?.id!, params)
+            ? await updateTodoApi(selectedTodo.id!, params)
             : await createTodoApi(params);
 
           fetchTodo();

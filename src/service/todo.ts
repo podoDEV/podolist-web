@@ -1,4 +1,4 @@
-import { deleteFetch, get, put } from "../common/fetch";
+import { deleteFetch, get } from "../common/fetch";
 import * as apiUrl from "../common/apiUrl";
 
 export const fetchTodo = (date: string) => {
