@@ -105,7 +105,7 @@ export default function TodoIndex() {
       <SelectedTodoProvider>
         <TodoContainer>
           <TodoList date={date} />
-          <TodoAdder fetchTodo={fetchData} />
+          <TodoAdder date={date} fetchTodo={fetchData} />
         </TodoContainer>
       </SelectedTodoProvider>
     </TodoPageContainer>

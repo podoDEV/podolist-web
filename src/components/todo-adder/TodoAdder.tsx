@@ -6,7 +6,7 @@ import { PriorityType } from "constants/Priority";
 import { post, put } from "common/fetch";
 import { items, updateItem } from "common/apiUrl";
 import { TodoType } from "redux/reducers/todo";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useSelectedTodo } from "context/selectedTodoContext";
 
 export type CreateTodoParams = {
@@ -31,9 +31,10 @@ export async function updateTodoApi(todoId: number, params: Partial<UpdateTodoPa
 
 type TodoAdderProps = {
   fetchTodo: () => void;
+  date: Dayjs;
 };
 
-export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
+export default function TodoAdder({ date, fetchTodo }: TodoAdderProps) {
   const { selectedTodo, setSelectedTodo } = useSelectedTodo();
 
   const injectedFormState = useMemo(() => {
@@ -43,8 +44,12 @@ export default function TodoAdder({ fetchTodo }: TodoAdderProps) {
           startedAt: dayjs(selectedTodo.startedAt! * 1000),
           priority: selectedTodo.priority
         }
-      : undefined;
-  }, [selectedTodo]);
+      : {
+          title: "",
+          startedAt: date,
+          priority: PriorityType.MEDIUM
+        };
+  }, [selectedTodo, date]);
 
   const handleFoldOptions = useCallback(() => setSelectedTodo(undefined), []);
 

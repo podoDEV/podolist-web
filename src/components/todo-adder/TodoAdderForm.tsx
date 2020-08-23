@@ -149,7 +149,9 @@ export default function TodoAdderForm({
           priority: injectedFormState.priority
         };
       });
-      setIsOpen(true);
+      // 타이틀이 있는 경우만 투두 수정 케이스 이므로 form을 open
+      // 나머지는 최상단 달력 날짜만 바뀌는 경우.
+      if (injectedFormState.title) setIsOpen(true);
     }
   }, [injectedFormState]);
   const { formsBG } = useTheme<Theme>();
